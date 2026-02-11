@@ -1,2 +1,2 @@
 # Informatikbegriffsnetz
-Repository for sanitizing webpages of the Informatikbegriffsnetz
+Gemeinsame Datenablage für nebenläufiges, koordiniertes Editieren der Dateien des Informatik-Begriffsnetzes
