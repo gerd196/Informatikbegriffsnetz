@@ -1,0 +1,21 @@
+arbeitskreise/vorgehensmodelle/themenbereiche/vorgehensstrategie.html:29: HTML parser error : error parsing attribute name
+</head>
+^
+arbeitskreise/vorgehensmodelle/themenbereiche/vorgehensstrategie.html:42: HTML parser error : htmlParseEntityRef: expecting ';'
+    <TD width="120" align="right"><A NAME="Evolutionäres_Vorgehen"></A>&nbsp<br
+                                                                             ^
+arbeitskreise/vorgehensmodelle/themenbereiche/vorgehensstrategie.html:98: HTML parser error : htmlParseEntityRef: expecting ';'
+    <TD width="120" align="right"><A NAME="Inkrementelles_Vorgehen"></A>&nbsp<br
+                                                                             ^
+arbeitskreise/vorgehensmodelle/themenbereiche/vorgehensstrategie.html:152: HTML parser error : htmlParseEntityRef: expecting ';'
+    <TD width="120" align="right"><A NAME="Iteratives_Vorgehen"></A>&nbsp<br>
+                                                                         ^
+arbeitskreise/vorgehensmodelle/themenbereiche/vorgehensstrategie.html:207: HTML parser error : htmlParseEntityRef: expecting ';'
+    <TD width="120" align="right"><A NAME="Partizipatives_Vorgehen"></A>&nbsp<br
+                                                                             ^
+arbeitskreise/vorgehensmodelle/themenbereiche/vorgehensstrategie.html:261: HTML parser error : htmlParseEntityRef: expecting ';'
+    <TD width="120" align="right"><A NAME="Prototyping"></A>&nbsp<br>
+                                                                 ^
+arbeitskreise/vorgehensmodelle/themenbereiche/vorgehensstrategie.html:316: HTML parser error : htmlParseEntityRef: expecting ';'
+    <TD width="120" align="right"><A NAME="Sequentielles_Vorgehen"></A>&nbsp<br>
+                                                                            ^

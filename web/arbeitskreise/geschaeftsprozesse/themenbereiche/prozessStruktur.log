@@ -1,0 +1,36 @@
+arbeitskreise/geschaeftsprozesse/themenbereiche/prozessStruktur.html:42: HTML parser error : htmlParseEntityRef: expecting ';'
+    <TD width="120" align="right"><A NAME="Arbeitsergebnis"></A>&nbsp<br>
+                                                                     ^
+arbeitskreise/geschaeftsprozesse/themenbereiche/prozessStruktur.html:97: HTML parser error : htmlParseEntityRef: expecting ';'
+    <TD width="120" align="right"><A NAME="Ereignis"></A>&nbsp<br>
+                                                              ^
+arbeitskreise/geschaeftsprozesse/themenbereiche/prozessStruktur.html:155: HTML parser error : htmlParseEntityRef: expecting ';'
+ <TD width="120" align="right"><A NAME="Geschäftsprozess-Architektur"></A>&nbsp
+                                                                               ^
+arbeitskreise/geschaeftsprozesse/themenbereiche/prozessStruktur.html:213: HTML parser error : htmlParseEntityRef: expecting ';'
+    <TD width="120" align="right"><A NAME="Iteration"></A>&nbsp<br>
+                                                               ^
+arbeitskreise/geschaeftsprozesse/themenbereiche/prozessStruktur.html:267: HTML parser error : htmlParseEntityRef: expecting ';'
+    <TD width="120" align="right"><A NAME="Nebenläufigkeit"></A>&nbsp<br>
+                                                                      ^
+arbeitskreise/geschaeftsprozesse/themenbereiche/prozessStruktur.html:324: HTML parser error : htmlParseEntityRef: expecting ';'
+    <TD width="120" align="right"><A NAME="Parallelität"></A>&nbsp<br>
+                                                                   ^
+arbeitskreise/geschaeftsprozesse/themenbereiche/prozessStruktur.html:379: HTML parser error : htmlParseEntityRef: expecting ';'
+    <TD width="120" align="right"><A NAME="Prozess-Schritt"></A>&nbsp<br>
+                                                                     ^
+arbeitskreise/geschaeftsprozesse/themenbereiche/prozessStruktur.html:437: HTML parser error : htmlParseEntityRef: expecting ';'
+    <TD width="120" align="right"><A NAME="Selektion (exklusiv)"></A>&nbsp<br>
+                                                                          ^
+arbeitskreise/geschaeftsprozesse/themenbereiche/prozessStruktur.html:492: HTML parser error : htmlParseEntityRef: expecting ';'
+    <TD width="120" align="right"><A NAME="Selektion (inklusiv)"></A>&nbsp<br>
+                                                                          ^
+arbeitskreise/geschaeftsprozesse/themenbereiche/prozessStruktur.html:546: HTML parser error : htmlParseEntityRef: expecting ';'
+    <TD width="120" align="right"><A NAME="Sequenz"></A>&nbsp<br>
+                                                             ^
+arbeitskreise/geschaeftsprozesse/themenbereiche/prozessStruktur.html:602: HTML parser error : htmlParseEntityRef: expecting ';'
+    <TD width="120" align="right"><A NAME="Teilprozess"></A>&nbsp<br>
+                                                                 ^
+arbeitskreise/geschaeftsprozesse/themenbereiche/prozessStruktur.html:658: HTML parser error : htmlParseEntityRef: expecting ';'
+    <TD width="120" align="right"><A NAME="Zustand"></A>&nbsp<br>
+                                                             ^

@@ -1,0 +1,18 @@
+arbeitskreise/softwaretechnik/themenbereiche/grundbgr.html:43: HTML parser error : htmlParseEntityRef: expecting ';'
+    <TD width="120" align="right"><A NAME="Daten"></A>&nbsp<br>
+                                                           ^
+arbeitskreise/softwaretechnik/themenbereiche/grundbgr.html:97: HTML parser error : htmlParseEntityRef: expecting ';'
+    <TD width="120" align="right"><A NAME="Funktion"></A>&nbsp<br>
+                                                              ^
+arbeitskreise/softwaretechnik/themenbereiche/grundbgr.html:151: HTML parser error : htmlParseEntityRef: expecting ';'
+    <TD width="120" align="right"><A NAME="Gegenstand"></A>&nbsp<br>
+                                                                ^
+arbeitskreise/softwaretechnik/themenbereiche/grundbgr.html:213: HTML parser error : htmlParseEntityRef: expecting ';'
+    <TD width="120" align="right"><A NAME="Modell"></A>&nbsp<br>
+                                                            ^
+arbeitskreise/softwaretechnik/themenbereiche/grundbgr.html:267: HTML parser error : htmlParseEntityRef: expecting ';'
+    <TD width="120" align="right"><A NAME="Software-Anwendungssystem"></A>&nbsp<
+                                                                               ^
+arbeitskreise/softwaretechnik/themenbereiche/grundbgr.html:321: HTML parser error : htmlParseEntityRef: expecting ';'
+    <TD width="120" align="right"><A NAME="System"></A>&nbsp<br>
+                                                            ^

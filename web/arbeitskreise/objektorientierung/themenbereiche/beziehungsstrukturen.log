@@ -1,0 +1,51 @@
+arbeitskreise/objektorientierung/themenbereiche/beziehungsstrukturen.html:42: HTML parser error : htmlParseEntityRef: expecting ';'
+    <TD width="120" align="right"><A NAME="Aggregation"></A>&nbsp<br>
+                                                                 ^
+arbeitskreise/objektorientierung/themenbereiche/beziehungsstrukturen.html:99: HTML parser error : htmlParseEntityRef: expecting ';'
+    <TD width="120" align="right"><A NAME="Assoziation"></A>&nbsp<br>
+                                                                 ^
+arbeitskreise/objektorientierung/themenbereiche/beziehungsstrukturen.html:154: HTML parser error : htmlParseEntityRef: expecting ';'
+    <TD width="120" align="right"><A NAME="Beziehung"></A>&nbsp<br>
+                                                               ^
+arbeitskreise/objektorientierung/themenbereiche/beziehungsstrukturen.html:208: HTML parser error : htmlParseEntityRef: expecting ';'
+    <TD width="120" align="right"><A NAME="Beziehungstyp"></A>&nbsp<br>
+                                                                   ^
+arbeitskreise/objektorientierung/themenbereiche/beziehungsstrukturen.html:262: HTML parser error : htmlParseEntityRef: expecting ';'
+   <TD width="120" align="right"><A NAME="Einfach-/Mehrfach-Vererbung"></A>&nbsp
+                                                                               ^
+arbeitskreise/objektorientierung/themenbereiche/beziehungsstrukturen.html:317: HTML parser error : htmlParseEntityRef: expecting ';'
+    <TD width="120" align="right"><A NAME="Generalisierung"></A>&nbsp<br>
+                                                                     ^
+arbeitskreise/objektorientierung/themenbereiche/beziehungsstrukturen.html:373: HTML parser error : htmlParseEntityRef: expecting ';'
+    <TD width="120" align="right"><A NAME="Instanziierung"></A>&nbsp<br>
+                                                                    ^
+arbeitskreise/objektorientierung/themenbereiche/beziehungsstrukturen.html:427: HTML parser error : htmlParseEntityRef: expecting ';'
+    <TD width="120" align="right"><A NAME="Ist_Exemplar_von"></A>&nbsp<br>
+                                                                      ^
+arbeitskreise/objektorientierung/themenbereiche/beziehungsstrukturen.html:482: HTML parser error : htmlParseEntityRef: expecting ';'
+    <TD width="120" align="right"><A NAME="Klassenhierarchie"></A>&nbsp<br>
+                                                                       ^
+arbeitskreise/objektorientierung/themenbereiche/beziehungsstrukturen.html:536: HTML parser error : htmlParseEntityRef: expecting ';'
+    <TD width="120" align="right"><A NAME="Komposition"></A>&nbsp<br>
+                                                                 ^
+arbeitskreise/objektorientierung/themenbereiche/beziehungsstrukturen.html:595: HTML parser error : htmlParseEntityRef: expecting ';'
+    <TD width="120" align="right"><A NAME="Multiplizität"></A>&nbsp<br>
+                                                                    ^
+arbeitskreise/objektorientierung/themenbereiche/beziehungsstrukturen.html:640: HTML parser error : Unexpected end tag : i
+ die Multiplizitäten der Assoziation <I>ist verheiratet mit</I> der Klasse </I>
+                                                                               ^
+arbeitskreise/objektorientierung/themenbereiche/beziehungsstrukturen.html:640: HTML parser error : Unexpected end tag : i
+tiplizitäten der Assoziation <I>ist verheiratet mit</I> der Klasse </I>Mann</I>
+                                                                               ^
+arbeitskreise/objektorientierung/themenbereiche/beziehungsstrukturen.html:650: HTML parser error : htmlParseEntityRef: expecting ';'
+    <TD width="120" align="right"><A NAME="Spezialisierung"></A>&nbsp<br>
+                                                                     ^
+arbeitskreise/objektorientierung/themenbereiche/beziehungsstrukturen.html:705: HTML parser error : htmlParseEntityRef: expecting ';'
+    <TD width="120" align="right"><A NAME="Subklasse"></A>&nbsp<br>
+                                                               ^
+arbeitskreise/objektorientierung/themenbereiche/beziehungsstrukturen.html:759: HTML parser error : htmlParseEntityRef: expecting ';'
+    <TD width="120" align="right"><A NAME="Superklasse"></A>&nbsp<br>
+                                                                 ^
+arbeitskreise/objektorientierung/themenbereiche/beziehungsstrukturen.html:813: HTML parser error : htmlParseEntityRef: expecting ';'
+    <TD width="120" align="right"><A NAME="Vererbung"></A>&nbsp<br>
+                                                               ^

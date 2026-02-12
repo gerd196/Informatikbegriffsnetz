@@ -1,0 +1,51 @@
+arbeitskreise/vorgehensmodelle/themenbereiche/rollenkonzept.html:33: HTML parser error : error parsing attribute name
+</head>
+^
+arbeitskreise/vorgehensmodelle/themenbereiche/rollenkonzept.html:46: HTML parser error : htmlParseEntityRef: expecting ';'
+    <TD width="120" align="right"><A NAME="Aufgabe"></a>&nbsp<br>
+                                                             ^
+arbeitskreise/vorgehensmodelle/themenbereiche/rollenkonzept.html:106: HTML parser error : htmlParseEntityRef: expecting ';'
+    <TD width="120" align="right"><A NAME="Berechtigung"></a>&nbsp<br>
+                                                                  ^
+arbeitskreise/vorgehensmodelle/themenbereiche/rollenkonzept.html:166: HTML parser error : htmlParseEntityRef: expecting ';'
+    <TD width="120" align="right"><A NAME="Berechtigungsprüfung"></a>&nbsp<br>
+                                                                           ^
+arbeitskreise/vorgehensmodelle/themenbereiche/rollenkonzept.html:220: HTML parser error : htmlParseEntityRef: expecting ';'
+    <TD width="120" align="right"><A NAME="Gremium"></a>&nbsp<br>
+                                                             ^
+arbeitskreise/vorgehensmodelle/themenbereiche/rollenkonzept.html:277: HTML parser error : htmlParseEntityRef: expecting ';'
+    <TD width="120" align="right"><A NAME="Kompetenz"></a>&nbsp<br>
+                                                               ^
+arbeitskreise/vorgehensmodelle/themenbereiche/rollenkonzept.html:335: HTML parser error : htmlParseEntityRef: expecting ';'
+    <TD width="120" align="right"><A NAME="Projektteam"></a>&nbsp<br>
+                                                                 ^
+arbeitskreise/vorgehensmodelle/themenbereiche/rollenkonzept.html:389: HTML parser error : htmlParseEntityRef: expecting ';'
+    <TD width="120" align="right"><A NAME="Qualifikationsanforderung"></a>&nbsp<
+                                                                               ^
+arbeitskreise/vorgehensmodelle/themenbereiche/rollenkonzept.html:443: HTML parser error : htmlParseEntityRef: expecting ';'
+    <TD width="120" align="right"><A NAME="Qualifikationsmerkmal"></a>&nbsp<br>
+                                                                           ^
+arbeitskreise/vorgehensmodelle/themenbereiche/rollenkonzept.html:497: HTML parser error : htmlParseEntityRef: expecting ';'
+    <TD width="120" align="right"><A NAME="Qualifikationsprofil"></a>&nbsp<br>
+                                                                          ^
+arbeitskreise/vorgehensmodelle/themenbereiche/rollenkonzept.html:553: HTML parser error : htmlParseEntityRef: expecting ';'
+    <TD width="120" align="right"><A NAME="Rechteverwaltung"></a>&nbsp<br>
+                                                                      ^
+arbeitskreise/vorgehensmodelle/themenbereiche/rollenkonzept.html:607: HTML parser error : htmlParseEntityRef: expecting ';'
+    <TD width="120" align="right"><A NAME="Rolle"></a>&nbsp<br>
+                                                           ^
+arbeitskreise/vorgehensmodelle/themenbereiche/rollenkonzept.html:688: HTML parser error : htmlParseEntityRef: expecting ';'
+    <TD width="120" align="right"><A NAME="Rollenbeschreibung"></a>&nbsp<br>
+                                                                        ^
+arbeitskreise/vorgehensmodelle/themenbereiche/rollenkonzept.html:741: HTML parser error : Unexpected end tag : p
+      </p>
+          ^
+arbeitskreise/vorgehensmodelle/themenbereiche/rollenkonzept.html:761: HTML parser error : htmlParseEntityRef: expecting ';'
+    <TD width="120" align="right"><A NAME="Rolleninhaber"></a>&nbsp<br>
+                                                                   ^
+arbeitskreise/vorgehensmodelle/themenbereiche/rollenkonzept.html:817: HTML parser error : htmlParseEntityRef: expecting ';'
+    <TD width="120" align="right"><A NAME="Stelle"></a>&nbsp<br>
+                                                            ^
+arbeitskreise/vorgehensmodelle/themenbereiche/rollenkonzept.html:872: HTML parser error : htmlParseEntityRef: expecting ';'
+    <TD width="120" align="right"><A NAME="Verantwortlichkeit"></a>&nbsp<br>
+                                                                        ^

@@ -1,0 +1,45 @@
+arbeitskreise/informatik-begriffsnetz/welcome.html:110: HTML parser error : Unexpected end tag : p
+                        <br><br></font></p>
+                                           ^
+arbeitskreise/informatik-begriffsnetz/welcome.html:119: HTML parser error : Unexpected end tag : p
+                        <br><br></font></p>
+                                           ^
+arbeitskreise/informatik-begriffsnetz/welcome.html:125: HTML parser error : Unexpected end tag : p
+                        <br><br></font></p>
+                                           ^
+arbeitskreise/informatik-begriffsnetz/welcome.html:129: HTML parser error : htmlParseEntityRef: no name
+                        Herrmann & Ehrlich<br>
+                                  ^
+arbeitskreise/informatik-begriffsnetz/welcome.html:131: HTML parser error : Unexpected end tag : p
+                        <br><br></font></p>
+                                           ^
+arbeitskreise/informatik-begriffsnetz/welcome.html:135: HTML parser error : Opening and ending tag mismatch: td and table
+           </td>
+                ^
+arbeitskreise/informatik-begriffsnetz/welcome.html:136: HTML parser error : Opening and ending tag mismatch: tr and table
+          </tr>
+               ^
+arbeitskreise/informatik-begriffsnetz/welcome.html:139: HTML parser error : Opening and ending tag mismatch: tbody and table
+        </tbody>
+                ^
+arbeitskreise/informatik-begriffsnetz/welcome.html:140: HTML parser error : Opening and ending tag mismatch: tr and table
+    </tr>
+         ^
+arbeitskreise/informatik-begriffsnetz/welcome.html:141: HTML parser error : Opening and ending tag mismatch: tbody and table
+  </tbody>
+          ^
+arbeitskreise/informatik-begriffsnetz/welcome.html:163: HTML parser error : Opening and ending tag mismatch: td and font
+                </td>
+                     ^
+arbeitskreise/informatik-begriffsnetz/welcome.html:169: HTML parser error : Unexpected end tag : p
+                        <br><br></font></p>
+                                           ^
+arbeitskreise/informatik-begriffsnetz/welcome.html:175: HTML parser error : Unexpected end tag : p
+			</font></p>
+			           ^
+arbeitskreise/informatik-begriffsnetz/welcome.html:181: HTML parser error : Unexpected end tag : p
+                        <br><br></font></p>
+                                           ^
+arbeitskreise/informatik-begriffsnetz/welcome.html:188: HTML parser error : Opening and ending tag mismatch: div and td
+</div>
+      ^

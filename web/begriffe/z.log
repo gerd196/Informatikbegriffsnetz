@@ -1,0 +1,18 @@
+begriffe/z.html:39: HTML parser error : Tag nobr invalid
+     <td class="p"><nobr><a href="..\arbeitskreise\agilemethoden\themenbereiche\
+                        ^
+begriffe/z.html:44: HTML parser error : Tag nobr invalid
+     <td class="p"><nobr><a href="../arbeitskreise/softwaretechnik/themenbereich
+                        ^
+begriffe/z.html:49: HTML parser error : Tag nobr invalid
+     <td class="p"><nobr><a href="..\arbeitskreise\agilemethoden\themenbereiche\
+                        ^
+begriffe/z.html:54: HTML parser error : Tag nobr invalid
+     <td class="p"><nobr><a href="../arbeitskreise/geschaeftsprozesse/themenbere
+                        ^
+begriffe/z.html:59: HTML parser error : Tag nobr invalid
+     <td class="p"><nobr><a href="../arbeitskreise/objektorientierung/themenbere
+                        ^
+begriffe/z.html:64: HTML parser error : Tag nobr invalid
+     <td class="p"><nobr><a href="../arbeitskreise/objektorientierung/themenbere
+                        ^

@@ -1,0 +1,15 @@
+arbeitskreise/vorgehensmodelle/themenbereiche/entwicklungsprozess.html:43: HTML parser error : htmlParseEntityRef: expecting ';'
+    <TD width="120" align="right"><A NAME="Entwicklungsprozeß"></A>&nbsp<br>
+                                                                         ^
+arbeitskreise/vorgehensmodelle/themenbereiche/entwicklungsprozess.html:98: HTML parser error : htmlParseEntityRef: expecting ';'
+    <TD width="120" align="right"><A NAME="Entwicklungsschema"></A>&nbsp<br>
+                                                                        ^
+arbeitskreise/vorgehensmodelle/themenbereiche/entwicklungsprozess.html:156: HTML parser error : htmlParseEntityRef: expecting ';'
+    <TD width="120" align="right"><A NAME="Projektmodell"></A>&nbsp<br>
+                                                                   ^
+arbeitskreise/vorgehensmodelle/themenbereiche/entwicklungsprozess.html:210: HTML parser error : htmlParseEntityRef: expecting ';'
+    <TD width="120" align="right"><A NAME="Software-Lebenszyklus"></A>&nbsp<br>
+                                                                           ^
+arbeitskreise/vorgehensmodelle/themenbereiche/entwicklungsprozess.html:266: HTML parser error : htmlParseEntityRef: expecting ';'
+    <TD width="120" align="right"><A NAME="Vorgehensmodell"></A>&nbsp<br>
+                                                                     ^

@@ -1,0 +1,72 @@
+begriffssammlung/themenbereiche.html:61: HTML parser error : Tag nobr invalid
+            <p><b><nobr>Agile Methoden</nobr><br></b>
+                       ^
+begriffssammlung/themenbereiche.html:62: HTML parser error : Tag nobr invalid
+		<nobr>
+		     ^
+begriffssammlung/themenbereiche.html:66: HTML parser error : Unexpected end tag : b
+              </b></p>
+                  ^
+begriffssammlung/themenbereiche.html:66: HTML parser error : Unexpected end tag : p
+              </b></p>
+                      ^
+begriffssammlung/themenbereiche.html:111: HTML parser error : Tag nobr invalid
+            <p><b><nobr>Analyse und Modellierung von Anwendungssystemen</nobr><b
+                       ^
+begriffssammlung/themenbereiche.html:112: HTML parser error : Tag nobr invalid
+              </b><nobr>(<a href="../arbeitskreise/softwaretechnik/publallg.html
+                       ^
+begriffssammlung/themenbereiche.html:113: HTML parser error : Unexpected end tag : b
+              </b></p>
+                  ^
+begriffssammlung/themenbereiche.html:113: HTML parser error : Unexpected end tag : p
+              </b></p>
+                      ^
+begriffssammlung/themenbereiche.html:142: HTML parser error : Tag nobr invalid
+            <p><b><nobr>Geschäftsprozess-Modellierung</nobr><br>
+                       ^
+begriffssammlung/themenbereiche.html:143: HTML parser error : Tag nobr invalid
+              </b><nobr>(<a 		href="../arbeitskreise/geschaeftsprozesse/publallg
+                       ^
+begriffssammlung/themenbereiche.html:146: HTML parser error : Unexpected end tag : b
+              </b></p>
+                  ^
+begriffssammlung/themenbereiche.html:146: HTML parser error : Unexpected end tag : p
+              </b></p>
+                      ^
+begriffssammlung/themenbereiche.html:181: HTML parser error : Tag nobr invalid
+            <p><b><nobr>Kanban</nobr><br>
+                       ^
+begriffssammlung/themenbereiche.html:182: HTML parser error : Tag nobr invalid
+              </b><nobr>(<a 		href="../arbeitskreise/kanban/publallg.html">Liter
+                       ^
+begriffssammlung/themenbereiche.html:185: HTML parser error : Unexpected end tag : b
+              </b></p>
+                  ^
+begriffssammlung/themenbereiche.html:185: HTML parser error : Unexpected end tag : p
+              </b></p>
+                      ^
+begriffssammlung/themenbereiche.html:202: HTML parser error : Tag nobr invalid
+            <p><b><nobr>Objektorientierte Modellierung</nobr><br>
+                       ^
+begriffssammlung/themenbereiche.html:203: HTML parser error : Tag nobr invalid
+              </b><nobr>(<a href="../arbeitskreise/objektorientierung/publallg.h
+                       ^
+begriffssammlung/themenbereiche.html:204: HTML parser error : Unexpected end tag : b
+              </b></p>
+                  ^
+begriffssammlung/themenbereiche.html:204: HTML parser error : Unexpected end tag : p
+              </b></p>
+                      ^
+begriffssammlung/themenbereiche.html:239: HTML parser error : Tag nobr invalid
+            <p><b><nobr>Vorgehensmodelle</nobr><br>
+                       ^
+begriffssammlung/themenbereiche.html:240: HTML parser error : Tag nobr invalid
+              </b><nobr>(<a href="../arbeitskreise/vorgehensmodelle/publallg.htm
+                       ^
+begriffssammlung/themenbereiche.html:241: HTML parser error : Unexpected end tag : b
+              </b></p>
+                  ^
+begriffssammlung/themenbereiche.html:241: HTML parser error : Unexpected end tag : p
+              </b></p>
+                      ^

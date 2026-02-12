@@ -1,0 +1,24 @@
+arbeitskreise/geschaeftsprozesse/themenbereiche/kernbegriffe.html:54: HTML parser error : htmlParseEntityRef: expecting ';'
+    <TD width="120" align="right"><A NAME="Geschäftsprozess"></A>&nbsp<br>
+                                                                       ^
+arbeitskreise/geschaeftsprozesse/themenbereiche/kernbegriffe.html:114: HTML parser error : htmlParseEntityRef: expecting ';'
+    <TD width="120" align="right"><A NAME="Kernprozess"></A>&nbsp<br>
+                                                                 ^
+arbeitskreise/geschaeftsprozesse/themenbereiche/kernbegriffe.html:171: HTML parser error : htmlParseEntityRef: expecting ';'
+    <TD width="120" align="right"><A NAME="Prozess"></A>&nbsp<br>
+                                                             ^
+arbeitskreise/geschaeftsprozesse/themenbereiche/kernbegriffe.html:236: HTML parser error : htmlParseEntityRef: expecting ';'
+    <TD width="120" align="right"><A NAME="Prozessausführung"></A>&nbsp<br>
+                                                                        ^
+arbeitskreise/geschaeftsprozesse/themenbereiche/kernbegriffe.html:293: HTML parser error : htmlParseEntityRef: expecting ';'
+    <TD width="120" align="right"><A NAME="Prozessmodell"></A>&nbsp<br>
+                                                                   ^
+arbeitskreise/geschaeftsprozesse/themenbereiche/kernbegriffe.html:350: HTML parser error : htmlParseEntityRef: expecting ';'
+    <TD width="120" align="right"><A NAME="Rolle"></A>&nbsp<br>
+                                                           ^
+arbeitskreise/geschaeftsprozesse/themenbereiche/kernbegriffe.html:409: HTML parser error : htmlParseEntityRef: expecting ';'
+    <TD width="120" align="right"><A NAME="Rollenmodell"></A>&nbsp<br>
+                                                                  ^
+arbeitskreise/geschaeftsprozesse/themenbereiche/kernbegriffe.html:475: HTML parser error : htmlParseEntityRef: expecting ';'
+    <TD width="120" align="right"><A NAME="Workflow"></A>&nbsp<br>
+                                                              ^

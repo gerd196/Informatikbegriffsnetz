@@ -1,0 +1,27 @@
+arbeitskreise/objektorientierung/themenbereiche/objektfeinstruktur.html:40: HTML parser error : htmlParseEntityRef: expecting ';'
+    <TD width="120" align="right"><A NAME="Attribut"></A>&nbsp<br>
+                                                              ^
+arbeitskreise/objektorientierung/themenbereiche/objektfeinstruktur.html:94: HTML parser error : htmlParseEntityRef: expecting ';'
+    <TD width="120" align="right"><A NAME="Attributwert"></A>&nbsp<br>
+                                                                  ^
+arbeitskreise/objektorientierung/themenbereiche/objektfeinstruktur.html:148: HTML parser error : htmlParseEntityRef: expecting ';'
+    <TD width="120" align="right"><A NAME="Klassenattribut"></A>&nbsp<br>
+                                                                     ^
+arbeitskreise/objektorientierung/themenbereiche/objektfeinstruktur.html:202: HTML parser error : htmlParseEntityRef: expecting ';'
+    <TD width="120" align="right"><A NAME="Klassenoperation"></A>&nbsp<br>
+                                                                      ^
+arbeitskreise/objektorientierung/themenbereiche/objektfeinstruktur.html:256: HTML parser error : htmlParseEntityRef: expecting ';'
+    <TD width="120" align="right"><A NAME="Merkmal"></A>&nbsp<br>
+                                                             ^
+arbeitskreise/objektorientierung/themenbereiche/objektfeinstruktur.html:289: HTML parser error : Unexpected end tag : i
+      <p></>Merkmale</I> dienen dazu, Eigenschaften, <a href="systemdynamik.html
+                        ^
+arbeitskreise/objektorientierung/themenbereiche/objektfeinstruktur.html:310: HTML parser error : htmlParseEntityRef: expecting ';'
+    <TD width="120" align="right"><A NAME="Nachricht"></A>&nbsp<br>
+                                                               ^
+arbeitskreise/objektorientierung/themenbereiche/objektfeinstruktur.html:364: HTML parser error : htmlParseEntityRef: expecting ';'
+    <TD width="120" align="right"><A NAME="Operation"></A>&nbsp<br>
+                                                               ^
+arbeitskreise/objektorientierung/themenbereiche/objektfeinstruktur.html:418: HTML parser error : htmlParseEntityRef: expecting ';'
+    <TD width="120" align="right"><A NAME="Signatur"></A>&nbsp<br>
+                                                              ^

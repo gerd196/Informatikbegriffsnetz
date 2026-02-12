@@ -1,0 +1,24 @@
+arbeitskreise/vorgehensmodelle/themenbereiche/konfigurationsmanagement.html:41: HTML parser error : htmlParseEntityRef: expecting ';'
+    <TD width="120" align="right"><A NAME="Änderungsmanagement"></A>&nbsp<br>
+                                                                          ^
+arbeitskreise/vorgehensmodelle/themenbereiche/konfigurationsmanagement.html:95: HTML parser error : htmlParseEntityRef: expecting ';'
+    <TD width="120" align="right"><A NAME="Konfigurationsmanagement"></A>&nbsp<b
+                                                                              ^
+arbeitskreise/vorgehensmodelle/themenbereiche/konfigurationsmanagement.html:149: HTML parser error : htmlParseEntityRef: expecting ';'
+    <TD width="120" align="right"><A NAME="Problemmanagement"></A>&nbsp<br>
+                                                                       ^
+arbeitskreise/vorgehensmodelle/themenbereiche/konfigurationsmanagement.html:203: HTML parser error : htmlParseEntityRef: expecting ';'
+    <TD width="120" align="right"><A NAME="Release"></A>&nbsp<br>
+                                                             ^
+arbeitskreise/vorgehensmodelle/themenbereiche/konfigurationsmanagement.html:257: HTML parser error : htmlParseEntityRef: expecting ';'
+    <TD width="120" align="right"><A NAME="Software-Element"></A>&nbsp<br>
+                                                                      ^
+arbeitskreise/vorgehensmodelle/themenbereiche/konfigurationsmanagement.html:311: HTML parser error : htmlParseEntityRef: expecting ';'
+    <TD width="120" align="right"><A NAME="Software-Konfiguration"></A>&nbsp<br>
+                                                                            ^
+arbeitskreise/vorgehensmodelle/themenbereiche/konfigurationsmanagement.html:365: HTML parser error : htmlParseEntityRef: expecting ';'
+    <TD width="120" align="right"><A NAME="Variante"></A>&nbsp<br>
+                                                              ^
+arbeitskreise/vorgehensmodelle/themenbereiche/konfigurationsmanagement.html:419: HTML parser error : htmlParseEntityRef: expecting ';'
+    <TD width="120" align="right"><A NAME="Version"></A>&nbsp<br>
+                                                             ^

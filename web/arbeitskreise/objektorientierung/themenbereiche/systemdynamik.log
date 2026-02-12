@@ -1,0 +1,30 @@
+arbeitskreise/objektorientierung/themenbereiche/systemdynamik.html:50: HTML parser error : htmlParseEntityRef: expecting ';'
+    <TD width="120" align="right"><A NAME="Akteur"></A>&nbsp<br>
+                                                            ^
+arbeitskreise/objektorientierung/themenbereiche/systemdynamik.html:104: HTML parser error : htmlParseEntityRef: expecting ';'
+    <TD width="120" align="right"><A NAME="Aktion"></A>&nbsp<br>
+                                                            ^
+arbeitskreise/objektorientierung/themenbereiche/systemdynamik.html:158: HTML parser error : htmlParseEntityRef: expecting ';'
+    <TD width="120" align="right"><A NAME="Aktivität"></A>&nbsp<br>
+                                                                ^
+arbeitskreise/objektorientierung/themenbereiche/systemdynamik.html:212: HTML parser error : htmlParseEntityRef: expecting ';'
+    <TD width="120" align="right"><A NAME="Anwendungsfall"></A>&nbsp<br>
+                                                                    ^
+arbeitskreise/objektorientierung/themenbereiche/systemdynamik.html:266: HTML parser error : htmlParseEntityRef: expecting ';'
+    <TD width="120" align="right"><A NAME="Bedingung"></A>&nbsp<br>
+                                                               ^
+arbeitskreise/objektorientierung/themenbereiche/systemdynamik.html:322: HTML parser error : htmlParseEntityRef: expecting ';'
+    <TD width="120" align="right"><A NAME="Einschränkung"></A>&nbsp<br>
+                                                                    ^
+arbeitskreise/objektorientierung/themenbereiche/systemdynamik.html:376: HTML parser error : htmlParseEntityRef: expecting ';'
+    <TD width="120" align="right"><A NAME="Ereignis"></A>&nbsp<br>
+                                                              ^
+arbeitskreise/objektorientierung/themenbereiche/systemdynamik.html:430: HTML parser error : htmlParseEntityRef: expecting ';'
+    <TD width="120" align="right"><A NAME="Interaktion"></A>&nbsp<br>
+                                                                 ^
+arbeitskreise/objektorientierung/themenbereiche/systemdynamik.html:484: HTML parser error : htmlParseEntityRef: expecting ';'
+    <TD width="120" align="right"><A NAME="Zustand"></A>&nbsp<br>
+                                                             ^
+arbeitskreise/objektorientierung/themenbereiche/systemdynamik.html:541: HTML parser error : htmlParseEntityRef: expecting ';'
+    <TD width="120" align="right"><A NAME="Zustandsübergang"></A>&nbsp<br>
+                                                                       ^

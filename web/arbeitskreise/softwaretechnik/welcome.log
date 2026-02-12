@@ -1,0 +1,18 @@
+arbeitskreise/softwaretechnik/welcome.html:100: HTML parser error : Opening and ending tag mismatch: td and font
+                </td>
+                     ^
+arbeitskreise/softwaretechnik/welcome.html:106: HTML parser error : Unexpected end tag : p
+                        <br><br></font></p>
+                                           ^
+arbeitskreise/softwaretechnik/welcome.html:111: HTML parser error : Unexpected end tag : p
+                        <br><br></font></p>
+                                           ^
+arbeitskreise/softwaretechnik/welcome.html:119: HTML parser error : Unexpected end tag : p
+                        <br><br></font></p>
+                                           ^
+arbeitskreise/softwaretechnik/welcome.html:125: HTML parser error : Unexpected end tag : p
+                        <br><br></font></p>
+                                           ^
+arbeitskreise/softwaretechnik/welcome.html:129: HTML parser error : Unexpected end tag : p
+                        <br><br></font></p>
+                                           ^

@@ -1,0 +1,27 @@
+arbeitskreise/vorgehensmodelle/themenbereiche/aktivitaeten.html:42: HTML parser error : htmlParseEntityRef: expecting ';'
+    <TD width="120" align="right"><A NAME="Ablaufstruktur"></A>&nbsp<br>
+                                                                    ^
+arbeitskreise/vorgehensmodelle/themenbereiche/aktivitaeten.html:96: HTML parser error : htmlParseEntityRef: expecting ';'
+    <TD width="120" align="right"><A NAME="Aktivität"></A>&nbsp<br>
+                                                                ^
+arbeitskreise/vorgehensmodelle/themenbereiche/aktivitaeten.html:151: HTML parser error : htmlParseEntityRef: expecting ';'
+    <TD width="120" align="right"><A NAME="Aktivitätenfolge"></A>&nbsp<br>
+                                                                       ^
+arbeitskreise/vorgehensmodelle/themenbereiche/aktivitaeten.html:206: HTML parser error : htmlParseEntityRef: expecting ';'
+    <TD width="120" align="right"><A NAME="Aktivitätsstatus"></A>&nbsp<br>
+                                                                       ^
+arbeitskreise/vorgehensmodelle/themenbereiche/aktivitaeten.html:260: HTML parser error : htmlParseEntityRef: expecting ';'
+    <TD width="120" align="right"><A NAME="Aktivitätstyp"></A>&nbsp<br>
+                                                                    ^
+arbeitskreise/vorgehensmodelle/themenbereiche/aktivitaeten.html:314: HTML parser error : htmlParseEntityRef: expecting ';'
+    <TD width="120" align="right"><A NAME="Aktivitätstyp-Schablone"></A>&nbsp<b
+                                                                              ^
+arbeitskreise/vorgehensmodelle/themenbereiche/aktivitaeten.html:368: HTML parser error : htmlParseEntityRef: expecting ';'
+    <TD width="120" align="right"><A NAME="Arbeitspaket"></A>&nbsp<br>
+                                                                  ^
+arbeitskreise/vorgehensmodelle/themenbereiche/aktivitaeten.html:422: HTML parser error : htmlParseEntityRef: expecting ';'
+    <TD width="120" align="right"><A NAME="Phase"></A>&nbsp<br>
+                                                           ^
+arbeitskreise/vorgehensmodelle/themenbereiche/aktivitaeten.html:477: HTML parser error : htmlParseEntityRef: expecting ';'
+    <TD width="120" align="right"><A NAME="Vorgehensmodell-Struktur"></A>&nbsp<b
+                                                                              ^

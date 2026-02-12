@@ -1,0 +1,24 @@
+arbeitskreise/objektorientierung/themenbereiche/objektgrobstruktur.html:51: HTML parser error : htmlParseEntityRef: expecting ';'
+    <TD width="120" align="right"><A NAME="Datentyp"></A>&nbsp<br>
+                                                              ^
+arbeitskreise/objektorientierung/themenbereiche/objektgrobstruktur.html:106: HTML parser error : htmlParseEntityRef: expecting ';'
+    <TD width="120" align="right"><A NAME="Exemplar"></A>&nbsp<br>
+                                                              ^
+arbeitskreise/objektorientierung/themenbereiche/objektgrobstruktur.html:162: HTML parser error : htmlParseEntityRef: expecting ';'
+    <TD width="120" align="right"><A NAME="Instanz"></A>&nbsp<br>
+                                                             ^
+arbeitskreise/objektorientierung/themenbereiche/objektgrobstruktur.html:216: HTML parser error : htmlParseEntityRef: expecting ';'
+    <TD width="120" align="right"><A NAME="Klasse"></A>&nbsp<br>
+                                                            ^
+arbeitskreise/objektorientierung/themenbereiche/objektgrobstruktur.html:271: HTML parser error : htmlParseEntityRef: expecting ';'
+    <TD width="120" align="right"><A NAME="Objekt"></A>&nbsp<br>
+                                                            ^
+arbeitskreise/objektorientierung/themenbereiche/objektgrobstruktur.html:326: HTML parser error : htmlParseEntityRef: expecting ';'
+    <TD width="120" align="right"><A NAME="Objekt-Identität"></A>&nbsp<br>
+                                                                       ^
+arbeitskreise/objektorientierung/themenbereiche/objektgrobstruktur.html:380: HTML parser error : htmlParseEntityRef: expecting ';'
+    <TD width="120" align="right"><A NAME="Typ"></A>&nbsp<br>
+                                                         ^
+arbeitskreise/objektorientierung/themenbereiche/objektgrobstruktur.html:436: HTML parser error : htmlParseEntityRef: expecting ';'
+    <TD width="120" align="right"><A NAME="Wert"></A>&nbsp<br>
+                                                          ^

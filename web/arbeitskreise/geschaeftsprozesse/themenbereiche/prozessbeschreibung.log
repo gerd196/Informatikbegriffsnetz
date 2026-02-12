@@ -1,0 +1,18 @@
+arbeitskreise/geschaeftsprozesse/themenbereiche/prozessbeschreibung.html:41: HTML parser error : htmlParseEntityRef: expecting ';'
+    <TD width="120" align="right"><A NAME="Ablaufdiagramm"></A>&nbsp<br>
+                                                                    ^
+arbeitskreise/geschaeftsprozesse/themenbereiche/prozessbeschreibung.html:96: HTML parser error : htmlParseEntityRef: expecting ';'
+    <TD width="120" align="right"><A NAME="Aktivitätsdiagramm"></A>&nbsp<br>
+                                                                         ^
+arbeitskreise/geschaeftsprozesse/themenbereiche/prozessbeschreibung.html:151: HTML parser error : htmlParseEntityRef: expecting ';'
+idth="120" align="right"><A NAME="Business Process Model and Notation"></A>&nbsp
+                                                                               ^
+arbeitskreise/geschaeftsprozesse/themenbereiche/prozessbeschreibung.html:206: HTML parser error : htmlParseEntityRef: expecting ';'
+TD width="120" align="right"><A NAME="Ereignisgesteuerte Prozesskette"></A>&nbsp
+                                                                               ^
+arbeitskreise/geschaeftsprozesse/themenbereiche/prozessbeschreibung.html:262: HTML parser error : htmlParseEntityRef: expecting ';'
+    <TD width="120" align="right"><A NAME="Interaktionsdiagramm"></A>&nbsp<br>
+                                                                          ^
+arbeitskreise/geschaeftsprozesse/themenbereiche/prozessbeschreibung.html:316: HTML parser error : htmlParseEntityRef: expecting ';'
+    <TD width="120" align="right"><A NAME="Petri-Netz"></A>&nbsp<br>
+                                                                ^
