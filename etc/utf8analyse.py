@@ -14,27 +14,29 @@ Copyright = """Dieses Skript ist freie Software, die Sie unter bestimmten Beding
 Für dieses Python-Skript besteht KEINERLEI GARANTIE, weder für MARKTREIFE noch für eine VERWENDBARKEIT FÜR EINEN BESTIMMTEN ZWECK."""
 SkriptName = "utf8analyse"
 SkriptRelease = "1"
-SkriptVersion = "1"
-SkriptDatum = "2026-03-15"
+SkriptVersion = "3"
+SkriptDatum = "2026-03-16"
 Autor = "Gerhard Fessler"
 SkriptId = f"{SkriptName} {SkriptRelease}({SkriptVersion}), {SkriptDatum}, Copyright (c) {Autor}"
-Usage = f"Aufruf:    {SkriptName} [option] ... dateiname"
+Usage = f"Aufruf:    {SkriptName} [option] ... dateiname ..."
 UsageLong = f"""{__doc__}
 {Usage}
 
 Optionen:
    -a, --allezeichen: Gibt abschließend alle in den eingelesenen Dateien gefundenen Zeichen aus
+   -f, --files: dateiname bzw. dateiname ... sind direkt zu verarbeitende Datei(en)
    -h, --help, -?: Gibt diese Information aus
    -m, --mehr: Gibt mehr Daten aus. kann mehrfach angegeben werden
    -n, --nichtfiltern: Filtert bei Ausgaben ASCII-Standardzeichen nicht aus
    -q, --quiet: Gibt weniger Daten aus. Kann mehrfach angegeben werden
-   -s, --single: dateiname ist eine direkt zu verarbeitende Datei
    -v, --version: Skriptname, Version und Format des Aufrufs ausgebenn
    -z, --zeilenweise: Liest Dateien Zeile für Zeile
 
 dateiname:
 Textdatei, enthält die Dateinamen der Dateien, deren UTF-8-Kompatibilität analysiert wird.
-   - Ein Dateiname pro Zeile.
+   - Ein Dateiname pro Zeile..
+-f dateiname ...:
+Namen der Dateien, deren Inhalte analysiert werden.
 
 Beispiele:
    {SkriptName} -?
@@ -55,7 +57,7 @@ O = {
     "Zeilenweise" : False,
     } # Optionen
 
-UTF8Zeichen = r""" abcdefghijklmnopqrstuvwxyzäöüßABCDEFGHIJKLMNOPQRSTUVWXYZÄÖÜ0123456789|!"#&*,-./:;<=>@(´`”)+_[“„’]»%カバン板看®©€–…?{'}åø—""" + "\t\n\r\\"
+UTF8Zeichen = r""" abcdefghijklmnopqrstuvwxyzäöüßABCDEFGHIJKLMNOPQRSTUVWXYZÄÖÜ0123456789|!"#&*,-./:;<=>@(´`”)+_[“„’] »%カバン板看®©€–…?{'}åø—""" + "\t\n\r\\"
 UTF8ZeichenSet = frozenset(UTF8Zeichen)
 
 ASCIICTRLNames = { 
@@ -73,7 +75,7 @@ AEV1 = "" # ANSI Erweiterte Ausgaben Vordergrund
 AEH1 = "\033[47m" # ANSI Erweiterte Ausgaben Hintergrund (grau)
 AEV2 = "\033[0;32m" # ANSI Erweiterte Ausgaben Vordergrund (grün)
 AEH2 = "\033[102m" # ANSI Erweiterte Ausgaben Hintergrund (grün)
-AEV3 = "" # ANSI Erweiterte Ausgaben Vordergrund
+AEV3 = "\033[90m" # ANSI Erweiterte Ausgaben Vordergrund (hellgrau)
 AEH3 = "\033[103m" # ANSI Erweiterte Ausgaben Hintergrund (gelb)
 AEV4 = "\033[2;92m" # ANSI Erweiterte Ausgaben Vordergrund (dunkelgrün)
 AEH4 = "\033[42m" # ANSI Erweiterte Ausgaben Hintergrund (dunkelgrün)
@@ -133,6 +135,18 @@ def ExtrahiereCMDlineArgumente():
             Argumente.append(Argument)
     return (Optionen, Argumente)
 
+def PruefeDatei(Dateiname):
+    """Prüft, ob Dateiname eine lesbare, nichtleere Datei ist. Wenn nicht, wird mit Fehler abgebrochen."""
+    Name = Dateiname.strip()
+    if ( not os.path.isfile(Name) ):
+        Fehler(f"Auf '{Name}' kann nicht als Datei zugegriffen werden",3)
+    if ( not os.access(Name, os.R_OK) ):
+        Fehler(f"Datei '{Name}' kann nicht gelesen werden",4)
+    DateiGroesse = os.path.getsize(Name)
+    if ( DateiGroesse < 1 ):
+        Fehler(f"Datei '{Name}' ist leer",5)
+    return True
+
 ########### Skriptspezifische Funktionalitäten ################################
 
 def OptionenAuswerten(Optionen):
@@ -163,6 +177,9 @@ def OptionenAuswerten(Optionen):
         if ( (Option == "a") or (Option == "A") or (Option == "--allezeichen") or (Option == "--all") ):
             O["AlleZeichen"] = True
             continue
+        if ( (Option == "f") or (Option == "F") or (Option == "--files") ):
+            O["Direktdatei"] = True
+            continue
         if ( (Option == "--help") or (Option == "h") or (Option == "?") ):
             PrintUsageLong()
             BeendeSkript(0)
@@ -175,9 +192,6 @@ def OptionenAuswerten(Optionen):
         if ( (Option == "q") or (Option == "Q") or (Option == "--quiet") ):
             O["AusgabeLevel"] -= 1
             continue
-        if ( (Option == "s") or (Option == "S") or (Option == "--single") ):
-            O["Direktdatei"] = True
-            continue
         if ( (Option == "--version") or (Option == "v") ):
             PrintScriptId()
             BeendeSkript(0)
@@ -186,26 +200,6 @@ def OptionenAuswerten(Optionen):
             continue
         Warnung(f"'{Option}': Unbekannte Option, ignoriert")
     return None
-
-def PruefeArgumente(Argumente):
-    """Prüft, dass genau ein Dateiname angegeben ist und liefert diesen zurück, sofern dieser lesbar und nicht leer ist""" 
-    DateinamenDateiname = ""
-    LesbareDateien = []
-
-    if ( len(Argumente) < 1 ):
-        Fehler("dateiname nicht angegeben",1)
-    if ( len(Argumente) > 1 ):
-        Fehler(f"Mehr als ein dateiname angegeben: {Argumente}",2)
-
-    DateinamenDateiname = Argumente[0].strip()
-    if ( not os.path.isfile(DateinamenDateiname) ):
-        Fehler(f"Auf '{DateinamenDateiname}' kann nicht als Datei zugegriffen werden",3)
-    if ( not os.access(DateinamenDateiname, os.R_OK) ):
-        Fehler(f"Datei '{DateinamenDateiname}' kann nicht gelesen werden",4)
-    DateiGroesse = os.path.getsize(DateinamenDateiname)
-    if ( DateiGroesse < 1 ):
-        Fehler(f"Datei '{DateinamenDateiname}' ist leer",5)
-    return DateinamenDateiname
 
 def LeseDateinamen(DateinamenDateiname):
     """Liest die Dateinamen, die in der DateinamenDateiname enthalten sind, und gibt diese als Liste zurück"""
@@ -226,6 +220,47 @@ def LeseDateinamen(DateinamenDateiname):
         print(f"{AEH2}{DateinamenDateiname}{AR}: {DateinamenZahl} Dateinamen eingelesen")
     return DateinamenListe
 
+def VerarbeiteArgumente(Argumente):
+    """Prüft, dass entweder genau ein Dateiname angegeben ist  oder ob die Option -f angegeben ist und mindestens ein Dateiname angegeben ist. Prüft ob angegebene Dateien existieren, lesbar und nicht leer sind. Falls nicht wird mit Fehler abgebrochen. Sonst werden die gefundenen Dateinamen zurückgegeben.""" 
+    LesbareDateien = []
+
+    if ( len(Argumente) < 1 ):
+        Fehler("Kein dateiname angegeben",1)
+
+    if ( O["Direktdatei"] ): # -f-Option
+        DateinamenListe = Argumente
+
+    else: # Datei mit Dateinamen
+        if ( len(Argumente) > 1 ):
+            Fehler(f"Mehr als ein dateiname ohne f-Option angegeben: {Argumente}",2)
+        DateinamenDateiname = Argumente[0]
+        PruefeDatei(DateinamenDateiname)
+        DateinamenListe = LeseDateinamen(DateinamenDateiname)
+
+    for Name in DateinamenListe:
+        PruefeDatei(Name)
+        LesbareDateien.append(Name)
+    return LesbareDateien
+
+def LeseDateinamen(DateinamenDateiname):
+    """Liest die Dateinamen, die in der DateinamenDateiname enthalten sind, und gibt diese als Liste zurück"""
+    DateinamenListe = []
+    DateinamenZahl = 0
+    try:
+        with open(DateinamenDateiname, "r") as DateinamenDatei:
+            for Zeile in DateinamenDatei:
+                StrippedZeile = Zeile.strip()
+                if ( len(StrippedZeile) < 1 ): 
+                    continue
+                DateinamenZahl += 1
+                DateinamenListe.append(StrippedZeile)
+    except Exception as Ausnahme:
+        Fehler(f"Fehler {Ausnahme} beim Öffnen bzw. Lesen der Datei '{DateinamenDateiname}'. Keine Dateinamen eingelesen. Textdatei?",6)
+        return []
+    if ( O["AusgabeLevel"] > 1 ):
+        print(f"{AEV3}{DateinamenDateiname}{AR}: {DateinamenZahl} Dateinamen eingelesen")
+    return DateinamenListe
+
 def LeseDateiByte(Dateiname):
     """Liest die Datei Dateiname als Bytes und gibt deren Inhalt als str zurück"""
     DateiInhalt = b""
@@ -237,7 +272,7 @@ def LeseDateiByte(Dateiname):
     if ( O["AusgabeLevel"] > 1 ):
         ZahlDerZeichen = len(DateiInhalt)
         ZahlUnterschiedlicherZeichen = len(set(DateiInhalt))
-        print(f"{AEH1}{Dateiname}{AR}: {ZahlDerZeichen} Byte eingelesen, {ZahlUnterschiedlicherZeichen} unterschiedliche Zeichen")
+        print(f"{AEV3}{Dateiname}{AR}: {ZahlDerZeichen} Byte eingelesen, {ZahlUnterschiedlicherZeichen} unterschiedliche Zeichen")
     return DateiInhalt
 
 def LeseDateiUTF8Str(Dateiname):
@@ -251,7 +286,7 @@ def LeseDateiUTF8Str(Dateiname):
     if ( O["AusgabeLevel"] > 1 ):
         ZahlDerZeichen = len(DateiInhalt)
         ZahlUnterschiedlicherZeichen = len(set(DateiInhalt))
-        print(f"{AEH1}{Dateiname}{AR}: {ZahlDerZeichen} UTF-8-Zeichen eingelesen, {ZahlUnterschiedlicherZeichen} unterschiedliche Zeichen")
+        print(f"{AEV3}{Dateiname}{AR}: {ZahlDerZeichen} UTF-8-Zeichen eingelesen, {ZahlUnterschiedlicherZeichen} unterschiedliche Zeichen")
     return DateiInhalt
 
 def LeseDateiUTF8Zeilenweise(Dateiname):
@@ -372,14 +407,9 @@ if ( O["AusgabeLevel"] > 1 ):
     PrintSkriptId()
     print()
 
-DateinamenDateiname = PruefeArgumente(Argumente)
+DateinamenListe =VerarbeiteArgumente(Argumente)
 
-if ( O["Direktdatei"] ):
-    Dateinamen = [DateinamenDateiname]
-else:
-    Dateinamen = LeseDateinamen(DateinamenDateiname)
-
-for Dateiname in Dateinamen:
+for Dateiname in DateinamenListe:
     VerarbeiteDatei(Dateiname)
 
 if ( O["AlleZeichen"]):
