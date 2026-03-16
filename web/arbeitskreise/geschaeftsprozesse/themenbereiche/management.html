@@ -11,6 +11,9 @@
 	16.01.15 (gml)	Weske-Buch bei "Lebenszyklus" eingebaut
 	13.04.21 hb	UTF-8
 	16.04.21 hb	Leerzeilen am Ende angefügt
+        02.02.26 gf     xmllint
+        16.03.26 gf     ftfy
+        16.03.26 ak     Fehler beseitigt
 
 =================================================================================== --><html lang="de">
 <head>
@@ -35,7 +38,7 @@
   </tr>
 <tr>
 <td width="120" align="right">
-<a name="Gesch%C3%A4ftsprozess-Analyse"></a>&amp;nbsp<br><img src="../../../pictures/webpics/1x1_blau.gif" width="110" height="1"><br>
+<a name="Geschaeftsprozess-Analyse"></a> <br><img src="../../../pictures/webpics/1x1_blau.gif" width="110" height="1"><br>
 </td>
     <td>
 <span class="header"><b>Geschäftsprozess-Analyse</b></span> <br><img src="../../../pictures/webpics/1x1_blau.gif" width="400" height="1">
@@ -71,24 +74,24 @@
 <td align="right" valign="top"> <p><b>Definition</b> </p>
 </td>
     <td valign="top">
-      <p>Die Geschäftsprozess-Analyse (GPA) ist die systematische Untersuchung der bestehenden <a href="../../geschaeftsprozesse/themenbereiche/kernbegriffe.html#Gesch%C3%A4ftsprozess">»Geschäftsprozesse</a> ("Ist-Prozesse"), um im Hinblick auf die Unternehmensziele Schwachstellen und Verbesserungspotentiale aufzuzeigen.</p>
+      <p>Die Geschäftsprozess-Analyse (GPA) ist die systematische Untersuchung der bestehenden <a href="../../geschaeftsprozesse/themenbereiche/kernbegriffe.html#Geschaeftsprozess">»Geschäftsprozesse</a> ("Ist-Prozesse"), um im Hinblick auf die Unternehmensziele Schwachstellen und Verbesserungspotentiale aufzuzeigen.</p>
     </td>
   </tr>
 <tr>
 <td align="right" valign="top"> <p><b>Erläuterung</b> </p>
 </td>
     <td valign="top">
-      <p>Ausgangspunkte für die Analyse bilden meist eine bestehende oder neu erstellte Geschäftsprozess-Dokumentation, aber auch Interviews bzw. Analyse-Workshops (vgl. [<a href="../publallg.html#Schm08">Schm08</a>]). Aus erkannten Verbesserungspotentialen werden Optimierungsmaßnahmen abgeleitet, die im Rahmen der <a href="#Gesch%C3%A4ftsprozess-Optimierung">»GPO</a> umgesetzt werden. GPA ist somit Bestandteil des <a href="#Gesch%C3%A4ftsprozess-Management">»Geschäftsprozess-Managements </a>. <br>
-Je nach Analyse-Gegenstand und -Ziel kommen verschiedene Methoden und Hilfsmittel zum Einsatz (siehe Beispiele). <a href="#Gesch%C3%A4ftsprozess-Simulation">»Geschäftsprozess-Simulation </a> kann als Unterstützung zur GPA eingesetzt werden. <br>
-Exemplarische Ansatzpunkte für die Analyse sind: Betrachtung von <a href="../../geschaeftsprozesse/themenbereiche/kernbegriffe.html#Teilprozess">»Teilprozessen</a>; Feststellung von Medienbrüchen; Untersuchung der Arbeitsaufteilung auf Bearbeiter; Identifikation von Kostentreibern; Messung von Bearbeitungs-, Weiterleitungs-, Liegezeiten; Messung von Häufigkeiten; Erhebung von Fehlerquoten; Ermittlung von Erfolgsfaktoren des <a href="../../geschaeftsprozesse/themenbereiche/kernbegriffe.html#Gesch%C3%A4ftsprozess">»Geschäftsprozesses</a>; <br>
-Einen Spezialfall bildet die <i>Business Impact Analysis (BIC)</i>, eine Methode zur Identifikation von organisatorischen und technischen Abhängigkeiten und Auswirkungen von <a href="../../geschaeftsprozesse/themenbereiche/kernbegriffe.html#Gesch%C3%A4ftsprozess">»Geschäftsprozessen</a>, insbesondere im Hinblick auf mögliche Risiken beim Ausfall von <a href="../../%20geschaeftsprozesse%20/themenbereiche/prozessStruktur.html#Teilprozess">»Teilprozessen</a> (Bewertung der "Kritikalität").</p>
+      <p>Ausgangspunkte für die Analyse bilden meist eine bestehende oder neu erstellte Geschäftsprozess-Dokumentation, aber auch Interviews bzw. Analyse-Workshops (vgl. [<a href="../publallg.html#Schm08">Schm08</a>]). Aus erkannten Verbesserungspotentialen werden Optimierungsmaßnahmen abgeleitet, die im Rahmen der <a href="#Geschaeftsprozess-Optimierung">»GPO</a> umgesetzt werden. GPA ist somit Bestandteil des <a href="#Geschaeftsprozess-Management">»Geschäftsprozess-Managements </a>. <br>
+Je nach Analyse-Gegenstand und -Ziel kommen verschiedene Methoden und Hilfsmittel zum Einsatz (siehe Beispiele). <a href="#Geschaeftsprozess-Simulation">»Geschäftsprozess-Simulation </a> kann als Unterstützung zur GPA eingesetzt werden. <br>
+Exemplarische Ansatzpunkte für die Analyse sind: Betrachtung von <a href="../../geschaeftsprozesse/themenbereiche/kernbegriffe.html#Teilprozess">»Teilprozessen</a>; Feststellung von Medienbrüchen; Untersuchung der Arbeitsaufteilung auf Bearbeiter; Identifikation von Kostentreibern; Messung von Bearbeitungs-, Weiterleitungs-, Liegezeiten; Messung von Häufigkeiten; Erhebung von Fehlerquoten; Ermittlung von Erfolgsfaktoren des <a href="../../geschaeftsprozesse/themenbereiche/kernbegriffe.html#Geschaeftsprozess">»Geschäftsprozesses</a>; <br>
+Einen Spezialfall bildet die <i>Business Impact Analysis (BIC)</i>, eine Methode zur Identifikation von organisatorischen und technischen Abhängigkeiten und Auswirkungen von <a href="../../geschaeftsprozesse/themenbereiche/kernbegriffe.html#Geschaeftsprozess">»Geschäftsprozessen</a>, insbesondere im Hinblick auf mögliche Risiken beim Ausfall von <a href="../../geschaeftsprozesse/themenbereiche/prozessStruktur.html#Teilprozess">»Teilprozessen</a> (Bewertung der "Kritikalität").</p>
     </td>
   </tr>
 <tr>
 <td align="right" valign="top"> <p><b>Beispiele</b> </p>
 </td>
     <td valign="top">
-      <p>"Geschäftsprozessanalyse mit Visio: Eine Anwendung im genossenschaftlichen Viehhandel" [<a href="../publallg.html#VoTh09">VoTh09</a>]
+      <p>"Geschäftsprozessanalyse mit Visio: Eine Anwendung im genossenschaftlichen Viehhandel" [<a href="../publallg.html#VoTh09">VoTh09</a>]<br>
 "Geschäftsprozessanalyse- und Optimierung am Beispiel des Geschäftsganges der Hochschulbibliothek der Fachhochschule Köln" [<a href="../publallg.html#Hoch06">Hoch06</a>]</p>
     </td>
   </tr>
@@ -98,7 +101,7 @@ Einen Spezialfall bildet die <i>Business Impact Analysis (BIC)</i>, eine Methode
   </tr>
 <tr>
 <td width="120" align="right">
-<a name="Gesch%C3%A4ftsprozess-Lebenszyklus"></a>&amp;nbsp<br><img src="../../../pictures/webpics/1x1_blau.gif" width="110" height="1"><br>
+<a name="Geschaeftsprozess-Lebenszyklus"></a> <br><img src="../../../pictures/webpics/1x1_blau.gif" width="110" height="1"><br>
 </td>
     <td>
 <span class="header"><b>Geschäftsprozess-Lebenszyklus</b></span> <br><img src="../../../pictures/webpics/1x1_blau.gif" width="400" height="1">
@@ -134,7 +137,7 @@ Einen Spezialfall bildet die <i>Business Impact Analysis (BIC)</i>, eine Methode
 <td align="right" valign="top"> <p><b>Definition</b> </p>
 </td>
     <td valign="top">
-      <p>Zum Geschäftsprozess-Lebenszyklus werden die verschiedenen Entwicklungsstufen eines <a href="../../geschaeftsprozesse/themenbereiche/kernbegriffe.html#Gesch%C3%A4ftsprozess">»Geschäftsprozesses</a> von seiner ersten Definition oder Entstehung über die Einführung, mehrmalige Ausführung und fortlaufende Optimierung bis hin zu seiner Abschaffung zusammengefasst.</p>
+      <p>Zum Geschäftsprozess-Lebenszyklus werden die verschiedenen Entwicklungsstufen eines <a href="../../geschaeftsprozesse/themenbereiche/kernbegriffe.html#Geschaeftsprozess">»Geschäftsprozesses</a> von seiner ersten Definition oder Entstehung über die Einführung, mehrmalige Ausführung und fortlaufende Optimierung bis hin zu seiner Abschaffung zusammengefasst.</p>
     </td>
   </tr>
 <tr>
@@ -158,7 +161,7 @@ Einen Spezialfall bildet die <i>Business Impact Analysis (BIC)</i>, eine Methode
   </tr>
 <tr>
 <td width="120" align="right">
-<a name="Gesch%C3%A4ftsprozess-Management"></a>&amp;nbsp<br><img src="../../../pictures/webpics/1x1_blau.gif" width="110" height="1"><br>
+<a name="Geschaeftsprozess-Management"></a> <br><img src="../../../pictures/webpics/1x1_blau.gif" width="110" height="1"><br>
 </td>
     <td>
 <span class="header"><b>Geschäftsprozess-Management</b></span> <br><img src="../../../pictures/webpics/1x1_blau.gif" width="400" height="1">
@@ -194,21 +197,21 @@ Einen Spezialfall bildet die <i>Business Impact Analysis (BIC)</i>, eine Methode
 <td align="right" valign="top"> <p><b>Definition</b> </p>
 </td>
     <td valign="top">
-      <p>Geschäftsprozess-Management (GPM) stellt ein Rahmenwerk zur zielorientierten Erfassung, Dokumentation, Gestaltung, Steuerung und Verbesserung von <a href="../../geschaeftsprozesse/themenbereiche/kernbegriffe.html#Gesch%C3%A4ftsprozess">»Geschäftsprozessen</a> unter Verwendung geeigneter Methoden und Werkzeuge dar. (nach [<a href="../publallg.html#Frau10">Frau10</a>])</p>
+      <p>Geschäftsprozess-Management (GPM) stellt ein Rahmenwerk zur zielorientierten Erfassung, Dokumentation, Gestaltung, Steuerung und Verbesserung von <a href="../../geschaeftsprozesse/themenbereiche/kernbegriffe.html#Geschaeftsprozess">»Geschäftsprozessen</a> unter Verwendung geeigneter Methoden und Werkzeuge dar. (nach [<a href="../publallg.html#Frau10">Frau10</a>])</p>
     </td>
   </tr>
 <tr>
 <td align="right" valign="top"> <p><b>Erläuterung</b> </p>
 </td>
     <td valign="top">
-      <p>Die Definition kann für alle Arten von <a href="../../%20geschaeftsprozesse/themenbereiche/kernbegriffe.html#Prozess">»Prozessen</a> verallgemeinert werden. <br> 
+      <p>Die Definition kann für alle Arten von <a href="../../geschaeftsprozesse/themenbereiche/kernbegriffe.html#Prozess">»Prozessen</a> verallgemeinert werden. <br> 
 GPM orientiert sich an den strategischen und operativen Zielsetzungen des Unternehmens sowie gegebenen Rahmenbedingungen.<br> 
-Bestandteile sind u.a. <a href="#Gesch%C3%A4ftsprozess-Analyse">»Geschäftsprozess-Analyse </a>, <a href="#Gesch%C3%A4ftsprozess-Optimierung">»Geschäftsprozess-Optimierung </a>, Geschäftsprozess-Dokumentation. <br>
+Bestandteile sind u.a. <a href="#Geschaeftsprozess-Analyse">»Geschäftsprozess-Analyse </a>, <a href="#Geschaeftsprozess-Optimierung">»Geschäftsprozess-Optimierung </a>, Geschäftsprozess-Dokumentation. <br>
 
 GPM umfasst Konzepte, Methoden und Techniken um den Entwurf, die Verwaltung, Konfiguration, Enactment und Analyse von Geschäftsprozessen zu unterstützen (nach [<a href="../publallg.html#Wesk12">Wesk12</a>]).
 <br>
 
-GPM bezieht sich sowohl auf die Definition und Ausgestaltung des <a href="#Gesch%C3%A4ftsprozess-Lebenszyklus">»Geschäftsprozess-Lebenszyklus </a> als auch auf die Steuerung und Bewertung der konkreten Ausführung von <a href="../../geschaeftsprozesse/themenbereiche/kernbegriffe.html#Gesch%C3%A4ftsprozess">»Geschäftsprozessen</a>. Dabei spielen im Besonderen  Aspekte der <a href="#Gesch%C3%A4ftsprozess-Qualit%C3%A4t">»Geschäftsprozess-Qualität </a> eine Rolle.</p>
+GPM bezieht sich sowohl auf die Definition und Ausgestaltung des <a href="#Geschaeftsprozess-Lebenszyklus">»Geschäftsprozess-Lebenszyklus </a> als auch auf die Steuerung und Bewertung der konkreten Ausführung von <a href="../../geschaeftsprozesse/themenbereiche/kernbegriffe.html#Geschaeftsprozess">»Geschäftsprozessen</a>. Dabei spielen im Besonderen  Aspekte der <a href="#Geschaeftsprozess-Qualitaet">»Geschäftsprozess-Qualität </a> eine Rolle.</p>
     </td>
   </tr>
 <tr>
@@ -224,7 +227,7 @@ GPM bezieht sich sowohl auf die Definition und Ausgestaltung des <a href="#Gesch
   </tr>
 <tr>
 <td width="120" align="right">
-<a name="Gesch%C3%A4ftsprozess-Neugestaltung"></a>&amp;nbsp<br><img src="../../../pictures/webpics/1x1_blau.gif" width="110" height="1"><br>
+<a name="Geschaeftsprozess-Neugestaltung"></a> <br><img src="../../../pictures/webpics/1x1_blau.gif" width="110" height="1"><br>
 </td>
     <td>
 <span class="header"><b>Geschäftsprozess-Neugestaltung</b></span> <br><img src="../../../pictures/webpics/1x1_blau.gif" width="400" height="1">
@@ -268,7 +271,7 @@ GPM bezieht sich sowohl auf die Definition und Ausgestaltung des <a href="#Gesch
 </td>
     <td valign="top">
       <p>Im Original ist der von Hammer / Champy geprägte Begriff BPR definiert als  "... the fundamental rethinking and radical redesign of business processes to achieve dramatic improvements in critical contemporary measures of performance, such as cost, quality, service, and speed." [<a href="../publallg.html#HaCh93">HaCh93</a>]<br>
-Im Gegensatz zur kontinuierlichen Verbesserung von <a href="../../geschaeftsprozesse/themenbereiche/kernbegriffe.html#Gesch%C3%A4ftsprozess">»Geschäftsprozessen</a> im Rahmen eines <a href="#Gesch%C3%A4ftsprozess-Lebenszyklus">»Geschäftsprozess-Lebenszyklus </a> steht beim BPR die radikale Veränderung der Prozesse im Vordergrund.</p>
+Im Gegensatz zur kontinuierlichen Verbesserung von <a href="../../geschaeftsprozesse/themenbereiche/kernbegriffe.html#Geschaeftsprozess">»Geschäftsprozessen</a> im Rahmen eines <a href="#Geschaeftsprozess-Lebenszyklus">»Geschäftsprozess-Lebenszyklus </a> steht beim BPR die radikale Veränderung der Prozesse im Vordergrund.</p>
     </td>
   </tr>
 <tr>
@@ -285,7 +288,7 @@ Auflösung von regionalen Lagerorganisationen mit jeweils vollem Sortiment und A
   </tr>
 <tr>
 <td width="120" align="right">
-<a name="Gesch%C3%A4ftsprozess-Optimierung"></a>&amp;nbsp<br><img src="../../../pictures/webpics/1x1_blau.gif" width="110" height="1"><br>
+<a name="Geschaeftsprozess-Optimierung"></a> <br><img src="../../../pictures/webpics/1x1_blau.gif" width="110" height="1"><br>
 </td>
     <td>
 <span class="header"><b>Geschäftsprozess-Optimierung</b></span> <br><img src="../../../pictures/webpics/1x1_blau.gif" width="400" height="1">
@@ -321,16 +324,16 @@ Auflösung von regionalen Lagerorganisationen mit jeweils vollem Sortiment und A
 <td align="right" valign="top"> <p><b>Definition</b> </p>
 </td>
     <td valign="top">
-      <p>Geschäftsprozess-Optimierung (GPO) bedeutet die zielorientierte Verbesserung der Qualität von <a href="../../geschaeftsprozesse/themenbereiche/kernbegriffe.html#Gesch%C3%A4ftsprozess">»Geschäftsprozessen</a> durch organisatorische oder technische Änderungen. </p>
+      <p>Geschäftsprozess-Optimierung (GPO) bedeutet die zielorientierte Verbesserung der Qualität von <a href="../../geschaeftsprozesse/themenbereiche/kernbegriffe.html#Geschaeftsprozess">»Geschäftsprozessen</a> durch organisatorische oder technische Änderungen. </p>
     </td>
   </tr>
 <tr>
 <td align="right" valign="top"> <p><b>Erläuterung</b> </p>
 </td>
     <td valign="top">
-      <p>Eine vorausgehende <a href="#Gesch%C3%A4ftsprozess-Analyse">»Geschäftsprozess-Analyse </a> kann Verbesserungsmaßnahmen ermitteln, die in einer anschließenden Optimierungsphase beim Entwurf der "Soll-Prozesse" im Unternehmen umgesetzt werden. GPO ist somit Bestandteil des <a href="#Gesch%C3%A4ftsprozess-Manangement">»Geschäftsprozess-Manangements </a>. <br>
+      <p>Eine vorausgehende <a href="#Geschaeftsprozess-Analyse">»Geschäftsprozess-Analyse </a> kann Verbesserungsmaßnahmen ermitteln, die in einer anschließenden Optimierungsphase beim Entwurf der "Soll-Prozesse" im Unternehmen umgesetzt werden. GPO ist somit Bestandteil des <a href="#Geschaeftsprozess-Manangement">»Geschäftsprozess-Manangements </a>. <br>
 Mit GPO wird angestrebt, Prozessziele leichter zu erreichen oder Prozessleistungen zu verbessern. Dabei dienen spezifische <a href="#Prozess-Kennzahl">»Prozesskennzahlen </a> dazu, die Wirkung der Verbesserungsmaßnahmen zu messen. <br>
-Die Optimierung kann sowohl operativen, kontinuierlichen Charakter im Rahmen eines <a href="#Gesch%C3%A4ftsprozess-Lebenszyklus">»GP-Lebenszyklus </a> haben ("Kontinuierlicher Verbesserungs-Prozess", KVP), als auch die strategische, radikale Neuorientierung im Sinne des <a href="#Gesch%C3%A4ftsprozess-Neugestaltung">»BPR </a> beinhalten.</p>
+Die Optimierung kann sowohl operativen, kontinuierlichen Charakter im Rahmen eines <a href="#Geschaeftsprozess-Lebenszyklus">»GP-Lebenszyklus </a> haben ("Kontinuierlicher Verbesserungs-Prozess", KVP), als auch die strategische, radikale Neuorientierung im Sinne des <a href="#Geschaeftsprozess-Neugestaltung">»BPR </a> beinhalten.</p>
     </td>
   </tr>
 <tr>
@@ -346,7 +349,7 @@ Die Optimierung kann sowohl operativen, kontinuierlichen Charakter im Rahmen ein
   </tr>
 <tr>
 <td width="120" align="right">
-<a name="Gesch%C3%A4ftsprozess-Qualit%C3%A4t"></a>&amp;nbsp<br><img src="../../../pictures/webpics/1x1_blau.gif" width="110" height="1"><br>
+<a name="Geschaeftsprozess-Qualitaet"></a> <br><img src="../../../pictures/webpics/1x1_blau.gif" width="110" height="1"><br>
 </td>
     <td>
 <span class="header"><b>Geschäftsprozess-Qualität</b></span> <br><img src="../../../pictures/webpics/1x1_blau.gif" width="400" height="1">
@@ -382,7 +385,7 @@ Die Optimierung kann sowohl operativen, kontinuierlichen Charakter im Rahmen ein
 <td align="right" valign="top"> <p><b>Definition</b> </p>
 </td>
     <td valign="top">
-      <p>Die <a href="../../vorgehensmodelle/themenbereiche/qualitaetsmanagement.html#Qualit%C3%A4t">»Qualität</a> von <a href="../../%20geschaeftsprozesse/themenbereiche/kernbegriffe.html#Gesch%C3%A4ftsprozess">»Geschäftsprozessen</a> ergibt sich aus der Bewertung (d.h. Feststellung des Erfüllungsgrades) aller relevanten messbaren und nicht-messbaren <a href="../../vorgehensmodelle/themenbereiche/qualitaetsmanagement.html#Qualit%C3%A4tsmerkmal">»(Qualitäts-)Merkmale</a>.</p>
+      <p>Die <a href="../../vorgehensmodelle/themenbereiche/qualitaetsmanagement.html#Qualitaet">»Qualität</a> von <a href="../../geschaeftsprozesse/themenbereiche/kernbegriffe.html#Geschaeftsprozess">»Geschäftsprozessen</a> ergibt sich aus der Bewertung (d.h. Feststellung des Erfüllungsgrades) aller relevanten messbaren und nicht-messbaren <a href="../../vorgehensmodelle/themenbereiche/qualitaetsmanagement.html#Qualitaetsmerkmal">»(Qualitäts-)Merkmale</a>.</p>
     </td>
   </tr>
 <tr>
@@ -390,9 +393,9 @@ Die Optimierung kann sowohl operativen, kontinuierlichen Charakter im Rahmen ein
 </td>
     <td valign="top">
       <p>Die quantifizierbaren Merkmale werden auch als <a href="#Prozess-Kennzahl">»Prozess-Kennzahlen </a> bezeichnet.<br>
-Voraussetzung für die Qualitätsbewertung ist die Festlegung von <a href="../../vorgehensmodelle/themenbereiche/qualitaetsmanagement.html#Qualit%C3%A4tsziel">»Qualitätszielen</a> für den Geschäftsprozess. Diese dient als Messlatte für die Bewertung, die entweder an simulierten Geschäftsprozessen oder im operativen Einsatz erfolgt. Dabei werden aktuelle Kennzahlen ermittelt und mit den Zielvorgaben verglichen. <br>
+Voraussetzung für die Qualitätsbewertung ist die Festlegung von <a href="../../vorgehensmodelle/themenbereiche/qualitaetsmanagement.html#Qualitaetsziel">»Qualitätszielen</a> für den Geschäftsprozess. Diese dient als Messlatte für die Bewertung, die entweder an simulierten Geschäftsprozessen oder im operativen Einsatz erfolgt. Dabei werden aktuelle Kennzahlen ermittelt und mit den Zielvorgaben verglichen. <br>
 Nicht-messbare Merkmale können durch persönliche Beobachtung und Bewertung, ggf. mit Hilfe statistischer Methoden quantifiziert werden. <br>
-Die Definition und Messung der Geschäftsprozess-Qualität bildet die Grundlage für die <a href="#Gesch%C3%A4ftsprozess-Optimierung">»Geschäftsprozess-Optimierung </a> und das <a href="#Prozessleistungs-Management">»Prozessleistungs-Management </a>. <br>
+Die Definition und Messung der Geschäftsprozess-Qualität bildet die Grundlage für die <a href="#Geschaeftsprozess-Optimierung">»Geschäftsprozess-Optimierung </a> und das <a href="#Prozessleistungs-Management">»Prozessleistungs-Management </a>. <br>
 Während die Produkt-Qualität nur die unmittelbar am Produkt selbst messbaren Merkmale umfasst, stehen bei der Geschäftsprozess-Qualität Merkmale beispielsweise bei der Herstellung eines Produkts im Mittelpunkt. Prozess-Merkmale können auch maßgeblichen Einfluss auf die Produkt-Qualität haben, möglicherweise sogar mit dieser in Konflikt treten. <br>
 Zur Bewertung der Geschäftsprozess-Qualität können Reifegradmodelle eingesetzt werden, z.B. "Business Process Maturity Model" [<a href="../publallg.html#BPMM08">BPMM08</a>] oder "Capability Maturity Model Integration" [<a href="../publallg.html#CMMI10">CMMI10</a>]</p>
     </td>
@@ -413,7 +416,7 @@ Branchenspezifische Vorgaben wie Arbeitsschutz, Ruhezeiten, … müssen eingehal
   </tr>
 <tr>
 <td width="120" align="right">
-<a name="Gesch%C3%A4ftsprozess-Simulation"></a>&amp;nbsp<br><img src="../../../pictures/webpics/1x1_blau.gif" width="110" height="1"><br>
+<a name="Geschaeftsprozess-Simulation"></a> <br><img src="../../../pictures/webpics/1x1_blau.gif" width="110" height="1"><br>
 </td>
     <td>
 <span class="header"><b>Geschäftsprozess-Simulation</b></span> <br><img src="../../../pictures/webpics/1x1_blau.gif" width="400" height="1">
@@ -449,15 +452,15 @@ Branchenspezifische Vorgaben wie Arbeitsschutz, Ruhezeiten, … müssen eingehal
 <td align="right" valign="top"> <p><b>Definition</b> </p>
 </td>
     <td valign="top">
-      <p>Die Geschäftsprozess-Simulation nutzt ablauffähige Modelle von <a href="../../geschaeftsprozesse/themenbereiche/kernbegriffe.html#Gesch%C3%A4ftsprozess">»Geschäftsprozessen</a>, um aus deren experimentellen Ablauf und ggf. vorgenommenen Modifikationen Erkenntnisse für die <a href="#Gesch%C3%A4ftsprozess-Analyse">»Geschäftsprozess-Analyse</a> oder <a href="#Gesch%C3%A4ftsprozess-Optimierung">»Geschäftsprozess-Optimierung </a> zu gewinnen und diese auf die jeweils realen Geschäftsprozesse zu übertragen.</p>
+      <p>Die Geschäftsprozess-Simulation nutzt ablauffähige Modelle von <a href="../../geschaeftsprozesse/themenbereiche/kernbegriffe.html#Geschaeftsprozess">»Geschäftsprozessen</a>, um aus deren experimentellen Ablauf und ggf. vorgenommenen Modifikationen Erkenntnisse für die <a href="#Geschaeftsprozess-Analyse">»Geschäftsprozess-Analyse</a> oder <a href="#Geschaeftsprozess-Optimierung">»Geschäftsprozess-Optimierung </a> zu gewinnen und diese auf die jeweils realen Geschäftsprozesse zu übertragen.</p>
     </td>
   </tr>
 <tr>
 <td align="right" valign="top"> <p><b>Erläuterung</b> </p>
 </td>
     <td valign="top">
-      <p>Einerseits kann im Rahmen der <a href="#Gesch%C3%A4ftsprozess-Analyse">»GPA </a> mittels Simulation das (Ist-) <a href="../../geschaeftsprozesse/themenbereiche/kernbegriffe.html#Prozessmodell">»Prozessmodell</a> untersucht werden, wobei Schwachstellen in den <a href="../../geschaeftsprozesse/themenbereiche/kernbegriffe.html#Gesch%C3%A4ftsprozess">»Geschäftsprozessen</a> erkannt werden können. Andererseits ist es aber auch möglich bereits Vorschläge für Maßnahmen der <a href="#Gesch%C3%A4ftsprozess-Optimierung">»GPO </a> abzuleiten. <br>
-Neben rein zeitlichen Aspekten der <a href="../../geschaeftsprozesse/themenbereiche/kernbegriffe.html#Prozessausf%C3%BChrung">»Prozessausführung</a> werden z.B. auch Mengenaspekte durch wiederholte Simulationen untersucht. Durch die Simulation lassen sich Messwerte für verschiedene <a href="#Prozess-Kennzahl">»Prozesskennzahlen</a> ermitteln. <br>
+      <p>Einerseits kann im Rahmen der <a href="#Geschaeftsprozess-Analyse">»GPA </a> mittels Simulation das (Ist-) <a href="../../geschaeftsprozesse/themenbereiche/kernbegriffe.html#Prozessmodell">»Prozessmodell</a> untersucht werden, wobei Schwachstellen in den <a href="../../geschaeftsprozesse/themenbereiche/kernbegriffe.html#Geschaeftsprozess">»Geschäftsprozessen</a> erkannt werden können. Andererseits ist es aber auch möglich bereits Vorschläge für Maßnahmen der <a href="#Geschaeftsprozess-Optimierung">»GPO </a> abzuleiten. <br>
+Neben rein zeitlichen Aspekten der <a href="../../geschaeftsprozesse/themenbereiche/kernbegriffe.html#Prozessausfuehrung">»Prozessausführung</a> werden z.B. auch Mengenaspekte durch wiederholte Simulationen untersucht. Durch die Simulation lassen sich Messwerte für verschiedene <a href="#Prozess-Kennzahl">»Prozesskennzahlen</a> ermitteln. <br>
 Gegenstand von GP-Simulationen können z.B. sein: Effizienz der Prozessausführung, Auslastung/Produktivität von Organisationseinheiten oder Systemen, Vergleich des Durchlaufs von Prozessvarianten, anteilige Prozesskosten, Ermittlung redundanter Prozessbestandteile, etc. <br>
 Für Prozess-Simulationen auf mathematischer Grundlage bieten sich <a href="../../geschaeftsprozesse/themenbereiche/prozessbeschreibung.html#Petri-Netz">»Petri-Netze</a> an.</p>
     </td>
@@ -475,7 +478,7 @@ Für Prozess-Simulationen auf mathematischer Grundlage bieten sich <a href="../.
   </tr>
 <tr>
 <td width="120" align="right">
-<a name="Prozess-Kennzahl"></a>&amp;nbsp<br><img src="../../../pictures/webpics/1x1_blau.gif" width="110" height="1"><br>
+<a name="Prozess-Kennzahl"></a> <br><img src="../../../pictures/webpics/1x1_blau.gif" width="110" height="1"><br>
 </td>
     <td>
 <span class="header"><b>Prozess-Kennzahl</b></span> <br><img src="../../../pictures/webpics/1x1_blau.gif" width="400" height="1">
@@ -511,14 +514,14 @@ Für Prozess-Simulationen auf mathematischer Grundlage bieten sich <a href="../.
 <td align="right" valign="top"> <p><b>Definition</b> </p>
 </td>
     <td valign="top">
-      <p>Eine Prozess-Kennzahl ist eine Messgröße, die genutzt wird, um ein <a href="../../vorgehensmodelle/themenbereiche/qualitaetsmanagement.html#Qualit%C3%A4tsmerkmal">»Qualitätsmerkmal</a> eines <a href="../../geschaeftsprozesse/themenbereiche/kernbegriffe.html#prozess">»Prozesses</a> zu bewerten.</p>
+      <p>Eine Prozess-Kennzahl ist eine Messgröße, die genutzt wird, um ein <a href="../../vorgehensmodelle/themenbereiche/qualitaetsmanagement.html#Qualitaetsmerkmal">»Qualitätsmerkmal</a> eines <a href="../../geschaeftsprozesse/themenbereiche/kernbegriffe.html#prozess">»Prozesses</a> zu bewerten.</p>
     </td>
   </tr>
 <tr>
 <td align="right" valign="top"> <p><b>Erläuterung</b> </p>
 </td>
     <td valign="top">
-      <p>Prozess-Kennzahlen werden beispielsweise bei der <a href="#Gesch%C3%A4ftsprozess-Analyse">»Geschäftsprozess-Analyse</a>, der <a href="#Gesch%C3%A4ftsprozess-Optimierung">»Geschäftsprozess-Optimierung</a> oder beim <a href="#Prozessleistungs-Management">»Prozessleistungs-Management</a> eingesetzt. Somit werden Aussagen zur <a href="#Gesch%C3%A4ftsprozess-Qualit%C3%A4t">»Geschäftsprozess-Qualität</a>, etwa zur Erreichung von Zielvorgaben oder für Branchenvergleiche möglich. <br>
+      <p>Prozess-Kennzahlen werden beispielsweise bei der <a href="#Geschaeftsprozess-Analyse">»Geschäftsprozess-Analyse</a>, der <a href="#Geschaeftsprozess-Optimierung">»Geschäftsprozess-Optimierung</a> oder beim <a href="#Prozessleistungs-Management">»Prozessleistungs-Management</a> eingesetzt. Somit werden Aussagen zur <a href="#Geschaeftsprozess-Qualitaet">»Geschäftsprozess-Qualität</a>, etwa zur Erreichung von Zielvorgaben oder für Branchenvergleiche möglich. <br>
 Eine exakte Definition der Kennzahlen gewährleistet die Eindeutigkeit und Vergleichbarkeit. Beschreibungskategorien sind beispielsweise Bezeichnung, Maßeinheit, Berechnungsformel, Messverfahren, Berichtszyklus, Zielbezug, Zielwert, etc.</p>
     </td>
   </tr>
@@ -536,7 +539,7 @@ Im ITIL-Standard definierte Kennzahlen für den IT-Prozess <i>Incident Managemen
   </tr>
 <tr>
 <td width="120" align="right">
-<a name="Prozessleistungs-Management"></a>&amp;nbsp<br><img src="../../../pictures/webpics/1x1_blau.gif" width="110" height="1"><br>
+<a name="Prozessleistungs-Management"></a> <br><img src="../../../pictures/webpics/1x1_blau.gif" width="110" height="1"><br>
 </td>
     <td>
 <span class="header"><b>Prozessleistungs-Management</b></span> <br><img src="../../../pictures/webpics/1x1_blau.gif" width="400" height="1">
@@ -572,16 +575,16 @@ Im ITIL-Standard definierte Kennzahlen für den IT-Prozess <i>Incident Managemen
 <td align="right" valign="top"> <p><b>Definition</b> </p>
 </td>
     <td valign="top">
-      <p>Prozessleistungs-Management umfasst die systematische Definition, Erhebung und Überwachung der <a href="#Prozess-Kennzahl">»Prozess-Kennzahlen</a> von <a href="../../geschaeftsprozesse/themenbereiche/kernbegriffe.html#Gesch%C3%A4ftsprozess">»Geschäftsprozessen</a> zur Gewährleistung oder Steigerung der <a href="#Gesch%C3%A4ftsprozess-Qualit%C3%A4t">»Geschäftsprozess-Qualität</a>.</p>
+      <p>Prozessleistungs-Management umfasst die systematische Definition, Erhebung und Überwachung der <a href="#Prozess-Kennzahl">»Prozess-Kennzahlen</a> von <a href="../../geschaeftsprozesse/themenbereiche/kernbegriffe.html#Geschaeftsprozess">»Geschäftsprozessen</a> zur Gewährleistung oder Steigerung der <a href="#Geschaeftsprozess-Qualitaet">»Geschäftsprozess-Qualität</a>.</p>
     </td>
   </tr>
 <tr>
 <td align="right" valign="top"> <p><b>Erläuterung</b> </p>
 </td>
     <td valign="top">
-      <p>Mit dem Aufbau eines PPM wird die Leistungsbewertung von technischen Prozessen auf <a href="../../geschaeftsprozesse/themenbereiche/kernbegriffe.html#Gesch%C3%A4ftsprozess">»Geschäftsprozesse</a> übertragen. <br>
+      <p>Mit dem Aufbau eines PPM wird die Leistungsbewertung von technischen Prozessen auf <a href="../../geschaeftsprozesse/themenbereiche/kernbegriffe.html#Geschaeftsprozess">»Geschäftsprozesse</a> übertragen. <br>
 Voraussetzung ist die Definition von Zielgrößen für die Prozessqualität oder -leistung in Form von Kennzahlen. Zur Messung und Auswertung dieser <a href="#Prozess-Kennzahl">»Prozess-Kennzahlen</a> werden entsprechende Verfahren aufgebaut. Dabei werden alle für den Prozess relevanten technischen und organisatorischen Systeme einbezogen und alle für den Prozess relevanten Messergebnisse in einem Kennzahlen-System zusammengeführt. <br>
-Im Rahmen des PPM werden Instrumente der Geschäftsprozess-Modellierung, <a href="#Gesch%C3%A4ftsprozess-Analyse">»Geschäftsprozess-Analyse</a>, <a href="#Gesch%C3%A4ftsprozess-Simulation">»Geschäftsprozess-Simulation</a> und <a href="#Gesch%C3%A4ftsprozess-Optimierung">»Geschäftsprozess-Optimierung</a> genutzt.</p>
+Im Rahmen des PPM werden Instrumente der Geschäftsprozess-Modellierung, <a href="#Geschaeftsprozess-Analyse">»Geschäftsprozess-Analyse</a>, <a href="#Geschaeftsprozess-Simulation">»Geschäftsprozess-Simulation</a> und <a href="#Geschaeftsprozess-Optimierung">»Geschäftsprozess-Optimierung</a> genutzt.</p>
     </td>
   </tr>
 <tr>
@@ -597,7 +600,7 @@ Im Rahmen des PPM werden Instrumente der Geschäftsprozess-Modellierung, <a href
   </tr>
 <tr>
 <td width="120" align="right">
-<a name="Workflow%20Management"></a>&amp;nbsp<br><img src="../../../pictures/webpics/1x1_blau.gif" width="110" height="1"><br>
+<a name="WorkflowManagement"></a> <br><img src="../../../pictures/webpics/1x1_blau.gif" width="110" height="1"><br>
 </td>
     <td>
 <span class="header"><b>Workflow Management</b></span> <br><img src="../../../pictures/webpics/1x1_blau.gif" width="400" height="1">
@@ -633,7 +636,7 @@ Im Rahmen des PPM werden Instrumente der Geschäftsprozess-Modellierung, <a href
 <td align="right" valign="top"> <p><b>Definition</b> </p>
 </td>
     <td valign="top">
-      <p>Workflow Management (WfM) umfasst die Planung und Implementierung der Automatisierung von <a href="../../geschaeftsprozesse/themenbereiche/kernbegriffe.html#Gesch%C3%A4ftsprozess">»Geschäftsprozessen</a>; dazu gehört auch ihre automatisierte Ausführung, Steuerung und Überwachung.</p>
+      <p>Workflow Management (WfM) umfasst die Planung und Implementierung der Automatisierung von <a href="../../geschaeftsprozesse/themenbereiche/kernbegriffe.html#Geschaeftsprozess">»Geschäftsprozessen</a>; dazu gehört auch ihre automatisierte Ausführung, Steuerung und Überwachung.</p>
     </td>
   </tr>
 <tr>
@@ -641,8 +644,8 @@ Im Rahmen des PPM werden Instrumente der Geschäftsprozess-Modellierung, <a href
 </td>
     <td valign="top">
       <p>Workflow Management bedeutet festzulegen, <i>wer</i> (d.h. welche Rollen) <i>was</i> (welche Aufgaben) <i>wann</i> (im Prozessablauf) und <i>wie</i> (mit welchen Hilfsmitteln oder in welcher Umgebung) bearbeitet. <br>
-Zum Zwecke der Automatisierung muss die fachliche Spezifikation eines <a href="../../geschaeftsprozesse/themenbereiche/kernbegriffe.html#Gesch%C3%A4ftsprozess">»Geschäftsprozesses</a> ggf. in eine technische Spezifikation für einen zugehörigen <a href="../../%20geschaeftsprozesse/themenbereiche/kernbegriffe.html#Workflow">»Workflow</a> überführt werden. <br>
-Zur Unterstützung des Workflow Management werden in der Regel spezielle <a href="#Workflow%20Management-System">»Workflow Management-Systeme</a> eingesetzt.</p>
+Zum Zwecke der Automatisierung muss die fachliche Spezifikation eines <a href="../../geschaeftsprozesse/themenbereiche/kernbegriffe.html#Geschaeftsprozess">»Geschäftsprozesses</a> ggf. in eine technische Spezifikation für einen zugehörigen <a href="../../geschaeftsprozesse/themenbereiche/kernbegriffe.html#Workflow">»Workflow</a> überführt werden. <br>
+Zur Unterstützung des Workflow Management werden in der Regel spezielle <a href="#WorkflowManagement-System">»Workflow Management-Systeme</a> eingesetzt.</p>
     </td>
   </tr>
 <tr>
@@ -658,7 +661,7 @@ Zur Unterstützung des Workflow Management werden in der Regel spezielle <a href
   </tr>
 <tr>
 <td width="120" align="right">
-<a name="Workflow%20Management-System"></a>&amp;nbsp<br><img src="../../../pictures/webpics/1x1_blau.gif" width="110" height="1"><br>
+<a name="WorkflowManagement-System"></a> <br><img src="../../../pictures/webpics/1x1_blau.gif" width="110" height="1"><br>
 </td>
     <td>
 <span class="header"><b>Workflow Management-System</b></span> <br><img src="../../../pictures/webpics/1x1_blau.gif" width="400" height="1">
@@ -694,7 +697,7 @@ Zur Unterstützung des Workflow Management werden in der Regel spezielle <a href
 <td align="right" valign="top"> <p><b>Definition</b> </p>
 </td>
     <td valign="top">
-      <p>Unter einem Workflow Management-System (WfMS, WMS) versteht man ein IT-System zur Unterstützung des <a href="#Workflow%20Management">»Workflow Management</a>.</p>
+      <p>Unter einem Workflow Management-System (WfMS, WMS) versteht man ein IT-System zur Unterstützung des <a href="#WorkflowManagement">»Workflow Management</a>.</p>
     </td>
   </tr>
 <tr>
