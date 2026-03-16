@@ -9,6 +9,9 @@
 	31.01.14 (hb)	Sprungmarke fuer Begriffssammlung "#Gesch4" richtig gesetzt
 	13.04.21 hb	UTF-8
 	16.04.21 hb	Leerzeilen am Ende angefügt
+        02.02.26 gf     xmllint
+        16.03.26 gf     ftfy
+        16.03.26 ak     Fehler beseitigt
 
 ==================================================================================== --><html lang="de">
 <head>
@@ -33,7 +36,7 @@
   </tr>
 <tr>
 <td width="120" align="right">
-<a name="Ablaufdiagramm"></a>&amp;nbsp<br><img src="../../../pictures/webpics/1x1_blau.gif" width="110" height="1"><br>
+<a name="Ablaufdiagramm"></a> <br><img src="../../../pictures/webpics/1x1_blau.gif" width="110" height="1"><br>
 </td>
     <td>
 <span class="header"><b>Ablaufdiagramm</b></span> <br><img src="../../../pictures/webpics/1x1_blau.gif" width="400" height="1">
@@ -76,7 +79,7 @@
 <td align="right" valign="top"> <p><b>Erläuterung</b> </p>
 </td>
     <td valign="top">
-      <p>Der Begriff "Ablaufdiagramm" verallgemeinert verschiedene Diagramm-Ausprägungen, z.B. als  UML-<a href="../../geschaeftsprozesse/themenbereiche/prozessbeschreibung.html#Aktivit%C3%A4tsdiagramm">»Aktivitätsdiagramm</a>, <a href="../../geschaeftsprozesse/themenbereiche/prozessbeschreibung.html#Ereignisgesteuerte%20Prozesskette">»EPK-Diagramm</a> oder <a href="../../geschaeftsprozesse/themenbereiche/prozessbeschreibung.html#Business%20Process%20Model%20and%20Notation">»BPMN-Diagramm</a>. <br>
+      <p>Der Begriff "Ablaufdiagramm" verallgemeinert verschiedene Diagramm-Ausprägungen, z.B. als  UML-<a href="../../geschaeftsprozesse/themenbereiche/prozessbeschreibung.html#Aktivitaetsdiagramm">»Aktivitätsdiagramm</a>, <a href="../../geschaeftsprozesse/themenbereiche/prozessbeschreibung.html#EreignisgesteuerteProzesskette">»EPK-Diagramm</a> oder <a href="../../geschaeftsprozesse/themenbereiche/prozessbeschreibung.html#BusinessProcessModelandNotation">»BPMN-Diagramm</a>. <br>
 In einem Ablaufdiagramm können sowohl Vorgänge (d.h. die Abfolgen einzelner Teilschritte) innerhalb eines technischen als auch eines fachlichen Prozesses dargestellt werden.</p>
     </td>
   </tr>
@@ -93,7 +96,7 @@ In einem Ablaufdiagramm können sowohl Vorgänge (d.h. die Abfolgen einzelner Te
   </tr>
 <tr>
 <td width="120" align="right">
-<a name="Aktivit%C3%A4tsdiagramm"></a>&amp;nbsp<br><img src="../../../pictures/webpics/1x1_blau.gif" width="110" height="1"><br>
+<a name="Aktivitaetsdiagramm"></a> <br><img src="../../../pictures/webpics/1x1_blau.gif" width="110" height="1"><br>
 </td>
     <td>
 <span class="header"><b>Aktivitätsdiagramm</b></span> <br><img src="../../../pictures/webpics/1x1_blau.gif" width="400" height="1">
@@ -137,7 +140,7 @@ In einem Ablaufdiagramm können sowohl Vorgänge (d.h. die Abfolgen einzelner Te
 </td>
     <td valign="top">
       <p>Ein Aktivitätsdiagramm erlaubt es, komplexe <a href="../../geschaeftsprozesse/themenbereiche/kernbegriffe.html#Prozess">»Prozesse</a> auf der Basis von <a href="../../geschaeftsprozesse/themenbereiche/prozessStruktur.html#Prozess-Schritt">»Prozess-Schritten</a> (hier: Aktivitäten und Aktionen) darzustellen. Dabei können sequentielle, verzweigte, nebenläufige und iterative Abläufe visualisiert werden. <br>
-Aktivitätsdiagramme werden vorwiegend zur Modellierung von Abläufen in Software-Systemen verwendet - in diesem Zusammenhang haben sie auch (teilweise) Eingang in die Modellierung von <a href="../../geschaeftsprozesse/themenbereiche/kernbegriffe.html#Gesch%C3%A4ftsprozess">»Geschäftsprozessen</a> gefunden.</p>
+Aktivitätsdiagramme werden vorwiegend zur Modellierung von Abläufen in Software-Systemen verwendet - in diesem Zusammenhang haben sie auch (teilweise) Eingang in die Modellierung von <a href="../../geschaeftsprozesse/themenbereiche/kernbegriffe.html#Geschaeftsprozess">»Geschäftsprozessen</a> gefunden.</p>
     </td>
   </tr>
 <tr>
@@ -153,7 +156,7 @@ Aktivitätsdiagramme werden vorwiegend zur Modellierung von Abläufen in Softwar
   </tr>
 <tr>
 <td width="120" align="right">
-<a name="Business%20Process%20Model%20and%20Notation"></a>&amp;nbsp<br><img src="../../../pictures/webpics/1x1_blau.gif" width="110" height="1"><br>
+<a name="BusinessProcessModelandNotation"></a> <br><img src="../../../pictures/webpics/1x1_blau.gif" width="110" height="1"><br>
 </td>
     <td>
 <span class="header"><b>Business Process Model and Notation</b></span> <br><img src="../../../pictures/webpics/1x1_blau.gif" width="400" height="1">
@@ -189,14 +192,14 @@ Aktivitätsdiagramme werden vorwiegend zur Modellierung von Abläufen in Softwar
 <td align="right" valign="top"> <p><b>Definition</b> </p>
 </td>
     <td valign="top">
-      <p>BPMN ist eine graphische Modellierungssprache zur Darstellung von <a href="../../geschaeftsprozesse/themenbereiche/kernbegriffe.html#Gesch%C3%A4ftsprozess">»Geschäftsprozessen</a>, ihren <a href="../../geschaeftsprozesse/themenbereiche/prozessStruktur.html#Prozess-Schritt">»Prozess-Schritten</a>, Abläufen und Beziehungen. Die einzelnen Diagramme der Sprache werden als <i>Business Process Diagrams</i> (BPDs) bezeichnet.</p>
+      <p>BPMN ist eine graphische Modellierungssprache zur Darstellung von <a href="../../geschaeftsprozesse/themenbereiche/kernbegriffe.html#Geschaeftsprozess">»Geschäftsprozessen</a>, ihren <a href="../../geschaeftsprozesse/themenbereiche/prozessStruktur.html#Prozess-Schritt">»Prozess-Schritten</a>, Abläufen und Beziehungen. Die einzelnen Diagramme der Sprache werden als <i>Business Process Diagrams</i> (BPDs) bezeichnet.</p>
     </td>
   </tr>
 <tr>
 <td align="right" valign="top"> <p><b>Erläuterung</b> </p>
 </td>
     <td valign="top">
-      <p>BPMN bietet eine umfangreiche Sammlung von Konzepten, Symbolen und Konnektoren an und ist vergleichbar mit <a href="../../geschaeftsprozesse/themenbereiche/prozessbeschreibung.html#Ereignisgesteuerte%20Prozesskette">»EPKs</a>, jedoch reichhaltiger als UML-<a href="../../geschaeftsprozesse/themenbereiche/prozessbeschreibung.html#Aktivit%C3%A4tsdiagramm">»Aktivitätsdiagramme</a>. Die Sprache ist von der OMG standardisiert [<a href="../publallg.html#BPMN11">BPMN11</a>]<br>
+      <p>BPMN bietet eine umfangreiche Sammlung von Konzepten, Symbolen und Konnektoren an und ist vergleichbar mit <a href="../../geschaeftsprozesse/themenbereiche/prozessbeschreibung.html#EreignisgesteuerteProzesskette">»EPKs</a>, jedoch reichhaltiger als UML-<a href="../../geschaeftsprozesse/themenbereiche/prozessbeschreibung.html#Aktivitaetsdiagramm">»Aktivitätsdiagramme</a>. Die Sprache ist von der OMG standardisiert [<a href="../publallg.html#BPMN11">BPMN11</a>]<br>
 Die Arbeit mit BPMN wird durch Werkzeuge unterstützt, die u.a. eine Verbindung zur <i>Business Process Execution Language</i> (BPEL) schaffen.</p>
     </td>
   </tr>
@@ -213,7 +216,7 @@ Die Arbeit mit BPMN wird durch Werkzeuge unterstützt, die u.a. eine Verbindung 
   </tr>
 <tr>
 <td width="120" align="right">
-<a name="Ereignisgesteuerte%20Prozesskette"></a>&amp;nbsp<br><img src="../../../pictures/webpics/1x1_blau.gif" width="110" height="1"><br>
+<a name="EreignisgesteuerteProzesskette"></a> <br><img src="../../../pictures/webpics/1x1_blau.gif" width="110" height="1"><br>
 </td>
     <td>
 <span class="header"><b>Ereignisgesteuerte Prozesskette</b></span> <br><img src="../../../pictures/webpics/1x1_blau.gif" width="400" height="1">
@@ -249,7 +252,7 @@ Die Arbeit mit BPMN wird durch Werkzeuge unterstützt, die u.a. eine Verbindung 
 <td align="right" valign="top"> <p><b>Definition</b> </p>
 </td>
     <td valign="top">
-      <p>Als Ereignisgesteuerte Prozesskette (kurz: EPK) wird ein spezifisches <a href="../../geschaeftsprozesse/themenbereiche/prozessbeschreibung.html#Ablaufdiagramm">»Ablaufdiagramm</a> zur Modellierung der zeitlichen und sachlogischen Abhängigkeiten zwischen <a href="../../geschaeftsprozesse/themenbereiche/prozessStruktur.html#Prozess-Schritt">»Prozess-Schritten</a> und <a href="../../objektorientierung/themenbereiche/systemdynamik.html#Ereignis">»Ereignissen</a> eines <a href="../../geschaeftsprozesse/themenbereiche/kernbegriffe.html#Gesch%C3%A4ftsprozess">»Geschäftsprozesses</a> bezeichnet. <br>
+      <p>Als Ereignisgesteuerte Prozesskette (kurz: EPK) wird ein spezifisches <a href="../../geschaeftsprozesse/themenbereiche/prozessbeschreibung.html#Ablaufdiagramm">»Ablaufdiagramm</a> zur Modellierung der zeitlichen und sachlogischen Abhängigkeiten zwischen <a href="../../geschaeftsprozesse/themenbereiche/prozessStruktur.html#Prozess-Schritt">»Prozess-Schritten</a> und <a href="../../objektorientierung/themenbereiche/systemdynamik.html#Ereignis">»Ereignissen</a> eines <a href="../../geschaeftsprozesse/themenbereiche/kernbegriffe.html#Geschaeftsprozess">»Geschäftsprozesses</a> bezeichnet. <br>
 EPKs, die zusätzlich eine Daten-, Organisations- und/oder Leistungssicht visualisieren, werden <i>erweiterte ereignisorientierte Prozessketten</i> (eEPK) genannt.</p>
     </td>
   </tr>
@@ -274,7 +277,7 @@ EPKs werden vorwiegend zur Modellierung von betriebswirtschaftlichen Abläufen v
   </tr>
 <tr>
 <td width="120" align="right">
-<a name="Interaktionsdiagramm"></a>&amp;nbsp<br><img src="../../../pictures/webpics/1x1_blau.gif" width="110" height="1"><br>
+<a name="Interaktionsdiagramm"></a> <br><img src="../../../pictures/webpics/1x1_blau.gif" width="110" height="1"><br>
 </td>
     <td>
 <span class="header"><b>Interaktionsdiagramm</b></span> <br><img src="../../../pictures/webpics/1x1_blau.gif" width="400" height="1">
@@ -310,7 +313,7 @@ EPKs werden vorwiegend zur Modellierung von betriebswirtschaftlichen Abläufen v
 <td align="right" valign="top"> <p><b>Definition</b> </p>
 </td>
     <td valign="top">
-      <p>Ein Interaktionsdiagramm dient dazu, Kommunikationsbeziehungen zwischen <a href="../../objektorientierung/themenbereiche/systemdynamik.html#Akteur">»Akteuren</a> bzw. <a href='../../objektorientierung/themenbereiche/objektgrobstruktur.html#Objekt"'>»Objekten</a> eines Systems zu visualisieren. Im Kontext von Unternehmen und ihren <a href="../../geschaeftsprozesse/themenbereiche/kernbegriffe.html#Gesch%C3%A4ftsprozess">»Geschäftsprozessen</a> stellen sie Austauschbeziehungen zwischen Personen bzw. <a href="../../geschaeftsprozesse/themenbereiche/kernbegriffe.html#Rolle">»Rollen</a> im Unternehmen dar. [<a href="../publallg.html#Sche98">Sche98</a>]</p>
+      <p>Ein Interaktionsdiagramm dient dazu, Kommunikationsbeziehungen zwischen <a href="../../objektorientierung/themenbereiche/systemdynamik.html#Akteur">»Akteuren</a> bzw. <a href='../../objektorientierung/themenbereiche/objektgrobstruktur.html#Objekt"'>»Objekten</a> eines Systems zu visualisieren. Im Kontext von Unternehmen und ihren <a href="../../geschaeftsprozesse/themenbereiche/kernbegriffe.html#Geschaeftsprozess">»Geschäftsprozessen</a> stellen sie Austauschbeziehungen zwischen Personen bzw. <a href="../../geschaeftsprozesse/themenbereiche/kernbegriffe.html#Rolle">»Rollen</a> im Unternehmen dar. [<a href="../publallg.html#Sche98">Sche98</a>]</p>
     </td>
   </tr>
 <tr>
@@ -333,7 +336,7 @@ EPKs werden vorwiegend zur Modellierung von betriebswirtschaftlichen Abläufen v
   </tr>
 <tr>
 <td width="120" align="right">
-<a name="Petri-Netz"></a>&amp;nbsp<br><img src="../../../pictures/webpics/1x1_blau.gif" width="110" height="1"><br>
+<a name="Petri-Netz"></a> <br><img src="../../../pictures/webpics/1x1_blau.gif" width="110" height="1"><br>
 </td>
     <td>
 <span class="header"><b>Petri-Netz</b></span> <br><img src="../../../pictures/webpics/1x1_blau.gif" width="400" height="1">
@@ -369,14 +372,14 @@ EPKs werden vorwiegend zur Modellierung von betriebswirtschaftlichen Abläufen v
 <td align="right" valign="top"> <p><b>Definition</b> </p>
 </td>
     <td valign="top">
-      <p>Ein Petri-Netz ist ein graphisch-mathematisches Modell eines dynamischen Systems und seiner möglichen Abläufe. Die Grundkonzepte der Kausalität, der <a href="../../geschaeftsprozesse/themenbereiche/prozessStruktur.html#Nebenl%C3%A4ufigkeit">»Nebenläufigkeit</a> und der Alternative (exklusive <a href="../../geschaeftsprozesse/themenbereiche/prozessStruktur.html#Selektion%20(exklusiv)">»Selektion</a>) werden dabei explizit repräsentiert. Dadurch können ablaufbezogene Eigenschaften von Systemen (insb. solchen mit nebenläufigen Komponenten) modelliert und mit mathematischen Methoden analysiert werden.</p>
+      <p>Ein Petri-Netz ist ein graphisch-mathematisches Modell eines dynamischen Systems und seiner möglichen Abläufe. Die Grundkonzepte der Kausalität, der <a href="../../geschaeftsprozesse/themenbereiche/prozessStruktur.html#Nebenlaeufigkeit">»Nebenläufigkeit</a> und der Alternative (exklusive <a href="../../geschaeftsprozesse/themenbereiche/prozessStruktur.html#Selektion(exklusiv)">»Selektion</a>) werden dabei explizit repräsentiert. Dadurch können ablaufbezogene Eigenschaften von Systemen (insb. solchen mit nebenläufigen Komponenten) modelliert und mit mathematischen Methoden analysiert werden.</p>
     </td>
   </tr>
 <tr>
 <td align="right" valign="top"> <p><b>Erläuterung</b> </p>
 </td>
     <td valign="top">
-      <p>Petri-Netze stellen Systeme sowohl aus struktureller als auch aus dynamischer Sicht dar und können Modelle sowohl für technische Anwendungssysteme als auch für Geschäftsprozesse sein. Es gibt zahlreiche Erweiterungen und Spezialisierungen von Petri-Netzen, z. B. <i>Prädikat-Transitionsnetze</i> zur zusätzlichen Modellierung von Datenstrukturen, <i>stochastische Petri-Netze</i> zur Berücksichtigung von Wahrscheinlichkeiten, <i>Workflow-Netze</i> zur Darstellung von <a href="../../geschaeftsprozesse/themenbereiche/kernbegriffe.html#Gesch%C3%A4ftsprozess">»Geschäftsprozessen</a> und ihren Eigenschaften. <br>
+      <p>Petri-Netze stellen Systeme sowohl aus struktureller als auch aus dynamischer Sicht dar und können Modelle sowohl für technische Anwendungssysteme als auch für Geschäftsprozesse sein. Es gibt zahlreiche Erweiterungen und Spezialisierungen von Petri-Netzen, z. B. <i>Prädikat-Transitionsnetze</i> zur zusätzlichen Modellierung von Datenstrukturen, <i>stochastische Petri-Netze</i> zur Berücksichtigung von Wahrscheinlichkeiten, <i>Workflow-Netze</i> zur Darstellung von <a href="../../geschaeftsprozesse/themenbereiche/kernbegriffe.html#Geschaeftsprozess">»Geschäftsprozessen</a> und ihren Eigenschaften. <br>
 Petri-Netze stehen nicht in Konkurrenz zu anderen Modellierungssprachen, die meist im Kontext kommerzieller Werkzeuge eingesetzt werden, sondern sind formale Grundlage vieler Aspekte dieser Sprachen. Die Petri-Netz-Theorie stellt die Terminologie für grundlegende Phänomene der Ablaufmodellierung zur Verfügung und ihre Ergebnisse sind auf andere Modellierungssprachen übertragbar. Wegen ihrer einfachen Definition und grafischen Darstellung werden Varianten von Petri-Netzen aber auch selbst unmittelbar eingesetzt. [<a href="../publallg.html#Dese10">Dese10</a>]</p>
     </td>
   </tr>

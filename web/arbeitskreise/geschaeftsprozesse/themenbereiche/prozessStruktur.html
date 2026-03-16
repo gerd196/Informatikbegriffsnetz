@@ -10,6 +10,9 @@
 	05.08.14 FiT	Ergänzung und Verlinkung zu Ereignis (O) ergaenzt
 	13.04.21 hb	UTF-8
 	16.04.21 hb	Leerzeilen am Ende angefügt
+        02.02.26 gf     xmllint
+        16.03.26 gf     ftfy
+        16.03.26 ak     Fehler beseitigt
 
 ==================================================================================== --><html lang="de">
 <head>
@@ -34,7 +37,7 @@
   </tr>
 <tr>
 <td width="120" align="right">
-<a name="Arbeitsergebnis"></a>&amp;nbsp<br><img src="../../../pictures/webpics/1x1_blau.gif" width="110" height="1"><br>
+<a name="Arbeitsergebnis"></a> <br><img src="../../../pictures/webpics/1x1_blau.gif" width="110" height="1"><br>
 </td>
     <td>
 <span class="header"><b>Arbeitsergebnis</b></span> <br><img src="../../../pictures/webpics/1x1_blau.gif" width="400" height="1">
@@ -94,7 +97,7 @@ Der Prozess-Schritt <i>Zutaten bereitstellen</i> im Geschäftsprozess <i>Menü z
   </tr>
 <tr>
 <td width="120" align="right">
-<a name="Ereignis"></a>&amp;nbsp<br><img src="../../../pictures/webpics/1x1_blau.gif" width="110" height="1"><br>
+<a name="Ereignis"></a> <br><img src="../../../pictures/webpics/1x1_blau.gif" width="110" height="1"><br>
 </td>
     <td>
 <span class="header"><b>Ereignis</b></span> <br><img src="../../../pictures/webpics/1x1_blau.gif" width="400" height="1">
@@ -130,7 +133,7 @@ Der Prozess-Schritt <i>Zutaten bereitstellen</i> im Geschäftsprozess <i>Menü z
 <td align="right" valign="top"> <p><b>Definition</b> </p>
 </td>
     <td valign="top">
-      <p>Ein Ereignis ist ein Geschehen oder <a href="../../../arbeitskreise/objektorientierung/themenbereiche/systemdynamik.html#Zustands%C3%BCbergang">»Zustandsübergang</a>, das/der in einem gegebenen Kontext eine Bedeutung hat und das sich räumlich und zeitlich lokalisieren lässt.</p>
+      <p>Ein Ereignis ist ein Geschehen oder <a href="../../../arbeitskreise/objektorientierung/themenbereiche/systemdynamik.html#Zustandsuebergang">»Zustandsübergang</a>, das/der in einem gegebenen Kontext eine Bedeutung hat und das sich räumlich und zeitlich lokalisieren lässt.</p>
     </td>
   </tr>
 <tr>
@@ -138,9 +141,9 @@ Der Prozess-Schritt <i>Zutaten bereitstellen</i> im Geschäftsprozess <i>Menü z
 </td>
     <td valign="top">
       <p>Ein Ereignis kann durch ein anderes Ereignis ausgelöst werden und selbst Auslöser weiterer Ereignisse sein. <br>
-In einem modellierten System hat ein Ereignis in der Regel keine zeitliche Dauer. Ein Ereignis kann einen <a href="../../geschaeftsprozesse/themenbereiche/kernbegriffe.html#Gesch%C3%A4ftsprozess">»Geschäftsprozess</a> oder <a href="../../geschaeftsprozesse/themenbereiche/prozessStruktur.html#Prozess-Schritt">»Prozess-Schritt</a> auslösen. <br>
-In <a href="../../geschaeftsprozesse/themenbereiche/prozessbeschreibung.html#Ereignisgesteuerte%20Prozesskette">»EPK</a>s wird der Ereignisbegriff hiervon abweichend verwendet, oft im Sinne von <a href="../../objektorientierung/themenbereiche/systemdynamik.html#Bedingung">»Bedingung</a> oder <a href="../../geschaeftsprozesse/themenbereiche/prozessStruktur.html#Zustand">»Zustand</a> (G). <br>
-Ein Ereignis kann als <a href="../../objektorientierung/themenbereiche/systemdynamik.html#Bedingung">»Bedingung</a> für eine <a href="../../geschaeftsprozesse/themenbereiche/prozessStruktur.html#Selektion%20(exklusiv)">»Selektion (exklusiv)</a> auftreten. Umgekehrt kann das Eintreten einer Bedingung als Ereignis aufgefasst werden. Ebenso können das Eintreten in einen Zustand oder das Verlassen eines Zustands als Ereignisse aufgefasst werden.<br>
+In einem modellierten System hat ein Ereignis in der Regel keine zeitliche Dauer. Ein Ereignis kann einen <a href="../../geschaeftsprozesse/themenbereiche/kernbegriffe.html#Geschaeftsprozess">»Geschäftsprozess</a> oder <a href="../../geschaeftsprozesse/themenbereiche/prozessStruktur.html#Prozess-Schritt">»Prozess-Schritt</a> auslösen. <br>
+In <a href="../../geschaeftsprozesse/themenbereiche/prozessbeschreibung.html#EreignisgesteuerteProzesskette">»EPK</a>s wird der Ereignisbegriff hiervon abweichend verwendet, oft im Sinne von <a href="../../objektorientierung/themenbereiche/systemdynamik.html#Bedingung">»Bedingung</a> oder <a href="../../geschaeftsprozesse/themenbereiche/prozessStruktur.html#Zustand">»Zustand</a> (G). <br>
+Ein Ereignis kann als <a href="../../objektorientierung/themenbereiche/systemdynamik.html#Bedingung">»Bedingung</a> für eine <a href="../../geschaeftsprozesse/themenbereiche/prozessStruktur.html#Selektion(exklusiv)">»Selektion (exklusiv)</a> auftreten. Umgekehrt kann das Eintreten einer Bedingung als Ereignis aufgefasst werden. Ebenso können das Eintreten in einen Zustand oder das Verlassen eines Zustands als Ereignisse aufgefasst werden.<br>
 Siehe auch Begriff <a href="../../../arbeitskreise/objektorientierung/themenbereiche/systemdynamik.html#Ereignis">»Ereignis</a> in der Begriffssammlung Objektorientierte Modellierung.</p>
     </td>
   </tr>
@@ -157,7 +160,7 @@ Siehe auch Begriff <a href="../../../arbeitskreise/objektorientierung/themenbere
   </tr>
 <tr>
 <td width="120" align="right">
-<a name="Gesch%C3%A4ftsprozess-Architektur"></a>&amp;nbsp<br><img src="../../../pictures/webpics/1x1_blau.gif" width="110" height="1"><br>
+<a name="Geschaeftsprozess-Architektur"></a> <br><img src="../../../pictures/webpics/1x1_blau.gif" width="110" height="1"><br>
 </td>
     <td>
 <span class="header"><b>Geschäftsprozess-Architektur</b></span> <br><img src="../../../pictures/webpics/1x1_blau.gif" width="400" height="1">
@@ -193,7 +196,7 @@ Siehe auch Begriff <a href="../../../arbeitskreise/objektorientierung/themenbere
 <td align="right" valign="top"> <p><b>Definition</b> </p>
 </td>
     <td valign="top">
-      <p>Die Geschäftsprozess-Architektur ist ein Konzept, das die Gesamtheit der <a href="../../geschaeftsprozesse/themenbereiche/kernbegriffe.html#Gesch%C3%A4ftsprozess">»Geschäftsprozesse</a> in einem Unternehmen(steil) bzw. einer Institution umfasst und deren Aufbau, strukturelle Beziehungen und sonstige Verbindungen zusammenfassend darstellt.</p>
+      <p>Die Geschäftsprozess-Architektur ist ein Konzept, das die Gesamtheit der <a href="../../geschaeftsprozesse/themenbereiche/kernbegriffe.html#Geschaeftsprozess">»Geschäftsprozesse</a> in einem Unternehmen(steil) bzw. einer Institution umfasst und deren Aufbau, strukturelle Beziehungen und sonstige Verbindungen zusammenfassend darstellt.</p>
     </td>
   </tr>
 <tr>
@@ -201,7 +204,7 @@ Siehe auch Begriff <a href="../../../arbeitskreise/objektorientierung/themenbere
 </td>
     <td valign="top">
       <p>Eine Geschäftsprozess-Architektur sollte auf Fragen, wie die folgenden Antworten geben: <br>
-Wie können <a href="../../geschaeftsprozesse/themenbereiche/kernbegriffe.html#Gesch%C3%A4ftsprozess">»Geschäftsprozesse</a> geordnet, klassifiziert, strukturiert und systematisch dargestellt werden? <br>
+Wie können <a href="../../geschaeftsprozesse/themenbereiche/kernbegriffe.html#Geschaeftsprozess">»Geschäftsprozesse</a> geordnet, klassifiziert, strukturiert und systematisch dargestellt werden? <br>
 Wie werden die <a href="../../geschaeftsprozesse/themenbereiche/kernbegriffe.html#Prozess">»Prozesse</a> unter statischen und dynamischen Gesichtspunkten gegliedert und zusammengesetzt, welches sind die maßgeblichen Gesichtspunkte dafür? <br>
 Wie verhält sich die Prozess-Architektur zur Organisationsstruktur, wie werden Prozesse einzelnen Geschäftsfeldern bzw. Diskurs-Bereichen im Unternehmen / in der Institution zugeordnet? <br>
 Ein wesentlicher Bestandteil der Geschäftsprozess-Architektur ist eine übersichtsartige graphische Visualisierung, die oft als <i>Prozess-Landkarte</i> bezeichnet wird.</p>
@@ -220,7 +223,7 @@ Ein wesentlicher Bestandteil der Geschäftsprozess-Architektur ist eine übersic
   </tr>
 <tr>
 <td width="120" align="right">
-<a name="Iteration"></a>&amp;nbsp<br><img src="../../../pictures/webpics/1x1_blau.gif" width="110" height="1"><br>
+<a name="Iteration"></a> <br><img src="../../../pictures/webpics/1x1_blau.gif" width="110" height="1"><br>
 </td>
     <td>
 <span class="header"><b>Iteration</b></span> <br><img src="../../../pictures/webpics/1x1_blau.gif" width="400" height="1">
@@ -256,7 +259,7 @@ Ein wesentlicher Bestandteil der Geschäftsprozess-Architektur ist eine übersic
 <td align="right" valign="top"> <p><b>Definition</b> </p>
 </td>
     <td valign="top">
-      <p>Eine Iteration ist die wiederholte Ausführung von <a href="../../geschaeftsprozesse/themenbereiche/prozessStruktur.html#Prozess-Schritt">»Prozess-Schritten</a> in einem <a href="../../geschaeftsprozesse/themenbereiche/kernbegriffe.html#Gesch%C3%A4ftsprozess">»Geschäftsprozess</a>, abhängig von einer <a href="../../objektorientierung/themenbereiche/systemdynamik.html#Bedingung">»Bedingung</a>. Die Wiederholung wird solange fortgesetzt wie die Bedingung erfüllt ist.</p>
+      <p>Eine Iteration ist die wiederholte Ausführung von <a href="../../geschaeftsprozesse/themenbereiche/prozessStruktur.html#Prozess-Schritt">»Prozess-Schritten</a> in einem <a href="../../geschaeftsprozesse/themenbereiche/kernbegriffe.html#Geschaeftsprozess">»Geschäftsprozess</a>, abhängig von einer <a href="../../objektorientierung/themenbereiche/systemdynamik.html#Bedingung">»Bedingung</a>. Die Wiederholung wird solange fortgesetzt wie die Bedingung erfüllt ist.</p>
     </td>
   </tr>
 <tr>
@@ -279,7 +282,7 @@ Ein wesentlicher Bestandteil der Geschäftsprozess-Architektur ist eine übersic
   </tr>
 <tr>
 <td width="120" align="right">
-<a name="Nebenl%C3%A4ufigkeit"></a>&amp;nbsp<br><img src="../../../pictures/webpics/1x1_blau.gif" width="110" height="1"><br>
+<a name="Nebenlaeufigkeit"></a> <br><img src="../../../pictures/webpics/1x1_blau.gif" width="110" height="1"><br>
 </td>
     <td>
 <span class="header"><b>Nebenläufigkeit</b></span> <br><img src="../../../pictures/webpics/1x1_blau.gif" width="400" height="1">
@@ -301,14 +304,14 @@ Ein wesentlicher Bestandteil der Geschäftsprozess-Architektur ist eine übersic
 <td align="right" valign="top"> <p><b>Synonyme</b> </p>
 </td>
     <td valign="top">
-      <p>konjunktive Verknüpfung (<a href="../../geschaeftsprozesse/themenbereiche/prozessbeschreibung.html#Ereignisgesteuerte%20Prozesskette">»EPK</a>)</p>
+      <p>konjunktive Verknüpfung (<a href="../../geschaeftsprozesse/themenbereiche/prozessbeschreibung.html#EreignisgesteuerteProzesskette">»EPK</a>)</p>
     </td>
   </tr>
 <tr>
 <td align="right" valign="top"> <p><b>Englisch</b> </p>
 </td>
     <td valign="top">
-      <p>Concurrency, Parallel gateway (<a href="../../geschaeftsprozesse/themenbereiche/prozessbeschreibung.html#Business%20Process%20Model%20and%20Notation">»BPMN</a>), AND Split</p>
+      <p>Concurrency, Parallel gateway (<a href="../../geschaeftsprozesse/themenbereiche/prozessbeschreibung.html#BusinessProcessModelandNotation">»BPMN</a>), AND Split</p>
     </td>
   </tr>
 <tr>
@@ -323,7 +326,7 @@ Ein wesentlicher Bestandteil der Geschäftsprozess-Architektur ist eine übersic
 </td>
     <td valign="top">
       <p>Nebenläufigkeit dient dazu, <br>
-- Möglichkeiten zur Effizienzsteigerung durch zeitgleiche Ausführung aufzuzeigen (<a href="../../geschaeftsprozesse/themenbereiche/prozessStruktur.html#Parallelit%C3%A4t">»Parallelität</a> als Spezialfall der Nebenläufigkeit), <br>
+- Möglichkeiten zur Effizienzsteigerung durch zeitgleiche Ausführung aufzuzeigen (<a href="../../geschaeftsprozesse/themenbereiche/prozessStruktur.html#Parallelitaet">»Parallelität</a> als Spezialfall der Nebenläufigkeit), <br>
 - Prozess-Schritte, die ein gemeinsames <a href="../../vorgehensmodelle/themenbereiche/ergebnisse.html#Ergebnis">»Ergebnis</a> erbringen, aber unabhängig voneinander ausgeführt werden, als untrennbare Einheit zu modellieren. Dies kann entweder durch Parallelität oder durch geeignete Sequenzialisierung (z.B. Transaktionsbehandlung) erreicht werden (siehe Beispiel <i>Überweisung ausführen</i>).</p>
     </td>
   </tr>
@@ -341,7 +344,7 @@ Zur Gewährleistung der Datenintegrität muss bei der Ausführung von <i>Überwe
   </tr>
 <tr>
 <td width="120" align="right">
-<a name="Parallelit%C3%A4t"></a>&amp;nbsp<br><img src="../../../pictures/webpics/1x1_blau.gif" width="110" height="1"><br>
+<a name="Parallelitaet"></a> <br><img src="../../../pictures/webpics/1x1_blau.gif" width="110" height="1"><br>
 </td>
     <td>
 <span class="header"><b>Parallelität</b></span> <br><img src="../../../pictures/webpics/1x1_blau.gif" width="400" height="1">
@@ -384,7 +387,7 @@ Zur Gewährleistung der Datenintegrität muss bei der Ausführung von <i>Überwe
 <td align="right" valign="top"> <p><b>Erläuterung</b> </p>
 </td>
     <td valign="top">
-      <p>Parallele (Teil-)Prozesse sind immer auch <a href="../../geschaeftsprozesse/themenbereiche/prozessStruktur.html#Nebenl%C3%A4ufigkeit">»nebenläufig</a>, das Umgekehrte ist i.A. nicht der Fall. Parallelität kann wünschenswert sein, z.B. aus Effizienzgründen. </p>
+      <p>Parallele (Teil-)Prozesse sind immer auch <a href="../../geschaeftsprozesse/themenbereiche/prozessStruktur.html#Nebenlaeufigkeit">»nebenläufig</a>, das Umgekehrte ist i.A. nicht der Fall. Parallelität kann wünschenswert sein, z.B. aus Effizienzgründen. </p>
     </td>
   </tr>
 <tr>
@@ -401,7 +404,7 @@ Beispiel für naturgegebene Parallelität: Flugzeugsteuerung, technischer Betrie
   </tr>
 <tr>
 <td width="120" align="right">
-<a name="Prozess-Schritt"></a>&amp;nbsp<br><img src="../../../pictures/webpics/1x1_blau.gif" width="110" height="1"><br>
+<a name="Prozess-Schritt"></a> <br><img src="../../../pictures/webpics/1x1_blau.gif" width="110" height="1"><br>
 </td>
     <td>
 <span class="header"><b>Prozess-Schritt</b></span> <br><img src="../../../pictures/webpics/1x1_blau.gif" width="400" height="1">
@@ -423,7 +426,7 @@ Beispiel für naturgegebene Parallelität: Flugzeugsteuerung, technischer Betrie
 <td align="right" valign="top"> <p><b>Synonyme</b> </p>
 </td>
     <td valign="top">
-      <p>Arbeitsschritt, Funktion (in der <a href="../../geschaeftsprozesse/themenbereiche/prozessbeschreibung.html#Ereignisgesteuerte%20Prozesskette">»EPK</a>-Begriffswelt), Aktivität (in der <a href="../../geschaeftsprozesse/themenbereiche/prozessbeschreibung.html#Business%20Process%20Model%20and%20Notation">»BPMN</a>- und UML-Begriffswelt)</p>
+      <p>Arbeitsschritt, Funktion (in der <a href="../../geschaeftsprozesse/themenbereiche/prozessbeschreibung.html#EreignisgesteuerteProzesskette">»EPK</a>-Begriffswelt), Aktivität (in der <a href="../../geschaeftsprozesse/themenbereiche/prozessbeschreibung.html#BusinessProcessModelandNotation">»BPMN</a>- und UML-Begriffswelt)</p>
     </td>
   </tr>
 <tr>
@@ -444,7 +447,7 @@ Beispiel für naturgegebene Parallelität: Flugzeugsteuerung, technischer Betrie
 <td align="right" valign="top"> <p><b>Erläuterung</b> </p>
 </td>
     <td valign="top">
-      <p>Der Begriff Prozess-Schritt wird zuweilen synonym zu <a href="../../objektorientierung/themenbereiche/systemdynamik.html#Aktivit%C3%A4t">»Aktivität</a> verwendet, oft aber weiter gefasst. So kann ein Prozess-Schritt durch eine Prosa-Beschreibung weiter erläutert werden. <br>
+      <p>Der Begriff Prozess-Schritt wird zuweilen synonym zu <a href="../../objektorientierung/themenbereiche/systemdynamik.html#Aktivitaet">»Aktivität</a> verwendet, oft aber weiter gefasst. So kann ein Prozess-Schritt durch eine Prosa-Beschreibung weiter erläutert werden. <br>
 Kriterien für den Zuschnitt eines Prozess-Schritts können sein: Bearbeitung durch eine Person, Organisationseinheit oder ein unterstützendes <a href="../../softwaretechnik/themenbereiche/grundbgr.html#System">»System</a>, logische Abgeschlossenheit, Zusammengehörigkeit bzw. Abhängigkeit von <a href="../../geschaeftsprozesse/themenbereiche/prozessStruktur.html#Arbeitsergebnis">»Arbeitsergebnissen</a>.<br>
 Ein Prozess-Schritt ist - formal gesehen - selbst auch ein <a href="../../geschaeftsprozesse/themenbereiche/kernbegriffe.html#Prozess">»Prozess</a>. <br>
 Ein Prozess-Schritt ist eine atomare Einheit bei der Geschäftsprozess-Modellierung. Je nach angestrebtem Detaillierungsgrad bei der Prozessmodellierung kann in einem Modellierungsfall ein Prozessbestandteil ein Prozess-Schritt sein, in einem anderen Modellierungsfall dagegen ein <a href="../../geschaeftsprozesse/themenbereiche/prozessStruktur.html#Teilprozess">»Teilprozess</a>, der wieder als Ablauf von Prozess-Schritten modelliert wird.</p>
@@ -464,7 +467,7 @@ Prozess-Schritt <i>Sitz reservieren</i> innerhalb des Geschäftsprozesses <i>Flu
   </tr>
 <tr>
 <td width="120" align="right">
-<a name="Selektion%20(exklusiv)"></a>&amp;nbsp<br><img src="../../../pictures/webpics/1x1_blau.gif" width="110" height="1"><br>
+<a name="Selektion(exklusiv)"></a> <br><img src="../../../pictures/webpics/1x1_blau.gif" width="110" height="1"><br>
 </td>
     <td>
 <span class="header"><b>Selektion (exklusiv)</b></span> <br><img src="../../../pictures/webpics/1x1_blau.gif" width="400" height="1">
@@ -486,7 +489,7 @@ Prozess-Schritt <i>Sitz reservieren</i> innerhalb des Geschäftsprozesses <i>Flu
 <td align="right" valign="top"> <p><b>Synonyme</b> </p>
 </td>
     <td valign="top">
-      <p>alternative Verzweigung, disjunktive Verknüpfung (<a href="../../geschaeftsprozesse/themenbereiche/prozessbeschreibung.html#Ereignisgesteuerte%20Prozesskette">»EPK</a>), Entscheidung (<a href="../../geschaeftsprozesse/themenbereiche/prozessbeschreibung.html#Aktivit%C3%A4tsdiagramm">»Aktivitätsdiagramm</a>, UML)</p>
+      <p>alternative Verzweigung, disjunktive Verknüpfung (<a href="../../geschaeftsprozesse/themenbereiche/prozessbeschreibung.html#EreignisgesteuerteProzesskette">»EPK</a>), Entscheidung (<a href="../../geschaeftsprozesse/themenbereiche/prozessbeschreibung.html#Aktivitaetsdiagramm">»Aktivitätsdiagramm</a>, UML)</p>
     </td>
   </tr>
 <tr>
@@ -524,7 +527,7 @@ Im gleichen Prozess findet eine exklusive Selektion, verknüpft mit der Bedingun
   </tr>
 <tr>
 <td width="120" align="right">
-<a name="Selektion%20(inklusiv)"></a>&amp;nbsp<br><img src="../../../pictures/webpics/1x1_blau.gif" width="110" height="1"><br>
+<a name="Selektion(inklusiv)"></a> <br><img src="../../../pictures/webpics/1x1_blau.gif" width="110" height="1"><br>
 </td>
     <td>
 <span class="header"><b>Selektion (inklusiv)</b></span> <br><img src="../../../pictures/webpics/1x1_blau.gif" width="400" height="1">
@@ -546,14 +549,14 @@ Im gleichen Prozess findet eine exklusive Selektion, verknüpft mit der Bedingun
 <td align="right" valign="top"> <p><b>Synonyme</b> </p>
 </td>
     <td valign="top">
-      <p>nicht-ausschließliche Verzweigung, adjunktive Verknüpfung (<a href="../../geschaeftsprozesse/themenbereiche/prozessbeschreibung.html#Ereignisgesteuerte%20Prozesskette">»EPK</a>)</p>
+      <p>nicht-ausschließliche Verzweigung, adjunktive Verknüpfung (<a href="../../geschaeftsprozesse/themenbereiche/prozessbeschreibung.html#EreignisgesteuerteProzesskette">»EPK</a>)</p>
     </td>
   </tr>
 <tr>
 <td align="right" valign="top"> <p><b>Englisch</b> </p>
 </td>
     <td valign="top">
-      <p>(Inclusive) Selection, Inclusive gateway (<a href="../../geschaeftsprozesse/themenbereiche/prozessbeschreibung.html#Business%20Process%20Model%20and%20Notation">»BPMN</a>), OR Split</p>
+      <p>(Inclusive) Selection, Inclusive gateway (<a href="../../geschaeftsprozesse/themenbereiche/prozessbeschreibung.html#BusinessProcessModelandNotation">»BPMN</a>), OR Split</p>
     </td>
   </tr>
 <tr>
@@ -583,7 +586,7 @@ Im gleichen Prozess findet eine exklusive Selektion, verknüpft mit der Bedingun
   </tr>
 <tr>
 <td width="120" align="right">
-<a name="Sequenz"></a>&amp;nbsp<br><img src="../../../pictures/webpics/1x1_blau.gif" width="110" height="1"><br>
+<a name="Sequenz"></a> <br><img src="../../../pictures/webpics/1x1_blau.gif" width="110" height="1"><br>
 </td>
     <td>
 <span class="header"><b>Sequenz</b></span> <br><img src="../../../pictures/webpics/1x1_blau.gif" width="400" height="1">
@@ -644,7 +647,7 @@ Eine Sequenz ist zwingend, wenn Schritt B von Schritt A kausal abhängig ist: Sc
   </tr>
 <tr>
 <td width="120" align="right">
-<a name="Teilprozess"></a>&amp;nbsp<br><img src="../../../pictures/webpics/1x1_blau.gif" width="110" height="1"><br>
+<a name="Teilprozess"></a> <br><img src="../../../pictures/webpics/1x1_blau.gif" width="110" height="1"><br>
 </td>
     <td>
 <span class="header"><b>Teilprozess</b></span> <br><img src="../../../pictures/webpics/1x1_blau.gif" width="400" height="1">
@@ -705,7 +708,7 @@ b)	Wiederverwendbarkeit: Gleiche Teilabläufe in verschiedenen Prozessen werden 
   </tr>
 <tr>
 <td width="120" align="right">
-<a name="Zustand"></a>&amp;nbsp<br><img src="../../../pictures/webpics/1x1_blau.gif" width="110" height="1"><br>
+<a name="Zustand"></a> <br><img src="../../../pictures/webpics/1x1_blau.gif" width="110" height="1"><br>
 </td>
     <td>
 <span class="header"><b>Zustand</b></span> <br><img src="../../../pictures/webpics/1x1_blau.gif" width="400" height="1">
@@ -741,15 +744,15 @@ b)	Wiederverwendbarkeit: Gleiche Teilabläufe in verschiedenen Prozessen werden 
 <td align="right" valign="top"> <p><b>Definition</b> </p>
 </td>
     <td valign="top">
-      <p>Ein Zustand ist eine Situation, in der sich die Ausführung eines <a href="../../geschaeftsprozesse/themenbereiche/kernbegriffe.html#Gesch%C3%A4ftsprozess">»Geschäftsprozesses</a> befindet.</p>
+      <p>Ein Zustand ist eine Situation, in der sich die Ausführung eines <a href="../../geschaeftsprozesse/themenbereiche/kernbegriffe.html#Geschaeftsprozess">»Geschäftsprozesses</a> befindet.</p>
     </td>
   </tr>
 <tr>
 <td align="right" valign="top"> <p><b>Erläuterung</b> </p>
 </td>
     <td valign="top">
-      <p>Bei der Modellierung dynamischer Systeme ist es sinnvoll, deren Zustände zu bestimmten Zeitpunkten zu beschreiben und untereinander in Beziehung zu setzen. Vergleiche dazu <a href="../../objektorientierung/themenbereiche/systemdynamik.html#Zustand">»Zustand</a> (O) und <a href="../../objektorientierung/themenbereiche/systemdynamik.html#Zustands%C3%BCbergang">»Zustandsübergang</a> von <a href='../../objektorientierung/themenbereiche/objektgrobstruktur.html#Objekt"'>»Objekten</a>.<br>
-Bei <a href="../../geschaeftsprozesse/themenbereiche/kernbegriffe.html#Gesch%C3%A4ftsprozess">»Geschäftsprozessen</a> mit nebenläufigen <a href="../../geschaeftsprozesse/themenbereiche/prozessStruktur.html#Prozess-Schritt">»Prozess-Schritten</a> ergibt sich der Zustand aus der zusammenfassenden Zustandsbeschreibung mehrerer (möglicherweise parallel erfolgender) Prozess-Schritte. Zustände sind in der Regel zeitbehaftet und können länger andauern.</p>
+      <p>Bei der Modellierung dynamischer Systeme ist es sinnvoll, deren Zustände zu bestimmten Zeitpunkten zu beschreiben und untereinander in Beziehung zu setzen. Vergleiche dazu <a href="../../objektorientierung/themenbereiche/systemdynamik.html#Zustand">»Zustand</a> (O) und <a href="../../objektorientierung/themenbereiche/systemdynamik.html#Zustandsuebergang">»Zustandsübergang</a> von <a href='../../objektorientierung/themenbereiche/objektgrobstruktur.html#Objekt"'>»Objekten</a>.<br>
+Bei <a href="../../geschaeftsprozesse/themenbereiche/kernbegriffe.html#Geschaeftsprozess">»Geschäftsprozessen</a> mit nebenläufigen <a href="../../geschaeftsprozesse/themenbereiche/prozessStruktur.html#Prozess-Schritt">»Prozess-Schritten</a> ergibt sich der Zustand aus der zusammenfassenden Zustandsbeschreibung mehrerer (möglicherweise parallel erfolgender) Prozess-Schritte. Zustände sind in der Regel zeitbehaftet und können länger andauern.</p>
     </td>
   </tr>
 <tr>
