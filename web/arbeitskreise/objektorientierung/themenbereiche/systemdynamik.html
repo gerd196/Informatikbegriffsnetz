@@ -22,6 +22,7 @@
         16.03.26 gf     ftfy
         17.03.26 gf     %20 aus internen URIs entfernt
         17.03.26 gf     %C3%A4 (Mojibake ä) -> ae in URIs
+        17.03.26 gf     %C3%BC (Mojibake ü) -> ue in URIs
 
 ====================================================================================== -->
 <html lang="de">
@@ -142,7 +143,7 @@
 <td align="right" valign="top"> <p><b>Definition</b> </p>
 </td>
     <td valign="top">
-      <p>Elementare (d.h. aus der aktuellen Sicht nicht weiter zu zerlegende) Routine, die von einem <a href="#Akteur">»Akteur</a> oder <a href="../../../arbeitskreise/softwaretechnik/themenbereiche/grundbgr.html#System">»System</a> beim <a href="#Zustands%C3%BCbergang">»Zustandsübergang</a> oder während eines <a href="#Zustand">»Zustands</a> (z.B. beim Eintritt oder Austritt) ausgeführt wird.</p>
+      <p>Elementare (d.h. aus der aktuellen Sicht nicht weiter zu zerlegende) Routine, die von einem <a href="#Akteur">»Akteur</a> oder <a href="../../../arbeitskreise/softwaretechnik/themenbereiche/grundbgr.html#System">»System</a> beim <a href="#Zustandsuebergang">»Zustandsübergang</a> oder während eines <a href="#Zustand">»Zustands</a> (z.B. beim Eintritt oder Austritt) ausgeführt wird.</p>
     </td>
   </tr>
 <tr>
@@ -326,7 +327,7 @@
 <td align="right" valign="top"> <p><b>Erläuterung</b> </p>
 </td>
     <td valign="top">
-      <p>(1) Bedingungen können z.B. genutzt werden, um Fallunterscheidungen zu machen, <a href="#Ereignis">»Ereignisse</a> näher zu spezifizieren oder mögliche <a href="#Zustands%C3%BCbergang">»Zustandsübergänge</a> einzuschränken.<br>
+      <p>(1) Bedingungen können z.B. genutzt werden, um Fallunterscheidungen zu machen, <a href="#Ereignis">»Ereignisse</a> näher zu spezifizieren oder mögliche <a href="#Zustandsuebergang">»Zustandsübergänge</a> einzuschränken.<br>
 (2) Anstelle von <i>Bedingung</i> wird zuweilen auch <a href="#Einschraenkung">»Einschränkung</a> (constraint) verwendet.</p>
     </td>
   </tr>
@@ -335,255 +336,7 @@
 </td>
     <td valign="top">
       <p>(Bedingung) Schadensdatum &gt; Datum des Versicherungsbeginns. 
-(Bedingter Zustandsübergang) Ein <a href="../../../arbeitskreise/geschaeftsprozesse/themenbereiche/kernbegriffe.html#Prozessausf%C3%BChrung">»Geschäftvorfall</a> wird in den Zustand <i>weiter bearbeiten</i> versetzt, wenn die Schadenshöhe die Selbstbeteiligungs-Grenze übersteigt.</p>
-    </td>
-  </tr>
-<tr>
-<td> </td>
-    <td><br></td>
-  </tr>
-<tr>
-<td width="120" align="right">
-<a name="Einschraenkung"></a>&amp;nbsp<br><img src="../../../pictures/webpics/1x1_blau.gif" width="110" height="1"><br>
-</td>
-    <td>
-<span class="header"><b>Einschränkung</b></span> <br><img src="../../../pictures/webpics/1x1_blau.gif" width="400" height="1">
-</td>
-  </tr>
-<tr>
-<td align="right" valign="top"><p><b>Begriffssammlung</b></p></td>
-    <td valign="top">
-      <p><a href="../../../begriffssammlung/themenbereiche.html#Objek2">Objektorientierte Modellierung</a></p>
-    </td>
-  </tr>
-<tr>
-<td align="right" valign="top"><p><b>Themenbereich </b></p></td>
-    <td valign="top">
-      <p>System-Dynamik</p>
-    </td>
-  </tr>
-<tr>
-<td align="right" valign="top"> <p><b>Synonyme</b> </p>
-</td>
-    <td valign="top">
-      <p>-</p>
-    </td>
-  </tr>
-<tr>
-<td align="right" valign="top"> <p><b>Englisch</b> </p>
-</td>
-    <td valign="top">
-      <p>Constraint</p>
-    </td>
-  </tr>
-<tr>
-<td align="right" valign="top"> <p><b>Definition</b> </p>
-</td>
-    <td valign="top">
-      <p>Spezielle <a href="#Bedingung">»Bedingung</a>, bei deren booleschem Ausdruck nur der zu <i>true</i> ausgewertete Fall verarbeitet wird ( s. auch [<a href="../publallg.html#RUP03">RUP03</a>]).</p>
-    </td>
-  </tr>
-<tr>
-<td align="right" valign="top"> <p><b>Erläuterung</b> </p>
-</td>
-    <td valign="top">
-      <p>-</p>
-    </td>
-  </tr>
-<tr>
-<td align="right" valign="top"> <p><b>Beispiele</b> </p>
-</td>
-    <td valign="top">
-      <p>-</p>
-    </td>
-  </tr>
-<tr>
-<td> </td>
-    <td><br></td>
-  </tr>
-<tr>
-<td width="120" align="right">
-<a name="Ereignis"></a>&amp;nbsp<br><img src="../../../pictures/webpics/1x1_blau.gif" width="110" height="1"><br>
-</td>
-    <td>
-<span class="header"><b>Ereignis</b></span> <br><img src="../../../pictures/webpics/1x1_blau.gif" width="400" height="1">
-</td>
-  </tr>
-<tr>
-<td align="right" valign="top"><p><b>Begriffssammlung</b></p></td>
-    <td valign="top">
-      <p><a href="../../../begriffssammlung/themenbereiche.html#Objek2">Objektorientierte Modellierung</a></p>
-    </td>
-  </tr>
-<tr>
-<td align="right" valign="top"><p><b>Themenbereich </b></p></td>
-    <td valign="top">
-      <p>System-Dynamik</p>
-    </td>
-  </tr>
-<tr>
-<td align="right" valign="top"> <p><b>Synonyme</b> </p>
-</td>
-    <td valign="top">
-      <p>Auslöser, Trigger</p>
-    </td>
-  </tr>
-<tr>
-<td align="right" valign="top"> <p><b>Englisch</b> </p>
-</td>
-    <td valign="top">
-      <p>Event</p>
-    </td>
-  </tr>
-<tr>
-<td align="right" valign="top"> <p><b>Definition</b> </p>
-</td>
-    <td valign="top">
-      <p>Siehe Definition <a href="../../../arbeitskreise/geschaeftsprozesse/themenbereiche/prozessStruktur.html#Ereignis">»Ereignis</a> in der Begriffssammlung Geschäftsprozess-Modellierung.</p>
-    </td>
-  </tr>
-<tr>
-<td align="right" valign="top"> <p><b>Erläuterung</b> </p>
-</td>
-    <td valign="top">
-      <p>-</p>
-    </td>
-  </tr>
-<tr>
-<td align="right" valign="top"> <p><b>Beispiele</b> </p>
-</td>
-    <td valign="top">
-      <p>-</p>
-    </td>
-  </tr>
-<tr>
-<td> </td>
-    <td><br></td>
-  </tr>
-<tr>
-<td width="120" align="right">
-<a name="Interaktion"></a>&amp;nbsp<br><img src="../../../pictures/webpics/1x1_blau.gif" width="110" height="1"><br>
-</td>
-    <td>
-<span class="header"><b>Interaktion</b></span> <br><img src="../../../pictures/webpics/1x1_blau.gif" width="400" height="1">
-</td>
-  </tr>
-<tr>
-<td align="right" valign="top"><p><b>Begriffssammlung</b></p></td>
-    <td valign="top">
-      <p><a href="../../../begriffssammlung/themenbereiche.html#Objek2">Objektorientierte Modellierung</a></p>
-    </td>
-  </tr>
-<tr>
-<td align="right" valign="top"><p><b>Themenbereich </b></p></td>
-    <td valign="top">
-      <p>System-Dynamik</p>
-    </td>
-  </tr>
-<tr>
-<td align="right" valign="top"> <p><b>Synonyme</b> </p>
-</td>
-    <td valign="top">
-      <p>-</p>
-    </td>
-  </tr>
-<tr>
-<td align="right" valign="top"> <p><b>Englisch</b> </p>
-</td>
-    <td valign="top">
-      <p>Interaction</p>
-    </td>
-  </tr>
-<tr>
-<td align="right" valign="top"> <p><b>Definition</b> </p>
-</td>
-    <td valign="top">
-      <p>Eine <i>Interaktion</i> ist ein Austausch von <a href="objektfeinstruktur.html#Nachricht">»Nachrichten</a> zwischen <a href="objektgrobstruktur.html#Objekt">»Objekten</a> und <a href="#Akteur">»Akteuren</a> mit- oder untereinander.</p>
-    </td>
-  </tr>
-<tr>
-<td align="right" valign="top"> <p><b>Erläuterung</b> </p>
-</td>
-    <td valign="top">
-      <p>In UML-<a href="../../../arbeitskreise/geschaeftsprozesse/themenbereiche/prozessbeschreibung.html#Interaktionsdiagramm">»Interaktionsdiagrammen</a> wird die Interaktion zwischen <a href="objektgrobstruktur.html#Objekt">»Objekten</a> durch <a href="objektfeinstruktur.html#Nachricht">»Nachrichten</a> (als Pfeile dargestellt) modelliert.</p>
-    </td>
-  </tr>
-<tr>
-<td align="right" valign="top"> <p><b>Beispiele</b> </p>
-</td>
-    <td valign="top">
-      <p>-</p>
-    </td>
-  </tr>
-<tr>
-<td> </td>
-    <td><br></td>
-  </tr>
-<tr>
-<td width="120" align="right">
-<a name="Zustand"></a>&amp;nbsp<br><img src="../../../pictures/webpics/1x1_blau.gif" width="110" height="1"><br>
-</td>
-    <td>
-<span class="header"><b>Zustand</b></span> <br><img src="../../../pictures/webpics/1x1_blau.gif" width="400" height="1">
-</td>
-  </tr>
-<tr>
-<td align="right" valign="top"><p><b>Begriffssammlung</b></p></td>
-    <td valign="top">
-      <p><a href="../../../begriffssammlung/themenbereiche.html#Objek2">Objektorientierte Modellierung</a></p>
-    </td>
-  </tr>
-<tr>
-<td align="right" valign="top"><p><b>Themenbereich </b></p></td>
-    <td valign="top">
-      <p>System-Dynamik</p>
-    </td>
-  </tr>
-<tr>
-<td align="right" valign="top"> <p><b>Synonyme</b> </p>
-</td>
-    <td valign="top">
-      <p>-</p>
-    </td>
-  </tr>
-<tr>
-<td align="right" valign="top"> <p><b>Englisch</b> </p>
-</td>
-    <td valign="top">
-      <p>State</p>
-    </td>
-  </tr>
-<tr>
-<td align="right" valign="top"> <p><b>Definition</b> </p>
-</td>
-    <td valign="top">
-      <p>Ein <i>Zustand</i> ist die Situation, in der ein <a href="objektgrobstruktur.html#Objekt">»Objekt</a> bezüglich bestimmter ausgewählter Eigenschaften unverändert bleibt, d.h., dass sich deren Ausprägungen nicht ändern.</p>
-    </td>
-  </tr>
-<tr>
-<td align="right" valign="top"> <p><b>Erläuterung</b> </p>
-</td>
-    <td valign="top">
-      <p>(1) Der Zustand eines <a href="objektgrobstruktur.html#Objekt">»Objekts</a> wird durch die Wertebelegung aller seiner  <a href="objektfeinstruktur.html#Attribut">»Attribute</a> und <a href="beziehungsstrukturen.html#Beziehung">»Beziehungen</a> repräsentiert. Zustände können aber auch eingeschränkt auf bestimmte ausgewählte Attribute und Beziehungen betrachtet werden. Die Auswahl wird durch die Sicht bzw. Zielsetzung des Betrachters bestimmt, s. Beispiel (1). <br>
-(2) Objekte werden in der Regel durch mehrere Eigenschaften charakterisiert. Wählt man mehrere dieser Eigenschaften zur Zustandsbeschreibung aus, so kommt es zu komplexen (zusammengesetzten) Zuständen. Weiter kann es sich bei "Objekt" um ein komplexes Objekt, z.B. ein ganzes System handeln. Dann setzt sich dessen Zustand aus den Zuständen seiner Komponenten zusammen, s. Beispiel (2).<br>
-(3) Siehe auch Definition <a href="../../../arbeitskreise/geschaeftsprozesse/themenbereiche/prozessStruktur.html#Zustand">»Zustand</a> in der Begriffssammlung Geschäftsprozess-Modellierung.</p>
-    </td>
-  </tr>
-<tr>
-<td align="right" valign="top"> <p><b>Beispiele</b> </p>
-</td>
-    <td valign="top">
-      <p>(1) Ein Objekt vom Typ <i>Person</i> befindet sich bezüglich des Merkmals <i>Familienstand</i> im Zustand <i>verheiratet</i>.<br>
-(2) Objekte vom Typ <i>Person</i> werden durch Attribute <i>Familienstand</i>, <i>Beschäftigungsverhältnis</i>, <i>Adresse</i> beschrieben. Wenn sich der Wert eines der Attribute ändert, ändert sich der (Gesamt-) Zustand des Objekts.</p>
-    </td>
-  </tr>
-<tr>
-<td> </td>
-    <td><br></td>
-  </tr>
-<tr>
-<td width="120" align="right">
-<a name="Zustands%C3%BCbergang"></a>&amp;nbsp<br><img src="../../../pictures/webpics/1x1_blau.gif" width="110" height="1"><br>
+(Bedingter Zustandsübergang) Ein <a href="../../../arbeitskreise/geschaeftsprozesse/themenbereiche/kernbegriffe.html#Prozessausfuebergang"></a>&amp;nbsp<br><img src="../../../pictures/webpics/1x1_blau.gif" width="110" height="1"><br>
 </td>
     <td>
 <span class="header"><b>Zustandsübergang</b></span> <br><img src="../../../pictures/webpics/1x1_blau.gif" width="400" height="1">
