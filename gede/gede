@@ -1,0 +1,544 @@
+#!/usr/bin/perl -w
+require 5.040;
+use utf8;
+use strict;
+use integer;
+use warnings;
+
+our($License) = "This programm underlies the GNU GENERAL PUBLIC LICENSE 2.0 or newer";
+our($ScriptName) = "gede"; # our($SCRIPTNAME) = uc($ScriptName);
+                   # gede = Google-Docs based EDE
+our($ScriptBuild) = "0";
+our($ScriptDate) =  "2026-05-17";
+our($ScriptMajor) = "0";
+our($ScriptMinor) = "0";
+our($ScriptSub) =   "0";
+our($ScriptVersion) = $ScriptMajor . "." . $ScriptMinor . "." . $ScriptSub . "." . $ScriptBuild;
+our($Author) = "Gerhard Fessler";
+our($ScriptID) = "$ScriptName $ScriptVersion, $ScriptDate, © $Author";
+our($usage) = "Aufruf    $ScriptName [Optionen]";
+our($copyright) = "This is free software; see the source for copying conditions. There is NO
+warranty; not even for MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.\n";
+
+our($usagelong) =
+"Lädt alle Dateien im Verzeichniss Begriffe2.0 und dessen Unterverzeichnissen des GI-Arbeitskreises
+Informatik-Begriffsnetzes in Google Drive im Mark-Down-Format herunter und wandelt diese in HTML im
+Informatik-Begriffsnetz 2.0-Format um.
+
+Speichert das Ergebnis im Unterverzeichnis web2.0 des Verzeichnisses, in dem das Skript aufgerufen wird.
+
+Falls das Verzeichnis web2.0 bereits exisitert, wird dieses in web2.0.bak umbenannt, ansonsten angelegt.
+
+Durch Optionen kann das Verhalten angepasst werden, z. B. weitere Ausgaben erstellt werden.
+
+Optionen:
+    -d: Gib weitere Daten aus, mehrfache Angabe gibt mehr aus
+    -h: Gib diese Daten aus und stoppe
+    -V: Gib Id und Skriptversion aus und stoppe
+    -W: Gib keine Warnungen aus
+    -?: Gib diese Daten aus und stoppe
+
+Beispiel:   $ScriptName -d
+\n"; # usagelong
+
+use open IO => ':utf8';
+use open ':std';
+$| = 1; # STDOUT unbuffered
+
+use File::DosGlob;
+@ARGV = map { my @g = File::DosGlob::glob($_) if /[*?]/;
+	         @g ? @g : $_; } @ARGV;
+
+use Data::Dumper;
+use Time::HiRes qw(gettimeofday);
+use Term::ANSIColor;
+
+our($false) = 0;
+our($true) = 1;
+
+our(%S) = (
+     'WarnBuffer' => [],
+     'DebugBuffer' => [],
+     'exitvalue' => 0,
+     ); # Not used states:
+        # Duration
+        # StartTime
+
+our(%O) = (
+    'debug' => $false,
+    'warn' => 1,
+    'StatisticColor' => "black",
+    'DumpColor' => "reverse yellow",
+    'DumpLimit' => 30,
+    'DumpFilename' => "",
+    #'DumpFilename' => $Scriptname . "Dump.txt",
+    ); # Options
+
+# our(@TEST) = ();
+# our(%TEST) = ();
+
+
+&CheckArgs();
+                #&DumpHash(\%O,"\nO:"); &DumpHash(\%S,"\nS:"); exit 7;
+                #&DumpHash(\%O,"\nO:"); &Dprint("\nS:\n",Dumper(\%S)); exit 7;
+
+# &ProcessUserPackageFile($UserPackageFileName);
+                #&DumpArray(\@UserPackages,"\nUserPackages"); # exit 7;
+                #&Dprint("\nS:\n",Dumper(\%S)); # exit 7;
+# &ProcessUserPackages();
+                #&DumpArray(\@Packages,"\nPackages"); # exit 7;
+                #&DumpHash(\%EntryKinds,"\nEntryKinds:"); # exit 7;
+# &WriteResults();
+
+# &PrintStatistics();
+&PrintWarnsDebugs();
+&Exit(0);
+
+######################################################################################################
+
+sub WriteResults()
+  { # Usage:  &WriteResults()
+    # Schreibt die gefundenen und sortieren Paktenamen in die passenden Dateien
+  my($l);
+
+  return;
+  } # WriteResults
+
+sub PrintStatistics
+  { # Usage:  &PrintStatistics();
+    # Print statistics
+  my($l,$c,$r);
+
+  $c = $O{'StatisticColor'};
+  $r = "reset";
+
+  print("\n");
+  my(@TEST) = ();
+  $l = scalar(@TEST);
+  print("    ",color($c),$l,color($r)," anderes“ ($S{'warn'})\n") if ( $l > 0);
+  print("\n");
+  return;
+  } # sub PrintStatistics
+
+#### INPUT #### INPUT #### INPUT #### INPUT #### INPUT #### INPUT #### INPUT ####
+
+sub CheckArgs
+  { # Usage:   &CheckArgs();
+  my($parameter, $Text);
+  my(@Arguments) = ();
+
+  foreach $parameter (@ARGV)
+    { # Check parameters
+    if ($parameter =~ /^-/) { &ProcessOption($parameter); } # Option found
+    else { &ErrorU("Option erwartet, $parameter gefunden."); }
+    } # Check parameters
+
+  return;
+  } # sub CheckArgs
+
+sub ProcessOption
+  { # Usage:  &ProcessOption($optionstring);
+    # Fetch and evaluate option(s)
+  my($o) = @_;
+  my(@o,$no);
+
+  if ($o eq "--help")    { &PrintUsage(); exit 0; }
+  if ($o eq "--version") { &PrintScriptID(); exit 0; }
+  if ($o =~ /^--/) { return; } # Unknown long option: ignore
+  @o = split(//,$o);
+  shift @o; # Remove leading -
+  $no = shift(@o); # Fetch option
+  if ($no eq "d") { $O{'debug'}++; }
+  if ($no eq "h") { &PrintUsage(); exit 0; }
+  if ($no eq "W") { $O{'warn'} = 0; }
+  if ($no eq "V") { &PrintScriptID(); exit 0; }
+  if ($no eq "?") { &PrintUsage(); exit 0; }
+  return;
+  } # sub Processoption
+
+sub CheckFile
+  { # Usage:  $result = &CheckFile($filename);
+    # Checks if the file with name as parameter is
+    # a readable (and writeable) regular file.
+  my($fname) = @_;
+
+  if ( not -e $fname ) { return $false; }
+  if ( not -f $fname ) { return $false; }
+  if ( not -r $fname ) { return $false; }
+  #if ( not -w $fname ) { return $false; }
+  return $true;
+  } # CheckFile
+
+sub CheckFileExistence
+  { # Usage:  $result = &CheckFileExistence($filename);
+    # Checks if the file with name as parameter exists,
+    # is a readable regular file of nonzero size.
+  my($fname) = @_;
+
+  if ( not -e $fname ) { # doesn't exist
+    &ErrorU("Datei '$fname' nicht gefunden");
+    return;
+    } # doesn't exist
+  if ( not -f $fname ) { # no plain file
+    &ErrorU("Datei '$fname' ist eine spezielle Datei");
+    return;
+    } # no plain file
+  if ( not -r $fname ) { # not readable
+    &ErrorU("Datei '$fname' ist nicht lesbar");
+    return;
+    } # not readable
+  if ( -z $fname ) { # zero size
+    &ErrorU("Datei '$fname' ist leer");
+    return;
+    } # zero size
+
+  return $true;
+  } # CheckFileExistence
+
+sub ReadUTF8File
+  { # Usage:   &ReadUTF8File($filename,$z_array);
+  my($fname,$z_array) = @_;
+  my($tt);
+  my($l) = 0;
+
+  if (not open(INUTF8,"<:utf8",$fname)) {
+    &Error("Datei '$fname' konnte nicht zum Lesen geöffnet werden");
+    } # open failed
+
+  while (<INUTF8>) {
+    chomp($_);
+    $tt = $_;
+    $l++;
+    push(@$z_array,$tt);
+    } # while (<INTP>)
+
+  close(INUTF8);
+  return;
+  } # sub ReadUTF8File
+
+#### OUTPUT #### OUTPUT #### OUTPUT #### OUTPUT #### OUTPUT #### OUTPUT ####
+
+sub CheckOutFile
+  { # Usage: $result = &CheckoutFile($filename);
+    # Checks if the file with name as parameter is writeable.
+    # Returns empty string if yes and Error-Message if not
+  my($fname) = @_;
+  my($Message) = "";
+
+  if ( -e $fname ) {
+    if ( -d $fname ) {
+      $Message = "'$fname' ist ein Verzeichnisnamen, Namen nicht geschrieben";
+      return $Message; }
+    if ( not -f $fname ) {
+      $Message = "'$fname' ist keine reguläre  Daten, Namen nicht geschrieben";
+      return $Message; }
+    if ( not -w $fname ) {
+      $Message = "'$fname' existiert, kann aber nicht überschrieben werden, Namen nicht geschrieben";
+      return $Message; }
+    } # Filename exists
+  return $Message;
+  } # CheckOutFile
+
+sub WriteNewUTF8File
+  { # Usage:  $status = &WriteNewUTF8File($Filename,$z_text);
+    #
+    # Writes content of $z_text to file $filename and closes $filename
+    # Returns success message if file was successfully written, else error message
+  my($Filename,$z_text) = @_;
+  my($l);
+  my($Message) = "(Noch) keine Namen in '${Filename}' geschrieben";
+
+  $l = scalar(@$z_text);
+
+  if ( -e $Filename ) { rename($Filename,"$Filename.bak"); }
+  if (not open(OUTUTF8,">:utf8",$Filename)) {
+    return "$Filename konnte nicht geöffnet werden";
+    }
+  foreach $l (@$z_text) {
+    if ( not print(OUTUTF8 "$l\n") ) {
+      return "Schreibvorgang in $Filename ergab Fehler";
+      }
+    }
+  if ( not close(OUTUTF8) ) {
+    return "Fehler beim Schließen der Datei $Filename";
+    }
+  $Message = "$l Namen in die Datei '$Filename' geschrieben";
+  return $Message;
+  } # WriteNewUTF8File
+
+sub WriteResultToFile()
+  { # Usage:  $Result = &WriteResultToFile(\@Out,$Filename);
+    # Prüft. ob die Datei $Filename schreibbar ist.
+    # Falls ja, werden die String-Listenelemente von \Out als UTF-8
+    # in die Date geschrieben
+    # Der entstehende Status wird als $Result zurückgegeben.
+  my($z_Out,$Filename) = @_;
+  my($Result) = "Keine Namen in '${Filename}' geschrieben";
+
+  $Result = &CheckOutFile($Filename); 
+  if ( $Result ne "" ) { # Auf $Filename kann nicht geschrieben werden
+    return $Result;
+    }
+  $Result = &WriteNewUTF8File($Filename,$z_Out);
+  return $Result;
+  } # WriteResultToFile
+
+############################ CX ######################################
+
+sub CurrentTime
+  { # Usage:  &CurrentTime();
+  my($now,$tt);
+  my($sec,$min,$hour,$mday,$mon,$year,$wday,$yday,$isdst) = localtime();
+
+  $year += 1900;
+  $now = "$year";
+  $mon += 1; $tt = "$mon"; $tt = "0$tt" if ($mon < 10);
+  $now .= "-" . $tt;
+  $tt = "$mday"; $tt = "0$tt" if ($mday < 10);
+  $now .= "-" . $tt;
+  $tt = "$hour"; $tt = "0$tt" if ($hour < 10);
+  $now .= " " . $tt;
+  $tt = "$min"; $tt = "0$tt" if ($min < 10);
+  $now .= ":" . $tt;
+  $tt = "$sec"; $tt = "0$tt" if ($sec < 10);
+  $now .= ":" . $tt;
+
+  return $now;
+  } # sub CurrentTime
+
+############################ UTILITIES ######################################
+
+sub PrintScriptID
+  { # Usage:  &PrintScriptID();
+    # Print script ID
+  print("$ScriptID\n");
+  return;
+  } # sub PrintScriptID
+
+sub PrintUsage
+  { # Usage:  &PrintUsage();
+    # Print usage message
+  print("$ScriptID\n");
+  print("$copyright\n");
+  print("$usage\n");
+  print("\n$usagelong");
+  return;
+  } # sub PrintUsage
+
+sub PrintDebugs
+  { # Usage:  &PrintDebugs();
+    # Print strings in $S{'DebugBuffer'}
+    # As a side effect empties $S{DebugBuffer'}
+  my($t);  
+
+  foreach $t (@{$S{'DebugBuffer'}}) { print(color($O{"DumpColor"}),"DEBUG  $t\n",color("reset")); } # Debug-Meldungen ausgeben, falls vorhanden
+  $S{'DebugBuffer'} = [];  
+  return;
+  } # sub PrintDebugs
+
+sub PrintWarns
+  { # Usage:  &PrintWarns();
+    # Print strings in $S{'WarnBuffer'}
+    # As a side effect empties $S{WarnBuffer'}
+  my($t);  
+
+  return if ( $O{'warn'} < 1 ); # Don't print if warnings are suppressed
+  foreach $t (@{$S{'WarnBuffer'}}) { print(color("bold red"),"WARNUNG",color("reset"),"  $t\n"); } # Warnings ausgeben, falls vorhanden
+  $S{'WarnBuffer'} = [];  
+  return;
+  } # sub PrintWarns
+
+sub PrintWarnsDebugs
+  { # Usage:  &PrintWarnsDebugs();
+    # Print Debug and Warn Messages
+  &PrintWarns();
+  &PrintDebugs();
+  return;
+  } # sub PrintWarnsDebugs
+
+sub Warn
+  { # Usage:  &Warn($t1,$t2,$t3,...);
+  my(@warnlist) = @_;
+
+  push(@{$S{'WarnBuffer'}},@warnlist);
+  } # sub Warn
+
+sub Error
+  { # Usage:  &Error($t1,$t2,$t3,...);
+  my(@errorlist) = @_;
+  my($t);
+
+  foreach $t (@errorlist) {
+    print(color("bold red"),"##### FEHLER ##### $t",color("reset"),"\n");
+    }
+  &Exit(1);
+  } # sub Error
+
+sub ErrorU
+  { # Usage:  &ErrorU($t1,$t2,$t3,...);
+  my(@errorlist) = @_;
+  my($t);
+
+  print("\n");
+  foreach $t (@errorlist) {
+    print(color("bold red"),"##### FEHLER ##### $t",color("reset"),"\n");
+    } 
+  print("\n$ScriptID\n");
+  print("\n$usage\n");
+  print("\n$usagelong\n");
+  &Exit(1);
+  } # sub ErrorU
+
+sub Exit
+  { # Usage:  &Exit($exitvalue); or &Exit();
+  my($exitvalue) = @_;
+  
+  if ( defined($exitvalue) ) { exit($exitvalue); }
+  else { exit $S{'exitvalue'}; };
+  exit 255;
+  } # sub Exit
+
+sub Dprint
+  { # Usage: &Dprint($t,...);
+  print(color($O{"DumpColor"}));
+  print(@_);
+  print(color("reset"),"\n");
+  return;
+  } # sub Dprint
+
+sub DumpHash
+  { # Usage:   &DumpHash($z_hash,$title);
+  my($z_hash,$title) = @_;
+  my($i,$j,$n,$m,$tt);
+  my(@text) = ();
+
+  print(color($O{"DumpColor"}));
+  print("$title\n") if ( defined($title) );
+
+  $n = scalar(keys(%$z_hash));
+  $m = $n;
+  $m = $O{'DumpLimit'} if ( $O{'DumpLimit'} < $m ); 
+  $m--;
+  $j = 0;
+  foreach $i (sort(keys(%$z_hash))) {
+    next if ($j > $m);
+    $j++;
+    $tt = $z_hash->{$i};
+#    $tt = $$tt if (ref($tt));
+    $tt = &nice_string($tt);
+    push(@text,"$i -> $tt");
+    }
+  if ( $O{'DumpFilename'} ne "" ) {
+    &WriteNewUTF8File($O{'DumpFilename'},\@text);
+    print(" $n lines written to $O{'DumpFilename'}\n");
+    } else {
+    foreach $i (@text) { print("$i\n"); }
+    print("  $n hash elements");
+    }
+  print(color("reset"),"\n");
+  return ;
+  } # sub DumpHash
+
+sub DumpHashArray
+  { # Usage:   &DumpHashArray($z_text,$title);
+  my($z_hash,$title) = @_;
+  my($i,$j,$n,$m,$tt,$z_tt);
+  my(@text) = ();
+
+  print(color($O{"DumpColor"}));
+  print("$title\n") if ( defined($title) );
+
+  $n = scalar(keys(%$z_hash));
+  $m = $n;
+  $m = $O{'DumpLimit'} if ( $O{'DumpLimit'} < $m ); 
+  $m--;
+  $j = 0;
+  foreach $i (sort(keys(%$z_hash))) {
+    next if ($j > $m);
+    $j++;
+    $z_tt = $z_hash->{$i};
+    $tt = join(", ",@$z_tt);
+    $tt = &nice_string($tt);
+    push(@text,"$i -> [$tt]");
+    }
+  if ( $O{'DumpFilename'} ne "" ) {
+    &WriteNewUTF8File($O{'DumpFilename'},\@text);
+    print(" $n lines written to $O{'DumpFilename'}\n");
+    } else {
+    foreach $i (@text) { print("$i\n"); }
+    print("  $n hash elements");
+    }
+  print(color("reset"),"\n");
+  return ;
+  } # sub DumpHashArray
+
+sub DumpArray
+  { # Usage:   &DumpArray($z_text,$title);
+  my($z_text,$title) = @_;
+  my($i,$n,$m,$tt);
+  my(@text) = ();
+
+  print(color($O{"DumpColor"}));
+  print("$title\n") if ( defined($title) );
+
+  print("\n");
+  $n = scalar(@$z_text);
+  $m = $n;
+  $m = $O{'DumpLimit'} if ($O{'DumpLimit'} < $m); 
+  $m--;
+  foreach $i (0..$m) {
+    $tt = $z_text->[$i];
+    $tt = $$tt if (ref($tt));
+    $tt = &nice_string($tt);
+    push(@text,$tt);
+    }
+  if ( $O{'DumpFilename'} ne "" ) {
+    &WriteNewUTF8File($O{'DumpFilename'},\@text);
+    print(" $n lines written to $O{'DumpFilename'}\n");
+    } else {
+    foreach $i (@text) { print("$i\n"); }
+    print("  $n lines");
+    }
+  print(color("reset"),"\n");
+  return ;
+  } # sub DumpArray
+
+sub DumpArrayArray
+  { # Usage:   &DumpArrayArray($z_text,$title);
+  my($z_text,$title) = @_;
+  my($i,$n,$m,$tt,$z_tt);
+  my(@text) = ();
+
+  print(color($O{"DumpColor"}));
+  print("$title\n") if ( defined($title) );
+
+  $n = scalar(@$z_text);
+  $m = $n;
+  $m = $O{'DumpLimit'} if ($O{'DumpLimit'} < $m); 
+  $m--;
+  foreach $i (0..$m) {
+    $z_tt = $z_text->[$i];
+    $tt = join(", ",@$z_tt);
+    $tt = &nice_string($tt);
+    push(@text,$tt);
+    }
+  if ( $O{'DumpFilename'} ne "" ) {
+    &WriteNewUTF8File($O{'DumpFilename'},\@text);
+    print(" $n lines written to $O{'DumpFilename'}\n");
+    } else {
+    foreach $i (@text) { print("$i\n"); }
+    print("  $n lines");
+    }
+  print(color("reset"),"\n");
+  return ;
+  } # sub DumpArrayArray
+
+sub nice_string {
+  join("",
+    map { $_ > 126 ?
+      sprintf("\\x{%04X}", $_) :
+      chr($_) =~ /[[:cntrl:]]/ ?
+      sprintf("\\x%02X", $_) :
+      chr($_)
+    } unpack("U*", $_[0]));
+  } # sub nice_string
