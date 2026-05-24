@@ -1,15 +1,15 @@
 #!/usr/bin/perl -w
-require 5.040;
+require 5.025;
 use utf8;
 use strict;
-use integer;
 use warnings;
+use integer;
 
 our($License) = "This programm underlies the GNU GENERAL PUBLIC LICENSE 2.0 or newer";
 our($ScriptName) = "gede"; # our($SCRIPTNAME) = uc($ScriptName);
                    # gede = Google-Docs based EDE
-our($ScriptBuild) = "0";
-our($ScriptDate) =  "2026-05-17";
+our($ScriptBuild) = "3";
+our($ScriptDate) =  "2026-05-22";
 our($ScriptMajor) = "0";
 our($ScriptMinor) = "0";
 our($ScriptSub) =   "0";
@@ -21,8 +21,8 @@ our($copyright) = "This is free software; see the source for copying conditions.
 warranty; not even for MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.\n";
 
 our($usagelong) =
-"Lädt alle Dateien im Verzeichniss Begriffe2.0 und dessen Unterverzeichnissen des GI-Arbeitskreises
-Informatik-Begriffsnetzes in Google Drive im Mark-Down-Format herunter und wandelt diese in HTML im
+"Wandelt die im Verzeichnis Begriffe2.0 (bezogen auf das Verzeichnis, in dem $ScriptName aufgerufen wurde)
+liegenden, aus dem Google-Drive des Informatik-Begriffsnetzes als .docx heruntergeladenen Dateien in HTML im
 Informatik-Begriffsnetz 2.0-Format um.
 
 Speichert das Ergebnis im Unterverzeichnis web2.0 des Verzeichnisses, in dem das Skript aufgerufen wird.
@@ -32,9 +32,10 @@ Falls das Verzeichnis web2.0 bereits exisitert, wird dieses in web2.0.bak umbena
 Durch Optionen kann das Verhalten angepasst werden, z. B. weitere Ausgaben erstellt werden.
 
 Optionen:
-    -d: Gib weitere Daten aus, mehrfache Angabe gibt mehr aus
-    -h: Gib diese Daten aus und stoppe
-    -V: Gib Id und Skriptversion aus und stoppe
+    -d, --details: Gib weitere Daten aus, mehrfache Angabe gibt mehr aus
+    -h, --help: Gib diese Daten aus und stoppe
+    -s, --keinestatistik: Gib keine statistischen Daten aus
+    -V, --version: Gib Id und Skriptversion aus und stoppe
     -W: Gib keine Warnungen aus
     -?: Gib diese Daten aus und stoppe
 
@@ -50,6 +51,8 @@ use File::DosGlob;
 	         @g ? @g : $_; } @ARGV;
 
 use Data::Dumper;
+use File::Basename;
+use File::Spec;
 use Time::HiRes qw(gettimeofday);
 use Term::ANSIColor;
 
@@ -57,21 +60,38 @@ our($false) = 0;
 our($true) = 1;
 
 our(%S) = (
-     'WarnBuffer' => [],
+     'ALT' => [],
+     'BaseDir' => "", # Absoluter Pfad des Verzeichnises in dem das Skript aufgerufen wird
      'DebugBuffer' => [],
+     'docx' => [],
      'exitvalue' => 0,
+     'Extensionen' => [],
+     'html' => [],
+     'KopieVon' => [],
+     'OhneExtension' => [],
+     'Systemverzeichnisse' => 0,
+     'Template' => [],
+     'UnixHidden' => [],
+     'unerwünscht' => [],
+     'unkategorisiert' => [],
+     'Verzeichnis' => [],
+     'WederDateiNochVerzeichnis' => [],
+     'WarnBuffer' => [],
      ); # Not used states:
         # Duration
         # StartTime
 
 our(%O) = (
-    'debug' => $false,
-    'warn' => 1,
-    'StatisticColor' => "black",
-    'DumpColor' => "reverse yellow",
-    'DumpLimit' => 30,
+    'details' => 0,
+    'DumpColor' => "bright_white on_yellow",
     'DumpFilename' => "",
     #'DumpFilename' => $Scriptname . "Dump.txt",
+    'DumpLimit' => 30,
+    'InputDir' => "Begriffe2.0",
+    'OutputDir' => "web2.0",
+    'StatisticColor' => "black",
+    'statistics' => $true,
+    'warn' => 1,
     ); # Options
 
 # our(@TEST) = ();
@@ -79,6 +99,10 @@ our(%O) = (
 
 
 &CheckArgs();
+&Init();
+&CheckBaseDir();
+
+&LiesBegriffe($O{'InputDir'});
                 #&DumpHash(\%O,"\nO:"); &DumpHash(\%S,"\nS:"); exit 7;
                 #&DumpHash(\%O,"\nO:"); &Dprint("\nS:\n",Dumper(\%S)); exit 7;
 
@@ -90,87 +114,471 @@ our(%O) = (
                 #&DumpHash(\%EntryKinds,"\nEntryKinds:"); # exit 7;
 # &WriteResults();
 
-# &PrintStatistics();
 &PrintWarnsDebugs();
+&PrintStatistics();
 &Exit(0);
 
-######################################################################################################
+#################################################################################################
 
-sub WriteResults()
-  { # Usage:  &WriteResults()
-    # Schreibt die gefundenen und sortieren Paktenamen in die passenden Dateien
-  my($l);
+sub Init()
+  { # Usage:  &Init()
+    # Initialisiert das Skript
+
+  $S{'BaseDir'} = File::Spec->rel2abs(".","");
+  return;
+  } # sub Init()
+
+sub LiesBegriffe
+  { # Usage:  &LiesBegriffe($DirName);
+    # Falls irgenndetwas schief geht, wird eine geeignete Fehlermeldung ausgegeben und die
+    # Ausführung mit einem Fehlercode beendet.
+  my($DirName) = @_;
+  my($Message) = "$ScriptName: Internal error: Should never be printed";
+  my($CurrentDir,$DirHandle,$Dateiname,$UpDir);
+  my(@Dateinamen) = ();
+
+  &CheckInputDir($DirName);
+
+  if ( not chdir($DirName) ) {
+    $Message = "Wechsel in das Verzeichnis $DirName nicht möglich.";
+    if ( $O{'details'} > 0 ) {
+      $Message .= color('reset');
+      $Message .= "\n                   In $DirName sollten die Eingabedateien stehen und verarbeitet werden.";
+      }
+    &Error($Message);
+    &Exit(1);
+    }
+  $CurrentDir = File::Spec->rel2abs(".","");
+  if ( $O{'details'} > 3 ) { print(color("green"),"→→→ $CurrentDir",color("reset"),"\n"); }
+  if ( not opendir($DirHandle,".") ) {
+    $Message = "Basisverzeichnis $CurrentDir der Begriffe kann nicht geöffnet werden.";
+    &Error($Message);
+    &Exit(1),
+    }
+  @Dateinamen = readdir($DirHandle);
+  if ( not closedir($DirHandle) ) {
+    $Message = "Basisverzeichnis $CurrentDir der Begriffe kann nach dem Lesen der Dateinamen nicht geschlossen werden.";
+    &Error($Message);
+    &Exit(1),
+    }
+                #&DumpArray(\@Dateinamen,"\nDateinamen"); # exit 7;
+  foreach $Dateiname (@Dateinamen) {
+    &ProcessDateiname($CurrentDir,$Dateiname);
+    } # foreach @Dateinamen
+
+  $UpDir = File::Spec->updir();
+  if ( not chdir($UpDir) ) {
+    $Message = "Wechsel in das übergeordnete Verzeichnis von $CurrentDir aus nicht möglich.";
+    if ( $O{'details'} > 0 ) {
+      $Message .= color('reset');
+      $Message .= "\n                   Im übergeordneten Verzeichnis sollten im Unterverzeichnis web2.0 die Ergebnisse erstellt werden.";
+      }
+    &Error($Message);
+    &Exit(1);
+    }
+  $CurrentDir = File::Spec->rel2abs(".","");
+  if ( $O{'details'} > 3 ) { print(color("magenta"),"←←← $CurrentDir",color("reset"),"\n"); }
+  return;
+  } # sub LiesBegriffe()
+ 
+sub ProcessDateiname
+  { # Usage:  &ProcessDateiname($CurrentDir,$Dateiname);
+    # Startpunkt und Teil der rekursiven Verarbeitung der Dateihierarchie
+  my($CurrentDir,$Dateiname) = @_;
+  my($Kategorie);
+
+  $Kategorie = &KategorisiereDateiname($Dateiname);
+                #&Dprint("$Dateiname: $Kategorie"); # exit 7;
+
+  if ( $Kategorie eq "Systemverzeichnis" ) {
+    $S{'Systemverzeichnisse'} += 1;
+    return;
+    } # Systemverzeichnis
+
+  if ( $Kategorie eq "ALT" ) {
+    push(@{$S{'ALT'}},$Dateiname);
+    return;
+    } # ALT
+
+  if ( $Kategorie eq "Template" ) {
+    push(@{$S{'Template'}},$Dateiname);
+    return;
+    } # Template
+
+  if ( $Kategorie eq "KopieVon" ) {
+    push(@{$S{'KopieVon'}},$Dateiname);
+    return;
+    } # ALT
+
+  if ( $Kategorie eq "WederDateiNochVerzeichnis" ) {
+    push(@{$S{'WederDateiNochVerzeichnis'}},$Dateiname);
+    return;
+    } # WederDateiNochVerzeichnis
+
+  if ( $Kategorie eq "Verzeichnis" ) {
+    push(@{$S{'Verzeichnis'}},$Dateiname);
+    &ProcessVerzeichnisname($Dateiname);
+    return;
+    } # Verzeichnis
+
+  if ( $Kategorie eq "UnixHidden" ) {
+    push(@{$S{'UnixHidden'}},$Dateiname);
+    return;
+    } # UnixHidden
+
+  if ( $Kategorie eq "OhneExtension" ) {
+    push(@{$S{'OhneExtension'}},$Dateiname);
+    return;
+    } # OhneExtension
+
+  if ( $Kategorie eq "unerwünscht" ) {
+    push(@{$S{'unerwünscht'}},$Dateiname);
+    return;
+    } # Template
+
+  if ( $Kategorie eq "html" ) {
+    push(@{$S{'html'}},$Dateiname);
+    return;
+    } # html
+
+  if ( $Kategorie eq "docx" ) {
+    push(@{$S{'docx'}},$Dateiname);
+    return;
+    } # doc4
+
+  if ( $Kategorie eq "unkategorisiert" ) {
+    push(@{$S{'unkategorisiert'}},$Dateiname);
+    return;
+    } # Template
+                &Dprint("$Dateiname: $Kategorie"); # exit 7;
+  return;
+  } # sub ProcessDateiname
+
+sub ProcessVerzeichnisname
+  { # Usage:  &ProcessVerzeichnisname($DirName);
+    # Liest die Dateinamen im Unterverzeichnis $DirName ein und ruft für jeden Dateinamen
+    # &ProcessDateiname auf
+    # Teil der rekursiven Verarbeitung der Dateihierarchie
+  my($DirName) = @_;
+  my($Message) = "$ScriptName: Internal error: Should never be printed";
+  my($DirHandle,$CurrentDir,$Dateiname,$UpDir,$PerlErrorMessage);
+  my(@Dateinamen) = ();
+
+  if ( not chdir($DirName) ) {
+    $PerlErrorMessage = $!;
+    $Message = "Wechsel in das Unterverzeichnis $DirName nicht möglich.";
+    if ( $O{'details'} > 0 ) {
+      $Message .= color('reset');
+      $Message .= "\n                   In $DirName sollten Eingabedateien stehen und verarbeitet werden.";
+      if ( $O{'details'} > 2 ) {
+        $Message .= "\n                       Perl-Error-Message: $PerlErrorMessage";
+        } 
+      }
+    &Error($Message);
+    &Exit(1);
+    }
+  $CurrentDir = File::Spec->rel2abs(".","");
+  if ( $O{'details'} > 3 ) { print(color("green"),"→→→",color("reset")," $CurrentDir\n"); }
+  if ( not opendir($DirHandle,".") ) {
+    $Message = "Unterverzeichnis $CurrentDir kann nicht geöffnet werden.";
+    &Error($Message);
+    &Exit(1),
+    }
+  @Dateinamen = readdir($DirHandle);
+  if ( not closedir($DirHandle) ) {
+    $Message = "Unterverzeichnis $CurrentDir kann nach dem Lesen der Dateinamen nicht geschlossen werden.";
+    &Error($Message);
+    &Exit(1),
+    }
+                #&DumpArray(\@Dateinamen,"\nDateinamen");  exit 7;
+  foreach $Dateiname (@Dateinamen) {
+    &ProcessDateiname($CurrentDir,$Dateiname);
+    } # foreach @Dateinamen
+
+  $UpDir = File::Spec->updir();
+  if ( not chdir($UpDir) ) {
+    $Message = "Wechsel in das übergeordnete Verzeichnis von $CurrentDir nicht möglich.";
+    &Error($Message);
+    &Exit(1);
+    }
+  $CurrentDir = File::Spec->rel2abs(".","");
+  if ( $O{'details'} > 3 ) { print(color("magenta"),"←←←",color("reset")," $CurrentDir\n"); }
+  return;
+  }  # sub ProcessVerzeichnisname
+
+############ INPUT #### INPUT #### INPUT #### INPUT #### INPUT #### INPUT #### INPUT ############
+
+sub CheckBaseDir
+  { # Usage:  &CheckBaseDir();
+    # Prüft ob das Basisverzeichnis $S{'BaseDir'} die erforderlichen Berechtigungen hat
+    # Falls irgenndetwas nicht so ist, wie es sein soll, wird eine geeignete Fehlermeldung ausgegeben und die
+    # Ausführung mit einem Fehlercode beendet.
+  my($DirName) = $S{'BaseDir'};
+  my($Message) = "$ScriptName: Internal error: Should never be printed";
+
+  if ( not -e $DirName ) { # Seltsam: Aufrufverzeichnis soll nicht existieren
+    $Message = "Aufrufverzeichnis $DirName existiert gemäß Betriebssystemabfrage nicht.";
+    if ( $O{'details'} > 1 ) {
+      $Message .= color('reset');
+      $Message .= "\n         Maßnahme: Analysieren, was im Skript falsch läuft.";
+      }
+    if ( $O{'details'} > 2 ) {
+      $Message .= "\n      Erläuterung: Dieser Fehler sollte nie vorkommen.";
+      $Message .= "\n                   Falls doch, ist etwas Grundlegendes schief gegangen.";
+      }
+    &Error($Message);
+    &Exit(1);
+    } #  Seltsam: Aufrufverzeichnis soll nicht existieren
+
+  if ( not -d $DirName ) { # Seltsam: Aufrufverzeichnis soll kein Verzeichnis sein
+    $Message = "Aufrufverzeichnis $DirName ist gemäß Betriebssystemabfrage kein Verzeichnis.";
+    if ( $O{'details'} > 1 ) {
+      $Message .= color('reset');
+      $Message .= "\n         Maßnahme: Analysieren, was im Skript falsch läuft.";
+      }
+    if ( $O{'details'} > 2 ) {
+      $Message .= "\n      Erläuterung: Dieser Fehler sollte nie vorkommen.";
+      $Message .= "\n                   Falls doch, ist etwas Grundlegendes schief gegangen.";
+      }
+    &Error($Message);
+    &Exit(1);
+    } #  Seltsam: Aufrufverzeichnis soll kein Verzeichnis sein
+
+  if ( not -r $DirName ) { # Seltsam: Aufrufverzeichnis soll nicht lesbar sein
+    $Message = "Aufrufverzeichnis $DirName ist gemäß Betriebssystemabfrage nicht lesbar.";
+    if ( $O{'details'} > 1 ) {
+      $Message .= color('reset');
+      $Message .= "\n         Maßnahme: Analysieren, was im Skript falsch läuft.";
+      }
+    if ( $O{'details'} > 2 ) {
+      $Message .= "\n      Erläuterung: Dieser Fehler sollte nie vorkommen.";
+      $Message .= "\n                   Falls doch, ist etwas Grundlegendes schief gegangen.";
+      }
+    &Error($Message);
+    &Exit(1);
+    } #  Seltsam: Aufrufverzeichnis soll nicht lesbar sein
+
+  if ( not -w $DirName ) { # Aufrufverzeichnis nicht beschreibbar
+    $Message = "Aufrufverzeichnis $DirName nicht beschreibbar.";
+    if ( $O{'details'} > 0 ) {
+      $Message .= color('reset');
+      $Message .= "\n                   In $DirName müssen Hilfs- und Ergebnisdateien geschrieben werden können.";
+      }
+    if ( $O{'details'} > 1 ) {
+      $Message .= "\n         Maßnahme: Schreibrechte für $DirName erteilen.";
+      }
+    if ( $O{'details'} > 2 ) {
+      $Message .= "\n      Erläuterung: Für die Erstellung der HTML-Dateien müssen die von Google Docs erstellten";
+      $Message .= "\n                   .docx-Dateien im Verzeichnis $DirName mit Pandoc in ein einfach";
+      $Message .= "\n                   verarbeitbares Format umgewandelt und gespeichert werden und es werden die";
+      $Message .= "\n                   erzeugten HTML-Dateien usw. in das Unterverzeichnis $O{'OutputDir'} geschrieben.";
+      $Message .= "\n                   Dazu muss in das Verzeichnis $DirName geschrieben werden können.";
+      }
+    &Error($Message);
+    &Exit(1);
+    } #  Aufrufverzeichnis nicht beschreibbar
+
+  if ( not -x $DirName ) { # Aufrufverzeichnis nicht durchsuchbar
+    $Message = "Dateinamen im Aufrufverzeichnis $DirName nicht ermittelbar.";
+    if ( $O{'details'} > 0 ) {
+      $Message .= color('reset');
+      $Message .= "\n                   Die Dateinamen in $DirName müssen ermittelbar sine, damit diese";
+      $Message .= "\n                   verarbeitet werden können.";
+      }
+    if ( $O{'details'} > 1 ) {
+      $Message .= "\n         Maßnahme: Suchrechte (Unix usw: x) für $DirName erteilen.";
+      }
+    if ( $O{'details'} > 2 ) {
+      $Message .= "\n      Erläuterung: Für die Erstellung der HTML-Dateien müssen die von Google Docs erstellten";
+      $Message .= "\n                   .docx-Dateien im Aufrufverzeichnis $DirName mit Pandoc in ein einfach";
+      $Message .= "\n                   verarbeitbares Format umgewandelt und gespeichert werden und es müssen";
+      $Message .= "\n                   die Ergebnisse in das Unterverzeichnis $O{'OutputDir'} gespeichert werden.";
+      $Message .= "\n                   Dazu sollte der Inhalt des von $DirName ermittelt werden können.";
+      }
+    &Error($Message);
+    &Exit(1);
+    } #  Aufrufverzeichnis nicht durchsuchbar
 
   return;
-  } # WriteResults
+  } # CheckBaseDir
 
-sub PrintStatistics
-  { # Usage:  &PrintStatistics();
-    # Print statistics
-  my($l,$c,$r);
+sub CheckInputDir
+  { # Usage:  &CheckInputDir($DirName);
+    # Prüft, ob $DirName ein les-, schreib und scanbares Verzeichnis im aktuellen Arbeitsverzeichnis ist.
+    # Falls irgenndetwas nicht so ist, wie es sein soll, wird eine geeignete Fehlermeldung ausgegeben und die
+    # Ausführung mit einem Fehlercode beendet.
+  my($DirName) = @_;
+  my($CurrentDir) = File::Spec->rel2abs(".","");
+  my($Message) = "Internal error: Should never be printed";
+                #&Dprint("\nCurrentDir: ",$CurrentDir); # exit 7;
 
-  $c = $O{'StatisticColor'};
-  $r = "reset";
+  if ( not -e $DirName ) { # Verzeichnisname im aktuellen Verzeichnis nicht gefunden
+    $Message = "Verzeichnis $DirName in $CurrentDir nicht gefunden.";
+    if ( $O{'details'} > 0 ) {
+      $Message .= color('reset');
+      $Message .= "\n                   $DirName soll aus Google Docs heruntergeladene Begriffe enthalten.";
+      }
+    if ( $O{'details'} > 1 ) {
+      $Message .= "\n    Herunterladen: In Google Docs: Rechtsklick auf Verzeichnisnamen $DirName, die";
+      $Message .= "\n                   errstellte .zip-Datei im Verzeichnis $S{'BaseDir'} speichern und mit einem";
+      $Message .= "\n                   zip-Programm auspacken.";
+      $Message .= "\n                   Danach prüfen, ob das Verzeichnis $DirName in $S{'BaseDir'} erstellt wurde und die";
+      $Message .= "\n                   Begriffe aus Google Docs als .docx-Dateien enthält, auch in";
+      $Message .= "\n                   Unterverzeichnissen.";
+      }
+    &Error($Message);
+    &Exit(1);
+    } #  Verzeichnisnamen im aktuellen Verzeichnis nicht gefunden
 
-  print("\n");
-  my(@TEST) = ();
-  $l = scalar(@TEST);
-  print("    ",color($c),$l,color($r)," anderes“ ($S{'warn'})\n") if ( $l > 0);
-  print("\n");
+  if ( not -d $DirName ) { # Dateinamen vorhanden, ist aber unerwarteterweise kein Verzeichnis
+    $Message = "Dateiname $DirName ist in $CurrentDir vorhanden, aber kein Verzeichnis.";
+    if ( $CurrentDir eq $S{'BaseDir'} ) { # In BaseDir 
+      if ( $O{'details'} > 0 ) {
+        $Message .= color('reset');
+        $Message .= "\n                   $DirName soll ein Verzeichnis sein, das aus Google Docs";
+        $Message .= "\n                   heruntergeladene Begriffe enthält.";
+        }
+      if ( $O{'details'} > 1 ) {
+        $Message .= "\n    Maßnahmen:     $DirName umbennen, Begriffe aus Google Docs herunterladen und auspacken.";
+        }
+      if ( $O{'details'} > 2 ) {
+        $Message .= "\n    Herunterladen: In Google Docs: Rechtsklick auf Verzeichnisnamen $DirName, die";
+        $Message .= "\n                   erstellte .zip-Datei im Verzeichnis $S{'BaseDir'} speichern und mit einem";
+        $Message .= "\n                   zip-Programm auspacken.";
+        $Message .= "\n                   Danach prüfen, ob das Verzeichnis $DirName erstellt wurde und die";
+        $Message .= "\n                   Begriffe aus Google Docs als .docx-Dateien enthält, eventuell auch in";
+        $Message .= "\n                   Unterverzeichnissen.";
+        }
+      } # In BaseDir
+    else { # In Unterverzeichnis
+      if ( $O{'details'} > 1 ) {
+        $Message .= "\n    Maßnahmen:     Prüfen, ob der Download der Google Docs-Dateien sich anders verhält.";
+        $Message .= "\n                   Verzeichnis $O{'InputDir'} in $S{'BaseDir'} löschen und von Google Docs";
+        $Message .= "\n                   neu herunterladen.";
+        $Message .= "\n                   Falls das nicht hilft, ist eine detaillierte Fehleranalyse erforderlich.";
+        }
+      if ( $O{'details'} > 2 ) {
+        $Message .= "\n    Herunterladen: In Google Docs: Rechtsklick auf Verzeichnisnamen $DirName, die";
+        $Message .= "\n                   erstellte .zip-Datei im Verzeichnis $S{'BaseDir'} speichern und mit einem";
+        $Message .= "\n                   zip-Programm auspacken.";
+        $Message .= "\n                   Danach prüfen, ob das Verzeichnis $DirName erstellt wurde und die";
+        $Message .= "\n                   Begriffe aus Google Docs als .docx-Dateien enthält, auch in";
+        $Message .= "\n                   Unterverzeichnissen.";
+        }
+      } # In Unterverzeichnis
+    &Error($Message);
+    &Exit(1);
+    } #  Dateinamen vorhanden, ist aber unerwarteterweise kein Verzeichnis
+
+  if ( not -r $DirName ) { # Eingabeverzeichnisnamen gefunden: nicht lesbar
+    $Message = "Dateiname $DirName in $CurrentDir nicht lesbar.";
+    if ( $O{'details'} > 0 ) {
+      $Message .= color('reset');
+      $Message .= "\n                   $DirName sollte ein lesbares Verzeichnis in $CurrentDir sein, das aus";
+      $Message .= "\n                   Google Docs heruntergeladene Begriffe enthält.";
+      }
+    if ( $O{'details'} > 1 ) {
+      $Message .= "\n         Maßnahme: Leserechte für $DirName erteilen.";
+      }
+    &Error($Message);
+    &Exit(1);
+    } #  Eingabeverzeichnisnamen gefunden: nicht lesbar
+
+  if ( not -w $DirName ) { # Eingabeverzeichnisnamen gefunden: nicht beschreibbar
+    $Message = "Dateiname $DirName in $CurrentDir' nicht beschreibbar.";
+    if ( $O{'details'} > 0 ) {
+      $Message .= color('reset');
+      $Message .= "\n                   In $DirName müssen Hilfsdateien geschrieben werden können.";
+      }
+    if ( $O{'details'} > 1 ) {
+      $Message .= "\n         Maßnahme: Schreibrechte für $DirName erteilen.";
+      }
+    if ( $O{'details'} > 2 ) {
+      $Message .= "\n      Erläuterung: Für die Erstellung der HTML-Dateien müssen die von Google Docs erstellten";
+      $Message .= "\n                   .docx-Dateien im Verzeichnis $DirName mit Pandoc in ein einfach";
+      $Message .= "\n                   verarbeitbares Format umgewandelt und gespeichert werden.";
+      $Message .= "\n                   Dazu muss in das Verzeichnis $DirName geschrieben werden können.";
+      }
+    &Error($Message);
+    &Exit(1);
+    } #  Eingabeverzeichnisnamen gefunden: nicht beschreibbar
+
+  if ( not -x $DirName ) { # Eingabeverzeichnisnamen gefunden: nicht scanbar
+    $Message = "Dateinamen im Verzeichnis $DirName in $CurrentDir' nicht ermittelbar.";
+    if ( $O{'details'} > 0 ) {
+      $Message .= color('reset');
+      $Message .= "\n                   Die Dateinamen in $DirName müssen ermittelbar sein, damit diese";
+      $Message .= "\n                   verarbeitet werden können.";
+      }
+    if ( $O{'details'} > 1 ) {
+      $Message .= "\n         Maßnahme: Suchrechte (Unix usw: x) für $DirName erteilen.";
+      }
+    if ( $O{'details'} > 2 ) {
+      $Message .= "\n      Erläuterung: Für die Erstellung der HTML-Dateien müssen die von Google Docs erstellten";
+      $Message .= "\n                   .docx-Dateien im Verzeichnis $DirName mit Pandoc in ein einfach";
+      $Message .= "\n                   verarbeitbares Format umgewandelt und gespeichert werden.";
+      $Message .= "\n                   Dazu sollte der Inhalt des Verzeichnisses $DirName ermittelt werden können.";
+      }
+    &Error($Message);
+    &Exit(1);
+    } #  Eingabeverzeichnisnamen gefunden: nicht scanbar
+
   return;
-  } # sub PrintStatistics
+  } # CheckInputDir
 
-#### INPUT #### INPUT #### INPUT #### INPUT #### INPUT #### INPUT #### INPUT ####
+sub KategorisiereDateiname
+  { # Usage:  $Kategorie = &KategorisiereDateiname($Dateiname);
+    # Analysiert den Dateinamen sowie die Eigenschaft der Datei und gibt den ermittelnden Wert als
+    # Zeichenkette zurück.
+    # Dateinamen werden syntaktisch und eingeschränkt semantisch geprüft.
+  my($Dateiname) = @_;
+  my($Basename,$Extension,$Message,$Nice);
+  
+  if ( $Dateiname eq "." ) { return "Systemverzeichnis"; }
+  if ( $Dateiname eq ".." ) { return "Systemverzeichnis"; }
+  if ( $Dateiname =~ /^ALT_/ ) { return "ALT"; }
+  if ( $Dateiname =~ /ZZTemplate/i ) { return "Template"; }
+  if ( $Dateiname =~ /^Kopie von/ ) { return "KopieVon"; }
+  if ( $Dateiname =~ /^Copy of/ ) { return "KopieVon"; }
+  if ( -d $Dateiname ) {
+    if ( $Dateiname !~ /^[A-Za-z][_A-Za-z0-9-]*$/ ) {
+      $Message = "Unerwünschte Zeichen im Verzeichnisnamen " . color("blue") . "$Dateiname" . color("reset") . "\n";
+      $Nice = &nice_string($Dateiname);
+      $Message .= "         Verzeichnisname escaped: »" . color("cyan") . $Nice . color("reset") . "«";
+      &Warn($Message);
+      }
+    return "Verzeichnis";
+    }
+  if ( not -f $Dateiname ) { return "WederDateiNochVerzeichnis"; }
+  
+  # Alle nicht-normale Dateien sind behandelt: Weiter kategorisieren.
+  if ( $Dateiname =~ /^\./ ) { return "UnixHidden"; }
+  if ( $Dateiname !~ /\./ ) { return "OhneExtension"; }
+  if ( $Dateiname !~ /^(.*)\.([^.]+)$/ ) {
+    $Message = "Dateiname " . color("blue") . "$Dateiname" . color("reset") . "hat nicht die Form basename.extension.\n";
+    $Nice = &nice_string($Dateiname);
+    $Message .= "         Dateiname escaped: »" . color("cyan") . $Nice . color("reset") . "«";
+    &Warn($Message);
+    }
+  $Basename = $1;
+  $Extension = $2;
+  push(@{$S{'Extensionen'}},$Extension);
+  if ( $Basename !~ /^[A-Za-z][_A-Za-z0-9-]*$/ ) {
+    $Message = "Unerwünschte Zeichen im Dateinamen " . color("blue") . "$Dateiname" . color("reset") . "\n";
+    $Nice = &nice_string($Dateiname);
+    $Message .= "         Dateiname escaped: »" . color("cyan") . $Nice . color("reset") . "«";
+    &Warn($Message);
+    return "unerwünscht";
+    }
+                #&Dprint("Dateiname: '$Dateiname', Basename: '$Basename', Extension '$Extension'"); # exit 7;
+  if ( $Extension =~ /^html$/i ) { return "html"; }
+  if ( $Extension =~ /^docx$/i ) { return "docx"; }
 
-sub CheckArgs
-  { # Usage:   &CheckArgs();
-  my($parameter, $Text);
-  my(@Arguments) = ();
+  return "unkategorisiert";
+  } # KategorisiereDateiname
 
-  foreach $parameter (@ARGV)
-    { # Check parameters
-    if ($parameter =~ /^-/) { &ProcessOption($parameter); } # Option found
-    else { &ErrorU("Option erwartet, $parameter gefunden."); }
-    } # Check parameters
-
-  return;
-  } # sub CheckArgs
-
-sub ProcessOption
-  { # Usage:  &ProcessOption($optionstring);
-    # Fetch and evaluate option(s)
-  my($o) = @_;
-  my(@o,$no);
-
-  if ($o eq "--help")    { &PrintUsage(); exit 0; }
-  if ($o eq "--version") { &PrintScriptID(); exit 0; }
-  if ($o =~ /^--/) { return; } # Unknown long option: ignore
-  @o = split(//,$o);
-  shift @o; # Remove leading -
-  $no = shift(@o); # Fetch option
-  if ($no eq "d") { $O{'debug'}++; }
-  if ($no eq "h") { &PrintUsage(); exit 0; }
-  if ($no eq "W") { $O{'warn'} = 0; }
-  if ($no eq "V") { &PrintScriptID(); exit 0; }
-  if ($no eq "?") { &PrintUsage(); exit 0; }
-  return;
-  } # sub Processoption
-
-sub CheckFile
-  { # Usage:  $result = &CheckFile($filename);
-    # Checks if the file with name as parameter is
-    # a readable (and writeable) regular file.
-  my($fname) = @_;
-
-  if ( not -e $fname ) { return $false; }
-  if ( not -f $fname ) { return $false; }
-  if ( not -r $fname ) { return $false; }
-  #if ( not -w $fname ) { return $false; }
-  return $true;
-  } # CheckFile
-
-sub CheckFileExistence
-  { # Usage:  $result = &CheckFileExistence($filename);
+sub CheckFileReadability
+  { # Usage:  $result = &CheckFileReadability($filename);
     # Checks if the file with name as parameter exists,
     # is a readable regular file of nonzero size.
   my($fname) = @_;
@@ -193,7 +601,7 @@ sub CheckFileExistence
     } # zero size
 
   return $true;
-  } # CheckFileExistence
+  } # CheckFileReadability
 
 sub ReadUTF8File
   { # Usage:   &ReadUTF8File($filename,$z_array);
@@ -216,7 +624,7 @@ sub ReadUTF8File
   return;
   } # sub ReadUTF8File
 
-#### OUTPUT #### OUTPUT #### OUTPUT #### OUTPUT #### OUTPUT #### OUTPUT ####
+############ OUTPUT #### OUTPUT #### OUTPUT #### OUTPUT #### OUTPUT #### OUTPUT ############
 
 sub CheckOutFile
   { # Usage: $result = &CheckoutFile($filename);
@@ -283,30 +691,167 @@ sub WriteResultToFile()
   return $Result;
   } # WriteResultToFile
 
-############################ CX ######################################
+sub WriteResults()
+  { # Usage:  &WriteResults()
+    # Schreibt die gefundenen und sortieren Paktenamen in die passenden Dateien
+  my($l);
 
-sub CurrentTime
-  { # Usage:  &CurrentTime();
-  my($now,$tt);
-  my($sec,$min,$hour,$mday,$mon,$year,$wday,$yday,$isdst) = localtime();
+  return;
+  } # WriteResults
 
-  $year += 1900;
-  $now = "$year";
-  $mon += 1; $tt = "$mon"; $tt = "0$tt" if ($mon < 10);
-  $now .= "-" . $tt;
-  $tt = "$mday"; $tt = "0$tt" if ($mday < 10);
-  $now .= "-" . $tt;
-  $tt = "$hour"; $tt = "0$tt" if ($hour < 10);
-  $now .= " " . $tt;
-  $tt = "$min"; $tt = "0$tt" if ($min < 10);
-  $now .= ":" . $tt;
-  $tt = "$sec"; $tt = "0$tt" if ($sec < 10);
-  $now .= ":" . $tt;
+sub PrintStatistics
+  { # Usage:  &PrintStatistics();
+    # Print statistics
+  my($l,$c,$r,$t,@o,$Extension,$e);
+  my(%Extensionen) = ();
 
-  return $now;
-  } # sub CurrentTime
+  return unless ( $O{'statistics'} );
 
-############################ UTILITIES ######################################
+  $c = color($O{'StatisticColor'});
+  $r = color("reset");
+
+  print("\n${c}Statistik:\n");
+
+  if ( ($S{'Systemverzeichnisse'} > 0) and ($O{'details'} > 3) ) {
+    print("    $S{'Systemverzeichnisse'} Systemverzeichnisse (., ..)\n");
+    }
+
+  @o = sort(@{$S{'ALT'}});
+  $l = scalar(@o);
+  if ( $l > 0 ) {
+    print("    $l mit ALT_ beginnende Verzeichnis- bzw. Dateinamen, alle übersprungen\n");
+    if ( $O{'details'} > 0 ) { print("        " . join(", ",@o) . "\n"); }
+    }
+
+  @o = sort(@{$S{'Template'}});
+  $l = scalar(@o);
+  if ( $l > 0 ) {
+    print("    $l ignorierte Template-Dateien  (ZZTemplate…)\n");
+    if ( $O{'details'} > 0 ) { print("        " . join(", ",@o) . "\n"); }
+    }
+
+  @o = sort(@{$S{'KopieVon'}});
+  $l = scalar(@o);
+  if ( $l > 0 ) {
+    print("    $l mit »Kopie von« beginnende Verzeichnis- bzw. Dateinamen, alle übersprungen\n");
+    if ( $O{'details'} > 0 ) { print("        " . join(", ",@o) . "\n"); }
+    }
+
+  @o = sort(@{$S{'WederDateiNochVerzeichnis'}});
+  $l = scalar(@o);
+  if ( $l > 0 ) {
+    print("    $l Dateinamen die weder eine normale Datei noch ein Verzeichnis sind, alle übersprungen (Symbolische Links, …)\n");
+    if ( $O{'details'} > 0 ) { print("        " . join(", ",@o) . "\n"); }
+    }
+
+  @o = sort(@{$S{'Verzeichnis'}});
+  $l = scalar(@o);
+  if ( $l > 0 ) {
+    print("    $l Verzeichnisse\n");
+    if ( $O{'details'} > 0 ) { print("        " . join(", ",@o) . "\n"); }
+    }
+
+  @o = sort(@{$S{'UnixHidden'}});
+  $l = scalar(@o);
+  if ( $l > 0 ) {
+    print("    $l Versteckte Unix-Dateien (.…), alle übersprungen\n");
+    if ( $O{'details'} > 0 ) { print("        " . join(", ",@o) . "\n"); }
+    }
+
+  @o = sort(@{$S{'OhneExtension'}});
+  $l = scalar(@o);
+  if ( $l > 0 ) {
+    print("    $l Dateinamen ohne Extension (*.*), alle übersprungen\n");
+    if ( $O{'details'} > 0 ) { print("        " . join(", ",@o) . "\n"); }
+    }
+
+  foreach $Extension (@{$S{'Extensionen'}}) {
+    if ( exists($Extensionen{$Extension}) ) { $Extensionen{$Extension} += 1; }
+    else { $Extensionen{$Extension} = 1; }
+    }
+               # &DumpHash(\%Extensionen,"\nExtensionen:");
+  @o = sort(keys(%Extensionen));
+                #&DumpArray(\@o,"\no");
+  $l = scalar(@o);
+  if ( $l > 0 ) {
+    print("    $l verschiedene Extensionen\n");
+    if ( $O{'details'} > 0 ) {
+      foreach $e (@o) { print("        $Extensionen{$e} $e\n"); }
+      }
+    }
+
+  @o = sort(@{$S{'unerwünscht'}});
+  $l = scalar(@o);
+  if ( $l > 0 ) {
+    print("    $l Dateinamen mit unerwünschten Zeichen, d. h. nicht [A-Za-z][_A-Za-z0-9-]*, alle übersprungen\n");
+    if ( $O{'details'} > 0 ) { print("        " . join(", ",@o) . "\n"); }
+    }
+
+  @o = sort(@{$S{'html'}});
+  $l = scalar(@o);
+  if ( $l > 0 ) {
+    print("    $l Dateinamen mit HTML-Extension, alle übersprungen\n");
+    if ( $O{'details'} > 0 ) { print("        " . join(", ",@o) . "\n"); }
+    }
+
+  @o = sort(@{$S{'docx'}});
+  $l = scalar(@o);
+  if ( $l > 0 ) {
+    print("    $l .docx-Dateinamen\n");
+    if ( $O{'details'} > 0 ) { print("        " . join(", ",@o) . "\n"); }
+    }
+
+  @o = sort(@{$S{'unkategorisiert'}});
+  $l = scalar(@o);
+  if ( $l > 0 ) {
+    print("    $l Dateinamen konnten nicht eingeordnet werden, alle übersprungen\n");
+    if ( $O{'details'} > 0 ) { print("        " . join(", ",@o) . "\n"); }
+    }
+
+  print("$r");
+  return;
+  } # sub PrintStatistics
+
+############ UTILITIES #### UTILITIES #### UTILITIES #### UTILITIES #### UTILITIES ############ 
+
+sub CheckArgs
+  { # Usage:   &CheckArgs();
+  my($parameter, $Text);
+  my(@Arguments) = ();
+
+  foreach $parameter (@ARGV)
+    { # Check parameters
+    if ($parameter =~ /^-/) { &ProcessOption($parameter); } # Option found
+    else { &Warn("$ScriptName mit unerwartetem Argument $parameter aufgerufen, Argument ignoriert"); }
+    } # Check parameters
+
+  return;
+  } # sub CheckArgs
+
+sub ProcessOption
+  { # Usage:  &ProcessOption($optionstring);
+    # Fetch and evaluate option(s)
+  my($o) = @_;
+  my(@o,$no);
+
+  if ($o eq "--details") { $O{'details'}++; next; }
+  if ($o eq "--help")    { &PrintUsage(); exit 0; }
+  if ($o eq "--keinestatistik") { $O{'statistics'} = $false; next; }
+  if ($o eq "--version") { &PrintScriptID(); exit 0; }
+  if ($o =~ /^--/) { &Warn("Unbekannte Option '$o' im Aufrauf von $ScriptName, ignoriert"); return; }
+  @o = split(//,$o);
+  shift @o; # Remove leading -
+  foreach $no (@o) { # Process single character options
+    if ($no eq "d") { $O{'details'}++; next; }
+    if ($no eq "h") { &PrintUsage(); exit 0; }
+    if ($no eq "s") { $O{'statistics'} = $false; next; }
+    if ($no eq "W") { $O{'warn'} = 0; next; }
+    if ($no eq "V") { &PrintScriptID(); exit 0; }
+    if ($no eq "?") { &PrintUsage(); exit 0; }
+    &Warn("Unbekannte Option '$no' im Aufruf von $ScriptName, ignoriert");
+    } # Process single letter options
+  return;
+  } # sub Processoption
 
 sub PrintScriptID
   { # Usage:  &PrintScriptID();
@@ -331,7 +876,7 @@ sub PrintDebugs
     # As a side effect empties $S{DebugBuffer'}
   my($t);  
 
-  foreach $t (@{$S{'DebugBuffer'}}) { print(color($O{"DumpColor"}),"DEBUG  $t\n",color("reset")); } # Debug-Meldungen ausgeben, falls vorhanden
+  foreach $t (@{$S{'DebugBuffer'}}) { print(STDERR color($O{"DumpColor"}),"DEBUG  $t\n",color("reset")); } # Debug-Meldungen ausgeben, falls vorhanden
   $S{'DebugBuffer'} = [];  
   return;
   } # sub PrintDebugs
@@ -343,8 +888,7 @@ sub PrintWarns
   my($t);  
 
   return if ( $O{'warn'} < 1 ); # Don't print if warnings are suppressed
-  foreach $t (@{$S{'WarnBuffer'}}) { print(color("bold red"),"WARNUNG",color("reset"),"  $t\n"); } # Warnings ausgeben, falls vorhanden
-  $S{'WarnBuffer'} = [];  
+  foreach $t (@{$S{'WarnBuffer'}}) { print(STDERR color("bold red"),"WARNUNG",color("reset"),"  $t\n"); } # Warnings ausgeben, falls vorhanden
   return;
   } # sub PrintWarns
 
@@ -369,7 +913,7 @@ sub Error
   my($t);
 
   foreach $t (@errorlist) {
-    print(color("bold red"),"##### FEHLER ##### $t",color("reset"),"\n");
+    print(STDERR color("bold red"),"##### FEHLER ##### $t",color("reset"),"\n");
     }
   &Exit(1);
   } # sub Error
@@ -379,13 +923,13 @@ sub ErrorU
   my(@errorlist) = @_;
   my($t);
 
-  print("\n");
+  print(STDERR "\n");
   foreach $t (@errorlist) {
-    print(color("bold red"),"##### FEHLER ##### $t",color("reset"),"\n");
+    print(STDERR color("bold red"),"##### FEHLER ##### $t",color("reset"),"\n");
     } 
-  print("\n$ScriptID\n");
-  print("\n$usage\n");
-  print("\n$usagelong\n");
+  print(STDERR "\n$ScriptID\n");
+  print(STDERR "\n$usage\n");
+  print(STDERR "\n$usagelong\n");
   &Exit(1);
   } # sub ErrorU
 
@@ -397,6 +941,31 @@ sub Exit
   else { exit $S{'exitvalue'}; };
   exit 255;
   } # sub Exit
+
+############ CX #### CX #### CX #### CX #### CX ############ 
+
+sub CurrentTime
+  { # Usage:  &CurrentTime();
+  my($now,$tt);
+  my($sec,$min,$hour,$mday,$mon,$year,$wday,$yday,$isdst) = localtime();
+
+  $year += 1900;
+  $now = "$year";
+  $mon += 1; $tt = "$mon"; $tt = "0$tt" if ($mon < 10);
+  $now .= "-" . $tt;
+  $tt = "$mday"; $tt = "0$tt" if ($mday < 10);
+  $now .= "-" . $tt;
+  $tt = "$hour"; $tt = "0$tt" if ($hour < 10);
+  $now .= " " . $tt;
+  $tt = "$min"; $tt = "0$tt" if ($min < 10);
+  $now .= ":" . $tt;
+  $tt = "$sec"; $tt = "0$tt" if ($sec < 10);
+  $now .= ":" . $tt;
+
+  return $now;
+  } # sub CurrentTime
+ 
+############ DEBUG #### DEBUG #### DEBUG #### DEBUG #### DEBUG ############ 
 
 sub Dprint
   { # Usage: &Dprint($t,...);
@@ -541,4 +1110,4 @@ sub nice_string {
       sprintf("\\x%02X", $_) :
       chr($_)
     } unpack("U*", $_[0]));
-  } # sub nice_string
+  } # sGub nice_string
