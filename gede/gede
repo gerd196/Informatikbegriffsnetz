@@ -1,5 +1,5 @@
 #!/usr/bin/perl -w
-require 5.025;
+require 5.018;
 use utf8;
 use strict;
 use warnings;
@@ -8,14 +8,14 @@ use integer;
 our($License) = "This programm underlies the GNU GENERAL PUBLIC LICENSE 2.0 or newer";
 our($ScriptName) = "gede"; # our($SCRIPTNAME) = uc($ScriptName);
                    # gede = Google-Docs based EDE
-our($ScriptBuild) = "3";
-our($ScriptDate) =  "2026-05-22";
+our($ScriptBuild) = "5";
+our($ScriptDate) =  "2026-05-24";
 our($ScriptMajor) = "0";
-our($ScriptMinor) = "0";
+our($ScriptMinor) = "1";
 our($ScriptSub) =   "0";
-our($ScriptVersion) = $ScriptMajor . "." . $ScriptMinor . "." . $ScriptSub . "." . $ScriptBuild;
+our($ScriptVersion) = $ScriptMajor . "." . $ScriptMinor . "." . $ScriptSub . "-" . $ScriptBuild;
 our($Author) = "Gerhard Fessler";
-our($ScriptID) = "$ScriptName $ScriptVersion, $ScriptDate, © $Author";
+our($ScriptID) = "$ScriptName $ScriptVersion, $ScriptDate, © $Author, Public Domain";
 our($usage) = "Aufruf    $ScriptName [Optionen]";
 our($copyright) = "This is free software; see the source for copying conditions. There is NO
 warranty; not even for MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.\n";
@@ -68,6 +68,7 @@ our(%S) = (
      'Extensionen' => [],
      'html' => [],
      'KopieVon' => [],
+     'leer' => [],
      'OhneExtension' => [],
      'Systemverzeichnisse' => 0,
      'Template' => [],
@@ -221,6 +222,11 @@ sub ProcessDateiname
     return;
     } # Verzeichnis
 
+  if ( $Kategorie eq "leer" ) {
+    push(@{$S{'leer'}},$Dateiname);
+    return;
+    } # leer
+
   if ( $Kategorie eq "UnixHidden" ) {
     push(@{$S{'UnixHidden'}},$Dateiname);
     return;
@@ -243,8 +249,9 @@ sub ProcessDateiname
 
   if ( $Kategorie eq "docx" ) {
     push(@{$S{'docx'}},$Dateiname);
+    &ProcessDocx($Dateiname);
     return;
-    } # doc4
+    } # docx
 
   if ( $Kategorie eq "unkategorisiert" ) {
     push(@{$S{'unkategorisiert'}},$Dateiname);
@@ -305,6 +312,14 @@ sub ProcessVerzeichnisname
   if ( $O{'details'} > 3 ) { print(color("magenta"),"←←←",color("reset")," $CurrentDir\n"); }
   return;
   }  # sub ProcessVerzeichnisname
+
+sub ProcessDocx
+  { # Usage:  &ProcessDocx($Dateiname);
+  my($Dateiname) = @_;
+                #&Dprint("ProcessDocx: $Dateiname"); # exit 7;
+
+  return "";
+  } # sub ProcessDocx
 
 ############ INPUT #### INPUT #### INPUT #### INPUT #### INPUT #### INPUT #### INPUT ############
 
@@ -550,6 +565,7 @@ sub KategorisiereDateiname
     return "Verzeichnis";
     }
   if ( not -f $Dateiname ) { return "WederDateiNochVerzeichnis"; }
+  if ( -z $Dateiname ) { return "leer"; }
   
   # Alle nicht-normale Dateien sind behandelt: Weiter kategorisieren.
   if ( $Dateiname =~ /^\./ ) { return "UnixHidden"; }
@@ -755,6 +771,13 @@ sub PrintStatistics
   $l = scalar(@o);
   if ( $l > 0 ) {
     print("    $l Versteckte Unix-Dateien (.…), alle übersprungen\n");
+    if ( $O{'details'} > 0 ) { print("        " . join(", ",@o) . "\n"); }
+    }
+
+  @o = sort(@{$S{'leer'}});
+  $l = scalar(@o);
+  if ( $l > 0 ) {
+    print("    $l leere Dateien, alle übersprungen\n");
     if ( $O{'details'} > 0 ) { print("        " . join(", ",@o) . "\n"); }
     }
 
