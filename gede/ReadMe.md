@@ -1,5 +1,5 @@
 # ReadME für gede    
-2026-05-24, G. Fessler  
+2026-06-19, G. Fessler  
 gede = Google-EDE  
 
 ## Zweck  
@@ -8,22 +8,36 @@ gede erstellt aus den Dateien des Informatik-Begriffsnetzes der Gesellschaft fü
 ## Randbedingungen  
 gede benötigt **Perl 5** und **Pandoc** (pandoc.org), beide müssen auf dem Rechner installiert sein. Pandoc muss über den Suchpfad aufrufbar sein.  
 
-gede wurde hauptsächlich mit Perl 5.42 und Pandoc 3.5 unter Linux getestet. Es sollte auch unter älteren Verseionen von Perl 5 (mindestens ab 5.18) lauffähig sein.  
+gede wurde hauptsächlich mit Perl 5.42 und Pandoc 3.9 unter Linux getestet. Es sollte auch unter älteren Verseionen von Perl 5 (mindestens ab 5.18) lauffähig sein.  
+
+gede nutzt UTF-8 für Ausgaben. Unter Windows muss deshalb die Nutzung von UTF-8 in der Eingabeaufforderung freigeschaltet werden.  
+Gemäß Google geht das so:  
+* Einstellungen > Zeit und Sprache > Sprache und Region  
+* > Adminstrative Spracheinstellungen  
+* > Verwaltung > Systemgebietsschema ämdern  
+* x Beta: Unicode UTF-8 für welweite Sprachunterstützung verwenden  
+* ok  
+* Reboot von Windows  
+
+gede nutzt teilweise Farben zur Strukturierung von Ausgaben. Bei weißen Zeichen auf schwarzem Hintergrund kann das zu schwer lesbaren Texten führen. Getestet wurde gede mit schwarzen Zeichen auf weißem Hintergrund  
+* Eventuell Farbschema der Konsole anpassen.  
 
 Da die Stabilität sowohl von Microsoft .docx-Dateien als auch deren Erstellung beim Download durch Google nicht garantierbar ist, wird das laufend gepflegte Konvertierungstool Pandoc für die Konvertierung der Google-Docs-Dateien in ein durch gede verarbeitbares Format verwendet. Wegen der Instabilitäten sollte jeweils die neueste Version von Pandoc verwendet werden.  
 
 ## Grobarchitektur  
 gede arbeitet auf einem entzippten Download aus Google-Drive.  
 Es wandelt die entzippten Microsoft-docx-Dateien mit Pandoc zuerst in ein verarbeitbares Format um und erzeugt daraus HTML 5 und zugehörige Dateien im Verzeichnis **web2.0** sowie in Unterverzeichnissen.  
+Da die ZIP-Programme der Betriebssystemhersteller oft eigene Vorstellungen bezüglich der Ablage der entpackten Dateien haben, sollte zum Entpacken **7-ZIP** verwendet werden.  
+
 Die Google-Docs-Dateien müssen den Kodierrichtlinien für Version 2.0 des Informatikbegriffsnetzes entsprechen, um umgewandelt werden zu können.  
 
 ## Installation  
 gede in einem Verzeichnis im Suchpfad ablegen und bei unixoiden Systemen ausführbar machen.  
 In Windows entweder eine **Batch-Datei** zum Aufrufen anlegen oder gede mit **perl -w gede** aufrufen.  
-In Windows ist es üblich, gede in gede.pl umzubenennen.  
+In Windows ist es üblich (aber nicht notwendig) gede in gede.pl umzubenennen.  
 
 ## Nutzung  
-0. perl 5 ab Versison 5.18) und Pandoc (ab Version 3.5) auf dem Rechner installieren  
+0. perl 5 (ab Versison 5.18) und Pandoc (ab Version 3.5) auf dem Rechner installieren  
 1. In Google Drive im Informatik-Begriffsnetz anmelden.  
 2. Das Google-Docs-Verzeichnis Begriffe2.0 in einer Verzeichnisübersicht anzeigen.  
 3. Rechtsklick auf Verzeichnis Begriffe2.0 → Herunterladen.  
@@ -37,4 +51,4 @@ In Windows ist es üblich, gede in gede.pl umzubenennen.
 
 ## Hinweise
 Der Aufruf **gede -?** gibt eine Kurzanleitung aus.  
-Es wurde versucht, gede portabel zu programmieren, so dass es auch auf nicht-Linux-Rechnern funktionieren sollte.
+Es wurde versucht, gede portabel zu programmieren, so dass es auch auf nicht-Linux-Rechnern funktionieren sollte.  
