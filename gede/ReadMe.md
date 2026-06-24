@@ -1,5 +1,5 @@
 # ReadME für gede    
-2026-06-19, G. Fessler  
+2026-06-21, G. Fessler  
 gede = Google-EDE  
 
 ## Zweck  
@@ -26,7 +26,8 @@ Da die Stabilität sowohl von Microsoft .docx-Dateien als auch deren Erstellung 
 
 ## Grobarchitektur  
 gede arbeitet auf einem entzippten Download aus Google-Drive.  
-Es wandelt die entzippten Microsoft-docx-Dateien mit Pandoc zuerst in ein verarbeitbares Format um und erzeugt daraus HTML 5 und zugehörige Dateien im Verzeichnis **web2.0** sowie in Unterverzeichnissen.  
+Es wandelt die entzippten Microsoft-docx-Dateien mit Pandoc zuerst in ein verarbeitbares HTML-Format um und erzeugt daraus HTML 5 und zugehörige Dateien im Verzeichnis **web2.0** sowie in Unterverzeichnissen.  
+
 Da die ZIP-Programme der Betriebssystemhersteller oft eigene Vorstellungen bezüglich der Ablage der entpackten Dateien haben, sollte zum Entpacken **7-ZIP** verwendet werden.  
 
 Die Google-Docs-Dateien müssen den Kodierrichtlinien für Version 2.0 des Informatikbegriffsnetzes entsprechen, um umgewandelt werden zu können.  
@@ -34,6 +35,18 @@ Die Google-Docs-Dateien müssen den Kodierrichtlinien für Version 2.0 des Infor
 ## Installation  
 gede in einem Verzeichnis im Suchpfad ablegen und bei unixoiden Systemen ausführbar machen.  
 In Windows entweder eine **Batch-Datei** zum Aufrufen anlegen oder gede mit **perl -w gede** aufrufen.  
+Falls gede unter dem Namen D:\bin\gede gespeichert wurde, kann folgende Batch-Datei erstellt werden  
+  
+>@ECHO OFF  
+>perl -w D:\bin\gede %*  
+>pause  
+  
+und gede mit  
+  
+>gede -optionen  
+  
+aufgerufen werden.  
+
 In Windows ist es üblich (aber nicht notwendig) gede in gede.pl umzubenennen.  
 
 ## Nutzung  

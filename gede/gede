@@ -8,11 +8,11 @@ use integer;
 our($License) = "This programm underlies the GNU GENERAL PUBLIC LICENSE 2.0 or newer";
 our($ScriptName) = "gede"; # our($SCRIPTNAME) = uc($ScriptName);
                   # gede = Google-Docs based EDE
-our($ScriptBuild) = "1";
-our($ScriptDate) =  "2026-06-19";
+our($ScriptBuild) = "14";
+our($ScriptDate) =  "2026-06-23";
 our($ScriptMajor) = "0";
 our($ScriptMinor) = "2";
-our($ScriptSub) =   "0";
+our($ScriptSub) =   "3";
 our($ScriptVersion) = $ScriptMajor . "." . $ScriptMinor . "." . $ScriptSub . "-" . $ScriptBuild;
 our($Author) = "Gerhard Fessler";
 our($ScriptID) = "$ScriptName $ScriptVersion, $ScriptDate, © $Author, Public Domain";
@@ -37,6 +37,8 @@ Optionen:
     -H, --HTML: Speichere die von Pandoc konvertierte HTML-Dateien
     -l, --logs: Behalte (Pandoc-) Logdateien 
     -s, --keinestatistik: Gib keine statistischen Daten aus
+    -t: Gibt Übersicht über die Tagnamen in den Pandoc-HTMLs aus
+    -tt: Gibt zusätzlich die ganzen Tag in den Pandoc-HTMLs aus
     -V, --version: Gib Id und Skriptversion aus und stoppe
     -W: Gib keine Warnungen aus
     -?: Gib diese Daten aus und stoppe
@@ -54,10 +56,11 @@ our(%O) = (
     'DumpLimit' => 30,
     'HTML' => FALSE,
     'InputDir' => "Begriffe2.0",
-    'MinHTMLSize' => 4, # Minimale Länge zur Speicherung des von Pandoc erzeugten HTMLs
+    'MinHTMLSize' => 4, # Minimale Zahl der Zeilen zur Speicherung des von Pandoc erzeugten HTMLs
     'OutputDir' => "web2.0",
     'PandocTestversion' => "3.9",
     'statistics' => TRUE,
+    'tagstatistik' => FALSE,
     'trace' => FALSE,
     'warn' => 1,
     ); # Options
@@ -75,7 +78,7 @@ use File::Copy;
 use File::Path 'remove_tree';
 use File::Spec;
 use JSON;
-use Time::HiRes qw(gettimeofday);
+use Time::HiRes qw( gettimeofday tv_interval);
 use Term::ANSIColor;
 # Color definitions
 our($cc) = color('green'); # Systemcalls
@@ -107,6 +110,7 @@ our(%S) = (
      'OutDir' => "", # Absoluter Pfad des Verzeichnises in dem das Skript Ergebnisse abliefert
      'PandocMediaDir' => "Nicht gesetzt",
      'PandocVersion' => "Nicht bekannt",
+     'Starttime' => [],
      'Systemverzeichnisse' => 0,
      'Template' => [],
      'ÜberschriebeneMedien' => [],
@@ -118,10 +122,12 @@ our(%S) = (
      'WarnBuffer' => [],
      ); # Not used states:
         # Duration
-        # StartTime
 
+our(%AbsDateinameToBasename) = ();
 our(%HTMLbyFilename) = ();
 our(%MedianameToFilename) = ();
+our(%TagStatistikl) = ();
+our(%TagStatistikk) = ();
 # our(@TEST) = ();
 
 
@@ -134,16 +140,19 @@ our(%MedianameToFilename) = ();
                 #&DumpHash(\%MedianameToFilename,"\nMedianameToFilename:"); # exit 7;
                 #&DumpHash(\%O,"\nO:"); &DumpHash(\%S,"\nS:"); exit 7;
                 #&DumpHash(\%O,"\nO:"); &Dprint("\nS:\n",Dumper(\%S)); exit 7;
+&ProcessPandocHTMLs();
 
 &PrintWarnsDebugs();
 &PrintStatistics();
 &Exit(0);
 
-#################################################################################################
+###################  INIT  ###############  INIT  #################  INIT  #########################
+####################################################################################################
 
 sub Init()
   { # Usage:  &Init();
 
+  push(@{$S{'Starttime'}},gettimeofday());
   $S{'BaseDir'} = File::Spec->rel2abs(".","");
   if ( $O{'details'} > 3 ) { print("Aufruf- und Arbeitsverzeichnis: $cf$S{'BaseDir'}$cr\n"); }
   &PruefePandocAufruf();
@@ -223,11 +232,10 @@ sub ProcessDateiname
   if ( $Kategorie eq "docx" ) {
     push(@{$S{'docx'}},$Dateiname);
     &ProcessDocx($Dateiname);
-                #&DumpHash(\%HTMLbyFilename,"\nHTMLbyFilename"); # exit 7;
     return;
     } # docx
   if ( $Kategorie eq "unkategorisiert" ) { push(@{$S{'unkategorisiert'}},$Dateiname); return; }
-                &Dprint("$Dateiname: $Kategorie"); # exit 7;
+                #&Dprint("$Dateiname: $Kategorie"); # exit 7;
   return;
   } # sub ProcessDateiname
 
@@ -311,6 +319,7 @@ sub ProcessDocx
     return;
     } # Dateiname formal falsch
   $Basename = $1;
+  $AbsDateinameToBasename{'$AbsDateiname'} = $Basename;
 
   if ( not ($Basename =~ /^[A-Za-z][_A-Za-z0-9-]*$/) ) {
     $Message = "ProcessDocx: Dateiname $cf$AbsDateiname$cr enthält unerwünschte Zeichen, übergangen.";
@@ -619,7 +628,11 @@ sub ProcessPandocHTML
     # und eventuell die Ausführung mit einem Fehlercode beendet.
   my($AbsDateiname,$HTMLname,$z_HTML) = @_;
   my($Message,$Status,$l);
+                #&DumpArray($z_HTML,"\nz_HTML"); # exit 7;
 
+  $l = chomp(@$z_HTML);
+                #&Dprint("\nchomp l $l\n"); # exit 7;
+                #&DumpArray($z_HTML,"\nz_HTML"); # exit 7;
   $l = scalar(@$z_HTML);
   return if ( $l < $O{'MinHTMLSize'} );
 
@@ -633,6 +646,221 @@ sub ProcessPandocHTML
     }
   return;
   } # sub ProcessPandocHTML
+
+############### HTML #### HTML #### HTML #### HTML #### HTML #### HTML #### HTML ###############
+
+sub ProcessPandocHTMLs
+  { # Usage:  &ProcessPandocHTMLs();
+    # Verarbeitet die in $HTMLbyFilname gespeicherte Pandoc-HTML-Fragemente
+  my($z_Fragment,$AbsDateiname);
+  my($z_Token,$z_Reihen,$z_Tabellen);
+
+  foreach $AbsDateiname ( sort(keys(%HTMLbyFilename)) ) {
+    $z_Fragment = $HTMLbyFilename{$AbsDateiname};
+                #&Dprint("\nAbsDateiname: $AbsDateiname, z_Fragment: $z_Fragment\n"); # exit 7;
+    $z_Token = &TokenizePandocHTML($AbsDateiname,$z_Fragment);
+    &TagStatistik($z_Token);
+    $z_Reihen = &ExtrahiereReihen($AbsDateiname,$z_Token);
+                #&Dprint("\n$AbsDateiname"); # exit 7;
+                #&DumpArrayArray($z_Reihen,"\nReihen"); # exit 7;
+    $z_Tabellen = &ReihenZuTabellen($AbsDateiname,$z_Reihen);
+                #&DumpArrayArray($z_Tabellen,"\nProcessPandocHTMLs-Ende: Tabellen"); # exit 7;
+    }
+  return;
+  } # sub ProcessPandocHTMLs
+
+sub TokenizePandocHTML
+  { # Usage:  $z_Token = &TokenizePandocHTML($AbsDateiname,$z_PandocHTML);
+    # Tokenisiert das Pandoc-HTML-Fragment $z_PandocHTML und gibt, sofern es zu keinem Fehler
+    # kam, eine Referenz auf die Token-Liste zurück
+    # Zwei Token-Arten:
+    #  - Content
+    #  - Tag
+    # Ein Tag-Token ist nicht leer und beginnt und endet mit < bzw. >.
+    # Ein Content-Token ist nicht leer, beginnt mit einem Zeichen ungleich <
+    # Eventuell vorgefundene HTML-Kommentare (<!--   -->) werden nicht übernommen.
+    # Verwendete Status zur Tokenisierung sind:
+    #   0 (in Content-Token)
+    #   1 (in Tag-Token)
+    #   2 (in Tag-Token und in Single-Apostrophen ('))
+    #   3 (in Tag-Token und in DoppelApostrophen ("))
+    #   4 (in HTML-Kommentar
+    # Im Fehlerfall wird eine Warnung erstellt.
+  my($AbsDateiname,$z_PandocHTML) = @_;
+  use constant {
+               INCONTENT => 0,
+               INTAG => 1,
+               INQUOTE => 2, # Gibt es nur in Tags!
+               INAPOSTROPH => 3, # Gibt es nur in Tags!
+               INCOMMENT => 4,
+               };
+  my(@Chars) = ();
+  my(@Token) = ();
+  my($CurrentToken) = "";
+  my($c,$c1,$c2,$c3,$Status);
+
+  @Chars = split(//,join(" ",@$z_PandocHTML));
+  $Status = INCONTENT;
+  while (@Chars) {
+    $c = shift(@Chars);
+
+    if ( $Status == INCOMMENT ) { # In HTML-Kommentar
+      next unless ( $c eq "-" ); # Definitiv kein Ende eines HTML-Kommentars
+      $c1 = shift(@Chars);
+      last if ( not defined($c1) ); # Ende von @Chars
+      $c2 = shift(@Chars);
+      last if ( not defined($c2) ); # Ende von @Chars
+      if ( ($c eq "-") and ($c1 eq "-") and ($c2 eq ">") ) { 
+        $Status = INCONTENT;
+        $CurrentToken = "";
+        } # Formales Ende eines HTML-Kommentars
+      next;
+      } # HTML-Kommentar
+
+    if ( $Status == INQUOTE ) { # Quote-Text (')
+      $CurrentToken .= $c;
+      if ( $c eq "'" ) { $Status = INTAG; } # Ende-Quote
+      next;
+      } # Quote-Text (')
+
+    if ( $Status == INAPOSTROPH ) { # Text in Apostrophen (")
+      $CurrentToken .= $c;
+      if ( $c eq '"' ) { $Status = INTAG; } # Ende-Apostroph
+      } # Text in Apostrophen (")
+
+    if ( $Status == INTAG ) { # In HTML-Tag
+      $CurrentToken .= $c;
+      if ( $c eq ">" ) { # Ende HTML-Tag
+        $Status = INCONTENT;
+        push(@Token,$CurrentToken);
+        $CurrentToken = "";
+        } # Ende HTML-Tag
+      next;
+      } # In HTML-Tag
+
+    if ( $Status == INCONTENT ) { # In HTML-Content
+      if ( $c eq "<" ) { # Tag- oder Kommentarbeginn
+        # if ( $CurrentToken =~/^ +$/ ) { &Warn("$AbsDateiname: HTML-Inhalt nur aus Leerzeichen."); } 
+        if ( $CurrentToken !~ /^ *$/ ) { push(@Token,$CurrentToken); } # Kein Content-Token nur aus Leerzeichen: speichern
+        $Status = INTAG;
+        $CurrentToken = $c;
+        if ( scalar(@Chars) < 1 ) {
+          &Warn("$AbsDateiname: Letztes Zeichen des HTML-Inhalts ist ein '<'.");
+          $CurrentToken .= $c;
+          last; # Alles tokenisiert
+          } # Kein weiteres Zeichen in @Chars (und damit im Tag) vorhanden
+        # Prüfe auf Bewginn eines HTML-Kommentars (<!--)
+        $c1 = $Chars[0];
+        if ( ($c1 eq "!") and (scalar(@Chars) > 3) ) { # Evtl. HTML-Kommentar
+          $c2 = $Chars[1];
+          $c3 = $Chars[2];
+          if ( ($c2 eq "-") and ($c3 eq "-") ) { # Beginn HTML-Kommentar!
+            $Status = INCOMMENT;
+            $CurrentToken = "";
+            shift(@Chars); shift(@Chars); shift(@Chars); 
+            next;
+            } # Beginn HTML-Kommentar!
+          } # Evtl. HTML-Kommentar
+        # Kein Kommentar, normler Tag-Beginn, bereits alles getan
+        next;
+        } # Tag- oder Kommentarbeginn
+      # Weiter gehts mit HTML-Content
+      $CurrentToken .= $c;
+      next;
+      } # In HTML-Content
+    &Error("$ScriptName, TokenizePandocHTML: Programmierfehler Unbekannter Status.");
+    } # while (@Chars)
+
+  if ( $CurrentToken ne '' ) { push(@Token,$CurrentToken); }
+  return \@Token;
+  } # sub TokenizePandocHTML
+
+sub ExtrahiereReihen
+  { # Usage:  $z_Reihen = &ExtrahiereReihen($AbsDateiname,$z_Token);
+  my($AbsDateiname,$z_Token) = @_;
+  my(@Reihen) = ();
+  my($z_AktuelleReihe) = [];
+  my($Token);
+  my($InReihe) = FALSE;
+
+  foreach $Token (@$z_Token) {
+    if ( $InReihe ) {
+      if ( $Token eq "</tr>" ) {
+        $InReihe = FALSE;
+        push(@Reihen, $z_AktuelleReihe);
+        $z_AktuelleReihe = [];
+        next;
+        }
+      push(@$z_AktuelleReihe, $Token);
+      next;
+      } # InReihe
+    # not InReihe
+    if ( $Token eq "<tr>") { $InReihe = TRUE; }
+    } # foreach @$z_Token
+
+  return \@Reihen;
+  } # sub ExtrahiereReihen
+ 
+sub ReihenZuTabellen
+  { # Usage:  $z_Tabellen = &ReihenZuTabellen($AbsDateiname,$z_Reihen);
+    # Wandelt die Token in $z_Reihen in inhaltsbasierte Tabellen um.
+  my($AbsDateiname,$z_Reihen) = @_;
+  my(@Tabellen) = ();
+  my($z_Tabelle) =  [];
+  my($z_Reihe);
+
+  foreach $z_Reihe (@$z_Reihen) {
+                #&Dprint("ReihenZuTabellen: z_Reihe: $z_Reihe");
+    $z_Tabelle = &ReiheZuTabelle($AbsDateiname,$z_Reihe);
+                #&Dprint("\nReihenZuTabellen (Ende): z_Tabelle $z_Reihe");
+                #&DumpArray($z_Tabelle,"\nz_Tabelle"); # exit 7;
+    }
+
+  return \@Tabellen;
+  } # sub ReihenZuTabellen
+
+sub ReiheZuTabelle
+  { # Usage:  $z_Tabelle = &ReiheZuTabelle($AbsDateiname,$z_Reihe);
+    # Holt die Inhalte aus den Pandoc-Tabellenzellen in @$z_Reihe und speichert diese als
+    # Liste in jeweils einer Zeile von $z_Tabelle.
+    # Als erste Einträge werden der (absolute) Dateiname und der Basisname gesetzt.
+  my($AbsDateiname,$z_Reihe) = @_;
+  my(@Tabelle) = ();
+  my($z_Inhalte) = [];
+                #&Dprint("\nReiheZuTabelle: AbsDateiname: $AbsDateiname, z_Reihe: $z_Reihe"); # exit 7;
+                #&DumpArray($z_Reihe,"\nz_Reihe:"); # exit 7;
+
+  $z_Inhalte = [];
+  push(@$z_Inhalte,"Dateiname");
+  push(@$z_Inhalte,$AbsDateiname);
+  push(@Tabelle,$z_Inhalte);
+  return \@Tabelle;
+  } # sub ReiheZuTabelle
+
+sub TagStatistik
+  { # Usage:  &Tagstatistik($z_Token);
+    # Fügt die Tags in $z_Tag zur den Tagstatistiken l und k dazu
+  my($z_Tag) = @_;
+  my($t,$tlang,$tkurz);
+
+  foreach $t (@$z_Tag) {
+    next if ( $t !~ /^</ );
+    $t =~ /^<(.+)>$/;
+    $tlang = $1;
+    if ( exists($TagStatistikl{$tlang}) ) { $TagStatistikl{$tlang} += 1;  }
+    else { $TagStatistikl{$tlang} = 1;  }
+    next if ( $t =~ /^<\// );
+    $tkurz = $tlang;
+    if ( $t =~ / / ) {
+      $t =~ /^<([^ ]*) /;
+      $tkurz = $1;
+      }
+    if ( exists($TagStatistikk{$tkurz}) ) { $TagStatistikk{$tkurz} += 1;  }
+    else { $TagStatistikk{$tkurz} = 1;  }
+    }
+
+  return;
+  } # sub TagStatistik
 
 ############ INPUT #### INPUT #### INPUT #### INPUT #### INPUT #### INPUT #### INPUT ############
 
@@ -1071,7 +1299,7 @@ sub WriteNewUTF8File
 sub PrintStatistics
   { # Usage:  &PrintStatistics();
     # Print statistics
-  my($l,$t,@o,$Extension,$e);
+  my($l,$t,@o,$Extension,$e,$Laufzeit);
   my(%Extensionen) = ();
 
   return unless ( $O{'statistics'} );
@@ -1200,9 +1428,48 @@ sub PrintStatistics
     if ( $O{'details'} > 0 ) { print("        " . join(", ",@o) . "\n"); }
     }
 
+  &PrintTagStatistik() if ( $O{'tagstatistik'} );
+
   print("$cr");
+  $Laufzeit = tv_interval($S{'Starttime'});
+  print("\nLaufzeit: $Laufzeit sec\n");
   return;
   } # sub PrintStatistics
+
+sub PrintTagStatistik
+  { # Usage:  &PrintTagStatistik();
+    # Abhängig von $O{'tagstatistik'} wird eine Statistik der Tagnamen oder der vollen Tags ausgegeben
+    # Nach einem Aufruf wird immer etwas ausgegeben.
+  my($k,$l,$pl);
+
+  print("\nIn Pandoc-HTMLs vorkommende HTML-Tag-Namen:\n");
+  foreach $k (sort(keys(%TagStatistikk))) {
+    $l = $TagStatistikk{$k};
+    $pl = "";
+    if ( $l < 100000 ) { $pl .= " "; }
+    if ( $l < 10000 ) { $pl .= " "; }
+    if ( $l < 1000 ) { $pl .= " "; }
+    if ( $l < 100 ) { $pl .= " "; }
+    if ( $l < 10 ) { $pl .= " "; }
+    $pl .= $l;
+    print(" $pl $k\n");
+    }
+  if ( $O{'tagstatistik'} > 1 ) {
+    print("\nIn Pandoc-HTMLs vorkommende HTML-Tags:\n");
+    foreach $k (sort(keys(%TagStatistikl))) {
+      $l = $TagStatistikl{$k};
+      $pl = "";
+      if ( $l < 100000 ) { $pl .= " "; }
+      if ( $l < 10000 ) { $pl .= " "; }
+      if ( $l < 1000 ) { $pl .= " "; }
+      if ( $l < 100 ) { $pl .= " "; }
+      if ( $l < 10 ) { $pl .= " "; }
+      $pl .= $l;
+      print(" $pl $k\n");
+      }
+    }
+  return;
+  } # sub PrintTagStatistik
 
 ############ UTILITIES #### UTILITIES #### UTILITIES #### UTILITIES #### UTILITIES ############ 
 
@@ -1241,7 +1508,7 @@ sub ProcessOption
     if ($no eq "H") { $O{'HTML'} = TRUE; next; }
     if ($no eq "l") { $O{'DeleteLogfiles'} = FALSE; next; }
     if ($no eq "s") { $O{'statistics'} = FALSE; next; }
-    if ($no eq "t") { $O{'trace'} = TRUE; next; }
+    if ($no eq "t") { $O{'tagstatistik'}++; next; }
     if ($no eq "W") { $O{'warn'} = 0; next; }
     if ($no eq "V") { &PrintScriptID(); exit 0; }
     if ($no eq "?") { &PrintUsage(); exit 0; }
