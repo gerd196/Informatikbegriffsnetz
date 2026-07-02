@@ -8,11 +8,11 @@ use integer;
 our($License) = "This programm underlies the GNU GENERAL PUBLIC LICENSE 2.0 or newer";
 our($ScriptName) = "gede"; # our($SCRIPTNAME) = uc($ScriptName);
                   # gede = Google-Docs based EDE
-our($ScriptBuild) = "17";
+our($ScriptBuild) = "18";
 our($ScriptDate) =  "2026-07-02";
 our($ScriptMajor) = "0";
-our($ScriptMinor) = "2";
-our($ScriptSub) =   "6";
+our($ScriptMinor) = "3";
+our($ScriptSub) =   "0";
 our($ScriptVersion) = $ScriptMajor . "." . $ScriptMinor . "." . $ScriptSub . "-" . $ScriptBuild;
 our($Author) = "Gerhard Fessler";
 our($ScriptID) = "$ScriptName $ScriptVersion, $ScriptDate, © $Author, Public Domain";
@@ -55,6 +55,7 @@ our(%O) = (
     #'DumpFilename' => $Scriptname . "Dump.txt",
     'DumpLimit' => 30,
     'guteZeichen' => qr/^[A-Za-z][_A-Za-z0-9-]*$/, # Zulässige Zeichen gemäß Kodierrichtlinie
+    'guteZeichenT' => '^[A-Za-z][_A-Za-z0-9-]*$', # Zulässige Zeichen gemäß Kodierrichtlinie
     'HTML' => FALSE,
     'InputDir' => "Begriffe2.0",
     'MinHTMLSize' => 4, # Minimale Zahl der Zeilen zur Speicherung des von Pandoc erzeugten HTMLs
@@ -127,9 +128,13 @@ our(%S) = (
         # Duration
 our(@ZeilenOhneTag) = ('Begriff', 'Synonyme', 'Englisch', 'Begriffs-Id', 'Synonyme-Id', 'Englisch-Id',
                        'Zusatz-Views', 'Freigabedatum');
-our(@ZeilenMitTag)  = ('Definition','Erläuterung','Beispiele','Quelle(n)','Notizen');
+our(@ZeilenMitTag)  = ('Definition','Erläuterung','Beispiele', 'Quelle(n)', 'Notizen');
 our(@Zeilenkopf)   =  (@ZeilenMitTag,@ZeilenOhneTag);
+our(@DatenErforderlich) = ('Begriff', 'Begriffs-Id', 'Zusatz-Views', 'Freigabedatum', 'Definition');
+our(@LeereDatenOK) = ('Synonyme', 'Englisch', 'Beispiele', 'Synonyme-Id', 'Englisch-Id', 'Quelle(n)', 'Notizen');
+our(@LeereDatenWarnung) = ( 'Synonyme', 'Englisch', 'Erläuterung');
 
+#('Begriff', 'Synonyme', 'Englisch', 'Begriffs-Id', 'Synonyme-Id', 'Englisch-Id', 'Zusatz-Views', 'Freigabedatum', 'Definition', 'Erläuterung', 'Beispiele', 'Quelle(n)', 'Notizen');
 our(%AbsDateinameToBasename) = ();
 our(%HTMLbyFilename) = ();
 our(%MedianameToFilename) = ();
@@ -137,14 +142,17 @@ our(%TagStatistikl) = ();
 our(%TagStatistikk) = ();
 our(@BegriffeAlsTabellen) = ();
 
-our(%BegriffeByBegriffsID) = ();
+our(%BegriffeByBegriffsId) = ();
     # Aufbau:
-    # Key: Begriffs-ID
+    # Key: Begriffs-Id
     # Value: Anonymer Hash: Key: Die in Google-Docs in der ersten Spalte stehenden Bezeichner
     #                       Value: Anonyme Liste mit tokenisiertem Inhalt aus der zweiten Spalte
 our(%BegriffsHashTemplate) = ();
 our(%ZeilenMitTagHash) = ();
 our(%ZeilenOhneTagHash) = ();
+our(%DatenErforderlichHash) = ();
+our(%LeereDatenOKHash) = ();
+our(%LeereDatenWarnungHash) = ();
 
 &CheckArgs();
 &Init();
@@ -227,6 +235,18 @@ sub Init()
   foreach $i (@ZeilenOhneTag) {
     $ZeilenOhneTagHash{$i} = undef;
     } # Wandle @ZeilenOhneTag in Hash um
+
+  foreach $i (@DatenErforderlich) {
+    $DatenErforderlichHash{$i} = undef;
+    } # Wandle @DatenErforderlich in Hash um
+
+  foreach $i (@LeereDatenOK) {
+    $LeereDatenOKHash{$i} = undef;
+    } # Wandle @LeereDatenOK in Hash um
+
+  foreach $i (@LeereDatenWarnung) {
+    $LeereDatenWarnungHash{$i} = undef;
+    } # Wandle @LeereDatenWarnung in Hash um
 
   push(@{$S{'Starttime'}},gettimeofday());
   $S{'BaseDir'} = File::Spec->rel2abs(".","");
@@ -734,6 +754,7 @@ sub KategorisiereDateiname
     # Dateinamen werden syntaktisch und teils semantisch geprüft.
   my($Dateiname) = @_;
   my($Basename,$Extension,$Message,$Nice);
+  my($AbsDateiname) = File::Spec->rel2abs($Dateiname,"");
   
   if ( $Dateiname eq "." ) { return "Systemverzeichnis"; }
   if ( $Dateiname eq ".." ) { return "Systemverzeichnis"; }
@@ -748,6 +769,7 @@ sub KategorisiereDateiname
       $Message = "Unerwünschte Zeichen im Verzeichnisnamen »$cf$Dateiname$cr«\n";
       $Nice = &nice_string($Dateiname);
       $Message .= "         Verzeichnisname escaped: »$ce$Nice$cr«";
+      $Message .= "\n         Pfadname: $cf$AbsDateiname$cr";
       &Warn($Message);
       }
     return "Verzeichnis";
@@ -762,6 +784,7 @@ sub KategorisiereDateiname
     $Message = "Dateiname »$cf$Dateiname$cr« hat nicht die Form basename.extension.\n";
     $Nice = &nice_string($Dateiname);
     $Message .= "         Dateiname escaped: » $ce$Nice$cr«";
+    $Message .= "\n         Pfadname: $cf$AbsDateiname$cr";
     &Warn($Message);
     }
   $Basename = $1;
@@ -771,6 +794,7 @@ sub KategorisiereDateiname
     $Message = "Unerwünschte Zeichen im Dateinamen »$cf$Dateiname$cr«\n";
     $Nice = &nice_string($Dateiname);
     $Message .= "         Dateiname escaped: »$ce$Nice$cr«";
+    $Message .= "\n         Pfadname: $cf$AbsDateiname$cr";
     &Warn($Message);
     return "unerwünscht";
     }
@@ -806,7 +830,7 @@ sub ProcessDocx
   my($Message) = "$ScriptName: Internal error ProcessDocx: Should never be printed";
 
   if ( $Dateiname !~ /^(.+)\.docx$/i ) {
-    $Message = "ProcessDocx: Dateiname $cf$AbsDateiname$cr ist zu kurz bzw. hat keine .docx-Extension, übergangen.";
+    $Message = "ProcessDocx: Dateiname $cf$AbsDateiname$cr ist zu kurz bzw. hat keine .docx-Extension, übersprungen.";
     $Message .= &AddM1() . &AddE1();
     &Warn($Message);
     return;
@@ -815,21 +839,21 @@ sub ProcessDocx
   $AbsDateinameToBasename{$AbsDateiname} = $Basename;
 
   if ( not ($Basename =~ $O{'guteZeichen'}) ) {
-    $Message = "ProcessDocx: Dateiname $cf$AbsDateiname$cr enthält unerwünschte Zeichen, übergangen.";
+    $Message = "ProcessDocx: Dateiname $cf$AbsDateiname$cr enthält unerwünschte Zeichen, übersprungen.";
     $Message .= &AddM1() . &AddE1();
     &Warn($Message);
     return;
     } # Dateiname mit unerwünschten Zeichen
 
   if ( not (-e $Dateiname) ) {
-    $Message = "ProcessDocx: Datei $cf$AbsDateiname$cr existiert nicht, übergangen.";
+    $Message = "ProcessDocx: Datei $cf$AbsDateiname$cr existiert nicht, übersprungen.";
     $Message .= &AddM1() . &AddE1();
     &Warn($Message);
     return;
     } # Datei existiert nicht
 
   if ( not (-f $Dateiname) ) {
-    $Message = "ProcessDocx: Datei $cf$AbsDateiname$cr ist keine „normale“ Datei, übergangen.";
+    $Message = "ProcessDocx: Datei $cf$AbsDateiname$cr ist keine „normale“ Datei, übersprungen.";
     $Message .= &AddM1() . &AddE1();
     &Warn($Message);
     return;
@@ -843,7 +867,7 @@ sub ProcessDocx
     } # Dateiname leer
 
   if ( not (-r $Dateiname) ) {
-    $Message = "ProcessDocx: Datei $cf$AbsDateiname$cr ist nicht lesbar, übergangen.";
+    $Message = "ProcessDocx: Datei $cf$AbsDateiname$cr ist nicht lesbar, übersprungen.";
     $Message .= &AddM1() . &AddE1();
     &Warn($Message);
     return;
@@ -964,7 +988,7 @@ sub ProcessMediaExtraction
     $Message = "ZielDateiname »$cf$ZielDateiname$cr« der Medienextraktion aus der Datei »$cf$AbsDateiname$cr«";
     $Message .= "\n                   hat die extrahierte Mediendatei aus der Datei »$cf$AlterDateiname$cr« überschrieben.";
     &Warn($Message);
-    push(@{$S{'ÜberschriebeneMedien'}},"$ZielDateiname: $AlterDateiname → $AbsDateiname");
+    push(@{$S{'ÜberschriebeneMedien'}},"$ZielDateiname: $cf$AlterDateiname$cr → $cf$AbsDateiname$cr");
     } # Doppelter Zieldateiname
 
   $MedianameToFilename{$ZielDateiname} = $AbsDateiname;
@@ -1125,7 +1149,7 @@ sub TokenizePandocHTML
         $Status = INTAG;
         $CurrentToken = $c;
         if ( scalar(@Chars) < 1 ) {
-          &Warn("$AbsDateiname: Letztes Zeichen des HTML-Inhalts ist ein '<'.");
+          &Warn("$cf$AbsDateiname$cr: Letztes Zeichen des HTML-Inhalts ist ein '<'.");
           $CurrentToken .= $c;
           last; # Alles tokenisiert
           } # Kein weiteres Zeichen in @Chars (und damit im Tag) vorhanden
@@ -1307,7 +1331,7 @@ sub TagStatistik
 sub BegriffstabellenZuHash
   { # Usage:  &BegriffstabellenZuHash();
     # Analysiert die als Tabellen in der globalen Variablen @BegriffeAlsTabellen abgelegten 
-    # Begriffsdaten und wandelt diese in den Begriffs-Id-basierten Hash %BegriffeByBegriffsID um.
+    # Begriffsdaten und wandelt diese in den Begriffs-Id-basierten Hash %BegriffeByBegriffsId um.
     # Dabei werden einige inhaltliche und formale Prüfungen gemacht.
     # Falls etwas nicht funktioniert wie erwartet, werden entsprechende Meldungen ausgegeben.
   my($TabellenZahl,$Message,$z_Tabelle,$Status);
@@ -1347,8 +1371,8 @@ sub TabelleZuHash
   my($z_Tabelle) = @_;
   my($Status) = FALSE;
   my($Message,$Zeilenzahl,$StatusZeile,$Grund,$t,$l,$Zeilennummer);
-  my(@Tabelle,$z_Zeile,$Zelle1,$z_Zelle2,$Zelle2,@OhneTags);
-  my($AbsDateiname,$Basename);
+  my(@Tabelle,$z_Zeile,$Zelle1,$z_Zelle2,$Zelle2,@OhneTags,@FehlendeDaten,@LeereDaten);
+  my($AbsDateiname,$Basename,$BegriffsId,$Key,$Wert,$Typ);
   my(%BegriffsHash) = %BegriffsHashTemplate;
 
   @Tabelle = @$z_Tabelle;
@@ -1405,7 +1429,7 @@ sub TabelleZuHash
     $Message = "Die erste Zeile eines Begriffs in der internen Ablage BegriffeAlsTabellen muss den";
     $Message .= "\n                   Dateinamen des Begriffs enthalten. Dazu muss im zweitem Feld";
     $Message .= "\n                   genau der (absolute) Dateiname stehen. Dort stehen aber mehr Daten:";
-    $Message .= "\n                   »$AbsDateiname«";
+    $Message .= "\n                   $cf$AbsDateiname$cr";
     $Message .= "\n                   Programmierfehler in $ScriptName. Ausführung beendet.";
     if ( $O{'details'} > 2 ) {
       $Message .= "\n         Maßnahme: Programmierfehler analysieren und beseitigen.";
@@ -1436,7 +1460,7 @@ sub TabelleZuHash
     $Message = "Begriff mit zu wenig Inhalten (Basename) in BegriffeAlsTabellen gefunden, übersprungen.";
     $Message .= "\n                   Die zweite Zeile eines Begriffs in der internen Ablage muss den";
     $Message .= "\n                   Basename (d. h. Dateiname ohne Extension) des Begriffs enthalten.";
-    $Message .= "\n                   Diese Zeile wurde in $AbsDateiname nicht gefunden:";
+    $Message .= "\n                   Diese Zeile wurde in $cf$AbsDateiname$cr nicht gefunden:";
     $Message .= "\n                   Programmierfehler in $ScriptName.";
     if ( $O{'details'} > 2 ) {
       $Message .= "\n         Maßnahme: Programmierfehler analysieren und beseitigen.";
@@ -1451,7 +1475,7 @@ sub TabelleZuHash
   if ( not $StatusZeile ) {
     $Message = "Die zweite Zeile eines Begriffs in der internen Ablage BegriffeAlsTabellen muss den";
     $Message .= "\n                   Basename des Begriffs enthalten, d. h. den Dateinamen ohne Extension.";
-    $Message .= "\n                   Diese Zeile wurde in $AbsDateiname nicht gefunden:";
+    $Message .= "\n                   Diese Zeile wurde in $cf$AbsDateiname$cr nicht gefunden:";
     $Message .= "\n                   Programmierfehler in $ScriptName. Begriff übersprungen";
     if ( $O{'details'} > 2 ) {
       $Message .= "\n         Maßnahme: Programmierfehler analysieren und beseitigen.";
@@ -1467,7 +1491,7 @@ sub TabelleZuHash
     $Message = "Die zweite Zeile eines Begriffs in der internen Ablage BegriffeAlsTabellen muss den";
     $Message .= "\n                   Basename des Begriffs enthalten. Dazu muss im ersten Feld";
     $Message .= "\n                   die Zeichenfolge »Basename« stehen.";
-    $Message .= "\n                   Im Begriff $AbsDateiname steht dort »$Zelle1«.";
+    $Message .= "\n                   Im Begriff $cf$AbsDateiname$cr steht dort »$Zelle1«.";
     $Message .= "\n                   Programmierfehler in $ScriptName. Begriff übersprungen";
     if ( $O{'details'} > 1 ) {
       $Message .= "\n         Maßnahme: Programmierfehler analysieren und beseitigen.";
@@ -1480,7 +1504,7 @@ sub TabelleZuHash
     $Message = "Die erste Zeile eines Begriffs in der internen Ablage BegriffeAlsTabellen muss den";
     $Message .= "\n                   Basename des Begriffs enthalten. Dazu muss im zweitem Feld";
     $Message .= "\n                   genau der Basename stehen.";
-    $Message .= "\n                   Dieses enthält im Begriff $AbsDateiname aber keine Daten.";
+    $Message .= "\n                   Dieses enthält im Begriff $cf$AbsDateiname$cr aber keine Daten.";
     $Message .= "\n                   Programmierfehler in $ScriptName. Begriff übersprungen";
     if ( $O{'details'} > 2 ) {
       $Message .= "\n         Maßnahme: Programmierfehler analysieren und beseitigen.";
@@ -1494,7 +1518,7 @@ sub TabelleZuHash
     $Message = "Die zweite Zeile eines Begriffs in der internen Ablage BegriffeAlsTabellen muss den";
     $Message .= "\n                   Basename des Begriffs enthalten. Dazu muss im zweiten Feld";
     $Message .= "\n                   genau der Basename stehen.";
-    $Message .= "\n                   Im Begriff $AbsDateiname stehen dort aber mehr Daten:";
+    $Message .= "\n                   Im Begriff $cf$AbsDateiname$cr stehen dort aber mehr Daten:";
     $Message .= "\n                   »$Basename«";
     $Message .= "\n                   Programmierfehler in $ScriptName. Begriff übersprungen";
     if ( $O{'details'} > 1 ) {
@@ -1507,7 +1531,7 @@ sub TabelleZuHash
     $Message = "Die zweite Zeile eines Begriffs in der internen Ablage BegriffeAlsTabellen muss den";
     $Message .= "\n                   Basename des Begriffs enthalten. Dazu muss im zweiten Feld";
     $Message .= "\n                   genau der Basename stehen. Dieses enthält aber nur White-Space:";
-    $Message .= "\n                   Im Begriff $AbsDateiname steht dort aber nur White-Space:";
+    $Message .= "\n                   Im Begriff $cf$AbsDateiname$cr steht dort aber nur White-Space:";
     $Message .= "\n                   »$Basename«";
     $Message .= "\n                   Programmierfehler in $ScriptName. Begriff übersprungen";
     if ( $O{'details'} > 2 ) {
@@ -1533,7 +1557,7 @@ sub TabelleZuHash
 
     if ( not exists($BegriffsHash{$Zelle1}) ) {
       $Message = "Unbekannter Zeilenkopf »$Zelle1«";
-      &Warn($Message . ", Inhalte nicht übernommen aus »$AbsDateiname«");
+      &Warn($Message . ", Inhalte nicht übernommen aus\n         $cf$AbsDateiname$cr");
       if ( $O{'details'} > 3 ) { print("        Zeile $Zeilennummer: Keine Daten übernommen. Grund: $Message\n"); }
       next;
       } # if not exists BegriffsHash{Zelle1}: Unbekannter Zeilenkopf
@@ -1551,10 +1575,98 @@ sub TabelleZuHash
     $BegriffsHash{$Zelle1} = $Zelle2;
     if ( $O{'details'} > 3 ) { print("        Zeile $Zeilennummer: »$Zelle1« | »$Zelle2«\n"); }
     } # foreach @Tabelle
-                &DumpHash(\%BegriffsHash,"\nT2H: BegriffsHash:"); # exit 7;
-                #print("T2H BegriffsHash: ",$cd,Dumper(\%BegriffsHash),$cr,"\n\n");
-######### Weitere Analysen von %BegriffsHash ####################
-######### Und Eintragung in %BegriffeByBegriffsID ###############
+
+  $Status = TRUE;
+  @FehlendeDaten = ();
+  @LeereDaten = ();
+  foreach $Key (sort(@Zeilenkopf)) {
+    if ( not exists($BegriffsHash{$Key}) ) {
+      $Status = FALSE;
+      $Message = "Datei $cf$AbsDateiname$cr:";
+      $Message .= "\n                   Zeilenkopf $Key existiert nicht in der internen Datenstruktur";
+      $Message .= "\n                   BegriffsHash: Programmierfehler in $ScriptName.";
+      $Message .= "\n                   Ausführung beendet.";
+      if ( $O{'details'} > 1 ) {
+        $Message .= "\n         Maßnahme: Programmierfehler analysieren und beseitigen.";
+        }
+      &Error($Message); # &Exit(1);
+      } # Key existiert nicht
+
+    # $Key existiert in %BegriffsHash, es kann aber sein, dass der Wert undefiniert ist
+    if ( not defined($BegriffsHash{$Key}) ) {
+      push(@FehlendeDaten,$Key);
+      next;
+      } # Keine Daten in Zeile $Key
+
+    # $Key existiert in %BegriffsHash, Wert ist definiert, dieser kann aber leer sein
+    $Wert = $BegriffsHash{$Key};
+    $Typ = ref($Wert);
+    if ( $Typ eq "" ) { push(@LeereDaten,$Key) if ( $Wert =~ /^\s*$/ ); } # Skalar
+    elsif ( $Typ eq "ARRAY" ) { push(@LeereDaten,$Key) if ( scalar(@$Wert) < 1 ); } # Array
+    else  { # Unerwarteter Datentyp
+      $Message = "Datei $cf$AbsDateiname$cr:";
+      $Message .= "\n                   Zeile $Key hat in der internen Datenstruktur BegriffsHash den nicht";
+      $Message .= "\n                   erwarteten Datentyp $Typ: Programmierfehler in $ScriptName.";
+      $Message .= "\n                   Ausführung beendet.";
+      if ( $O{'details'} > 1 ) {
+        $Message .= "\n         Maßnahme: Programmierfehler analysieren und beseitigen.";
+        }
+      &Error($Message); # &Exit(1);
+      } # Unerwarteter Datentyp
+    } # foreach @Zeilenkopf
+
+  foreach $Key (@FehlendeDaten) {
+  if ( exists($DatenErforderlichHash{$Key}) ) {
+    $Status = FALSE;
+    $Message = "Datei $cf$AbsDateiname$cr:";
+    $Message .= "\n         Keine Daten in Zeile $Key. Begriff nicht übernommen.";
+    $Message .= "\n         Z. B. Bindestrich (-) einfügen.";
+    &Warn($Message);
+    return FALSE;
+    } # Fehlende erforderliche Daten
+  } # foreach FehlendeDaten
+
+  foreach $Key (@LeereDaten) {
+    if ( exists($DatenErforderlichHash{$Key}) ) {
+      $Status = FALSE;
+      $Message = "Datei $cf$AbsDateiname$cr:";
+      $Message .= "\n         Keine Daten in Zeile $Key. Begriff nicht übernommen.";
+      $Message .= "\n         Z. B. Bindestrich (-) einfügen.";
+      &Warn($Message);
+      return FALSE;
+      } # Fehlende erforderliche Daten
+    if ( exists($LeereDatenOKHash{$Key}) ) { next; } # Leere Daten sind ok
+    if ( exists($LeereDatenWarnungHash{$Key}) ) {
+      $Message = "Datei $cf$AbsDateiname$cr:";
+      $Message .= "\n         Keine Daten in Zeile $Key. Sollte überarbeitet werden.";
+      &Warn($Message);
+      next;
+      }
+    else { # Programmierfehler
+      $Message = "Datei $cf$AbsDateiname$cr:";
+      $Message .= "\n                   Zeile »$Key« muss Daten enthalten: Programmierfehler in $ScriptName.";
+      $Message .= "\n                   Ausführung beendet.";
+      if ( $O{'details'} > 1 ) {
+        $Message .= "\n         Maßnahme: Programmierfehler analysieren und beseitigen.";
+        }
+      &Error($Message); # &Exit(1);
+      } # Programmierfehler
+  } # foreach LeereDaten
+  
+  $BegriffsId = $BegriffsHash{'Begriffs-Id'};
+  if ( $BegriffsId ne $Basename ) {
+    $Status = FALSE;
+    $Message = "Datei $cf$AbsDateiname$cr:";
+    $Message .= "\n         Begriffs-Id »$BegriffsId« unterscheidet sich vom Google-Docs-Dateiname ($cf$Basename$cr).";
+    $Message .= "\n         Begriff nicht übernommen.";
+    if ( $O{'details'} > 1 ) {
+      $Message .= "\n        Maßnahme: Begriffs-Id bzw. Dateinamen in Google-Docs korrigieren.";
+      }
+    &Warn($Message);
+    return FALSE;
+    } # BegriffsId ne Basename
+
+  $BegriffeByBegriffsId{$BegriffsId} = \%BegriffsHash if ( $Status );
   return $Status;
   } # Sub TabelleZuHash
 
@@ -1783,7 +1895,7 @@ sub PrintStatistics
 
   @o = sort(@{$S{'unerwünscht'}}); $l = scalar(@o);
   if ( $l > 0 ) {
-    print("    $l Dateinamen mit unerwünschten Zeichen, d. h. nicht $O{'guteZeichen'}, alle übersprungen\n");
+    print("    $l Dateinamen mit unerwünschten Zeichen, d. h. nicht $O{'guteZeichenT'}, alle übersprungen\n");
     if ( $O{'details'} > 0 ) { print("        " . join(", ",@o) . "\n"); }
     }
 
@@ -1845,6 +1957,21 @@ sub PrintStatistics
 
   if ( ($S{'nichthash'} > 0) and ($O{'details'} > 0) ) {
     print("    $S{'nichthash'} Umwandlungen von Begriffen ins interne (Hash-) Format nicht erfolgt\n");
+    }
+
+  @o = sort(keys(%BegriffeByBegriffsId)); $l = scalar(@o);
+  if ( $l > 0 ) {
+    print("    $l Begriffe aus Google-Docs übernommen\n");
+    if ( $O{'details'} > 0 ) {
+      $t = "        "; 
+      foreach $e (@o) { $t .= "$e, "; }
+      chop($t); chop($t); print($t,"\n");
+      }
+    }
+
+  @o = @{$S{'WarnBuffer'}}; $l = scalar(@o);
+  if ( $l > 0 ) {
+    print("    $l ${cw}Warnungen$cr\n");
     }
 
   &PrintTagStatistik() if ( $O{'tagstatistik'} );
