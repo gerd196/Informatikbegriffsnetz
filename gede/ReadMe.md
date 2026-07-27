@@ -1,5 +1,5 @@
 # ReadME für gede    
-2026-07-21, G. Fessler  
+2026-07-27, G. Fessler  
 gede = Google-EDE, EDE = Elektronische Daten Erweiterung (2005)  
 
 ## Zweck  
