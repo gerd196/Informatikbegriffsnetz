@@ -1,9 +1,10 @@
 # ReadME für gede    
-2026-06-24, G. Fessler  
-gede = Google-EDE  
+2026-07-21, G. Fessler  
+gede = Google-EDE, EDE = Elektronische Daten Erweiterung (2005)  
 
 ## Zweck  
 gede erstellt aus den Dateien des Informatik-Begriffsnetzes der Gesellschaft für Informatik in Google-Drive im Verzeichnis **Begriffe2.0** (inklusive Unterverzeichnissen) statische HTML5-basierte Dateien zur Veröffentlichung im Internet.  
+Ziel ist, dass die Pflege des Informatik-Begriffsnetzes vollständig im Google-Drive stattfindet, zur Veröffentlichung des jeweiligen Stands die Google-Drive-Dateien heruntergeladen werden, durch gede umgewandelt werden und die erstellten Dateien auf den Webserver hochgeladen werden.  
 
 ## Randbedingungen  
 gede benötigt **Perl 5** und **Pandoc** (pandoc.org), beide müssen auf dem Rechner installiert sein. Pandoc muss über den Suchpfad aufrufbar sein.  
@@ -114,8 +115,24 @@ Erste Prüfung und Umformung der Begriffstabellen in interne Datenbank (Perl: Ha
 1. Prüfen, ob überhaupt verarbeitbare Daten vorliegen (&BegriffstabellenZuHash)  
 2. Tabellen Hash umwandelt (&TabelleZuHash, &PruefeUndExtrahiereZeile)  
     
+### gede 4. Schritt 
+Syntaktische und (teilweise) sematische Analyse und Überprüfung des Inhalts der übernommenen Begriffe (&AnalysiereBegriffe, &AnalysiereBegriff)  
+
+1. Analysieren aller Begriffe in %BegriffeByBegriffsId, Identifikation und Extraktion weiterer Ids und der Zusatz-Views (&AnalysiereBegriffe, &AnalysiereBegriffsId, &AnalysiereBegriff, &AnalysiereBegriffsText, &AnalysiereEngisch,&AnalysiereSynonyme, &AnalysiereFreigaben, &AnalysiereViews, %BegriffeZuBegriffsIds, %BegriffeByBegriffsIdA, $AlleIds, %ViewsFlach, %ViewsBaum).  
 
 
 ### gede letzter Schritt  
-1. Gesammelte Ausgabe der Warnungen (und eventuell gesammelter Debug-Meldungen, &PrintWarnsDebugs)  
-2. Ausgabe statistischer Daten (&PrintStatistics, &PrintTagStastik)  
+1. Gesammelte Ausgabe der Warnungen (und eventuell gesammelter Debug-Meldungen, &PrintWarnsDebugs, &PrintHinweise)  
+2. Ausgabe statistischer Daten (&PrintTagStatistik, &PrintViews, &PrintStatistics)  
+
+## Ungeklärte Punkte
+Werden Englisch-Id bzw. Synonyme-Id benötigt?  
+Unterviews in BegriffsIds?  
+* / in Views in BegriffsIds zulassen?  
+* Besser: __  
+* Problem: Begriffs-Id == Dateiname  
+Auch Buchstaben-Zugriffsweg in Zusatz-Views angeben?  
+ALT-Attribut für Bilder usw.  
+Pflege des CSS  
+Pflege der nicht-Begriff-Webseiten  
+
