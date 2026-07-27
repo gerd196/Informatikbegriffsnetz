@@ -12,7 +12,7 @@ our($ScriptBuild) = "23";
 our($ScriptDate) =  "2026-07-27";
 our($ScriptMajor) = "0";
 our($ScriptMinor) = "4";
-our($ScriptSub) =   "0";
+our($ScriptSub) =   "1";
 our($ScriptVersion) = $ScriptMajor . "." . $ScriptMinor . "." . $ScriptSub . "-" . $ScriptBuild;
 our($Author) = "Gerhard Fessler";
 our($ScriptID) = "$ScriptName $ScriptVersion, $ScriptDate, © $Author, Public Domain";
@@ -1011,8 +1011,8 @@ sub ProcessMediaExtraction #>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
   $Index = index($Filename,$S{'PandocMediaDir'});
   if ( $Index != 0 ) {
     $Message = "Meldung zur Medienextraktion aus der Datei »$cf$AbsDateiname$cr«: Unerwartetes Format:";
-    $Message .= "\n                   Zieldateiname beginnt nicht mit »$cf$S{'PandocMediaDir'}$cr«.";
-    $Message .= "\n                   Meldung »$co$Meldung$cr« ${cw}nicht verarbeitet$cr.";
+    $Message .= "\n         Zieldateiname beginnt nicht mit »$cf$S{'PandocMediaDir'}$cr«.";
+    $Message .= "\n         Meldung »$co$Meldung$cr« ${cw}nicht verarbeitet$cr.";
     &Warn($Message);
     return FALSE;
     } # Pandoc Medien-Verzeichnis nicht Bestandteil des Media-Filenamens
@@ -1021,8 +1021,8 @@ sub ProcessMediaExtraction #>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
   $Rest = substr($Filename,$l + 1);
   if ( $Rest !~ /^media.(.*$)/ ) {
     $Message = "Zieldateiname der Medienextraktion aus der Datei »$cf$AbsDateiname$cr«: Unerwartetes Format:";
-    $Message .= "\n                   Zieldateiname enthält nicht das Verzeichnis »${cf}media$cr«.";
-    $Message .= "\n                   Meldung »$co$Meldung$cr« ${cw}nicht verarbeitet$cr.";
+    $Message .= "\n         Zieldateiname enthält nicht das Verzeichnis »${cf}media$cr«.";
+    $Message .= "\n         Meldung »$co$Meldung$cr« ${cw}nicht verarbeitet$cr.";
     &Warn($Message);
     return FALSE;
     } # Unerwartetes Rest-Format
@@ -1032,7 +1032,7 @@ sub ProcessMediaExtraction #>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
   if ( exists($MedianameToFilename{$ZielDateiname}) ) {
     $AlterDateiname = $MedianameToFilename{$ZielDateiname};
     $Message = "ZielDateiname »$cf$ZielDateiname$cr« der Medienextraktion aus der Datei »$cf$AbsDateiname$cr«";
-    $Message .= "\n                   hat die extrahierte Mediendatei aus der Datei »$cf$AlterDateiname$cr« ${cw}überschrieben$cr.";
+    $Message .= "\n         hat die extrahierte Mediendatei aus der Datei »$cf$AlterDateiname$cr« ${cw}überschrieben$cr.";
     &Warn($Message);
     push(@{$S{'ÜberschriebeneMedien'}},"$ZielDateiname: $cf$AlterDateiname$cr → $cf$AbsDateiname$cr");
     } # Doppelter Zieldateiname
@@ -2524,6 +2524,18 @@ sub PrintStatistics #>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
       $t .= " ($co$tt$cr)";
       $t .= ", ";
       }
+    chop($t); chop($t); print($t,"\n");
+    }
+
+  @o = sort(keys(%ViewsFlachZuBegriffsIds)); $l = scalar(@o);
+  print("    $l Zusatz-Views\n");
+  if ( ($l > 0) and ($O{'details'} > 0) ) {
+    $t = "        "; 
+    foreach $e (@o) {
+      $t .= "$cf$e$cr";
+      $t .= ", ";
+      }
+      #$z_Begriff = $BegriffeByBegriffsIdA{$e};
     chop($t); chop($t); print($t,"\n");
     }
 
