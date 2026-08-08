@@ -1,5 +1,5 @@
 # ReadME für gede    
-2026-07-27, G. Fessler  
+2026-08-08, G. Fessler  
 gede = Google-EDE, EDE = Elektronische Daten Erweiterung (2005)  
 
 ## Zweck  
@@ -93,46 +93,40 @@ Im Verzeichnis:
 2. Initialisierung des Skripts (&Init, &PruefePandoc-Aufruf)  
 3. Prüfung bzw. Herstellung der Randbedingungen (Begriffe2.0, web2.0, web2.0/media, &CheckBaseDir, &ErstelleOutDirs)  
 4. Prüfung des Verzeichnisses, in dem die heruntergaldenen Dateien abgelegt sind (&CheckInputDir)  
-5. Rekursiver Durchgang durch den heruntergekladenen Dateibaum (&LiesBegriffe, &ProcessDateiname, &ProcessVerzeichnisName)  
+5. Rekursiver Durchgang durch den heruntergeladenen Dateibaum (&LiesBegriffe, &ProcessDateiname, &ProcessVerzeichnisName)  
 6. Kategorisierung der Dateien und Verzeichnisse anhand von Dateinamen und Extensionen (&KategorisiereDateiname)  
     Zuordnung von Absolutem Dateinamen im Filesystem zum Basenamen (Dateiname ohne Extension) für .docx-Dateien in %AbsDatinameToBasename  
 7. Konvertierung von .docx-Datei in HTML-Fragmente durch Pandoc (&ProcessDocx, &ProcessPandocSTDERR, &ProcessNediaExtraction, &ProcesPandocLog)  
 8. Ablage des erzeugten HTML-Fragments (&ProcessPandocHTML  
-    Ablage in %HTMLByFilename  
+    Ablage in %HTMLByFilename (Option -H)  
+9. Kopieren von CSS-Dateien (in Textform) nach web2.0/media  
 
 ### gede 2. Schritt  
 HTML-Fragmente in Tabellenform umwandeln (&ProcessPandocHTMLs)  
-
 1. Jedes einzelne HTML-Fragment Tokenisieren (&ProcessHTMLFragment,&TokenizePandocHTML)  
         HTML-Kommentare werden entfernt, Token sind Tags und HTML-Inhalte  
 2. Pro .docx-Datei Aufteilen an tr- und /tr-Token in Zeilen (&TokenZuTabelle, &TokenZuZeilen)  
 3. Aufgeteilte Zeilen an th bzw. td, /th, /td-Token in Zellen aufteilen (&TokenZuZellen) und in Tabelle einfügen  
-4. Ablegen der Begriffsdaten als Viersturiger Baum in @BegriffeAlsTabellen  
+4. Ablegen der Begriffsdaten als Vierstufiger Baum in @BegriffeAlsTabellen  
 
 ### gede 3. Schritt  
-Erste Prüfung und Umformung der Begriffstabellen in interne Datenbank (Perl: Hash, assoziativer Array, %BegriffeByBegriffsID)  
-
+Erste Prüfung und Umformung der Begriffstabellen in interne Datenbank (Perl: Hash, assoziativer Array, %BegriffeByBegriffsId)  
 1. Prüfen, ob überhaupt verarbeitbare Daten vorliegen (&BegriffstabellenZuHash)  
 2. Tabellen Hash umwandelt (&TabelleZuHash, &PruefeUndExtrahiereZeile)  
     
 ### gede 4. Schritt 
 Syntaktische und (teilweise) sematische Analyse und Überprüfung des Inhalts der übernommenen Begriffe (&AnalysiereBegriffe, &AnalysiereBegriff)  
-
 1. Analysieren aller Begriffe in %BegriffeByBegriffsId, Identifikation und Extraktion weiterer Ids und der Zusatz-Views (&AnalysiereBegriffe, &AnalysiereBegriffsId, &AnalysiereBegriff, &AnalysiereBegriffsText, &AnalysiereEngisch,&AnalysiereSynonyme, &AnalysiereFreigaben, &AnalysiereViews, %BegriffeZuBegriffsIds, %BegriffeByBegriffsIdA, $AlleIds, %ViewsFlach, %ViewsBaum).  
 
 
 ### gede letzter Schritt  
-1. Gesammelte Ausgabe der Warnungen (und eventuell gesammelter Debug-Meldungen, &PrintWarnsDebugs, &PrintHinweise)  
+1. Gesammelte Ausgabe der Warnungen und Hinweise (sowie eventuell gesammelter Debug-Meldungen, &PrintWarnsDebugs, &PrintHinweise)  
 2. Ausgabe statistischer Daten (&PrintTagStatistik, &PrintViews, &PrintStatistics)  
 
 ## Ungeklärte Punkte
-Werden Englisch-Id bzw. Synonyme-Id benötigt?  
-Unterviews in BegriffsIds?  
-* / in Views in BegriffsIds zulassen?  
-* Besser: __  
-* Problem: Begriffs-Id == Dateiname  
-Auch Buchstaben-Zugriffsweg in Zusatz-Views angeben?  
 ALT-Attribut für Bilder usw.  
-Pflege des CSS  
-Pflege der nicht-Begriff-Webseiten  
+* Alt-Einträge von Google-Docs werden von Pandoc übernommen, Title-Einträge nicht  
+* Google-Docs-Alt-Eintrag: Rechtsklick auf Bild -> ALT-Text (oder STRG-ALT-Y=
+Pflege der nicht-Begriffs-Webseiten  
+* Vorschlag: Präfix IB__, in gede spezialbehandeln  
 
